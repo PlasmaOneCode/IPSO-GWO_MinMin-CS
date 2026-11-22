@@ -222,6 +222,7 @@
 /* Vector diagram containers */
 .viz-stage {
   position: relative;
+  min-width: 0;
   border: 1px solid var(--border);
   border-radius: 22px;
   background: var(--surface);
@@ -461,3 +462,4 @@
     grid-template-columns: 96px 1fr 44px;
   }
 }
+

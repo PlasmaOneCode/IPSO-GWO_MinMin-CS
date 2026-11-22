@@ -249,6 +249,7 @@ a { color: inherit; }
   height: 100vh;
   min-height: 100vh;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   padding: clamp(64px, 7vh, 84px) clamp(28px, 5.5vw, 76px) 108px;
   color: var(--text-color);
@@ -367,6 +368,7 @@ body.is-page-hidden .particle {
 
 .slide-inner {
   width: min(100%, 1120px);
+  min-width: 0;
   margin: auto;
   position: relative;
   z-index: 2;
@@ -483,6 +485,7 @@ body.is-page-hidden .particle {
 }
 .slide-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .slide-panel {
+  min-width: 0;
   padding: clamp(18px, 2.6vw, 26px);
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -863,6 +866,7 @@ body[data-active-theme="dark"] {
   .dashboard-card, .dashboard-card:last-child { grid-column: auto; min-height: 150px; }
   .dashboard-intro h1 { margin-bottom: 12px; }
   .slide-dots { display: none; }
+  .slide .slide-number { display: none; }
   .slide-controls { padding: 6px 8px; gap: 8px; }
   .slide-nav a { padding: 6px 11px; font-size: 0.74rem; }
 }
