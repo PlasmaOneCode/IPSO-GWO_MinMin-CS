@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IPSO + GWO</title>
+  <meta name="description" content="Materi IPSO-GWO untuk penjadwalan workflow fog-cloud.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body class="slide-deck">
+  <div class="slide-progress" data-slide-progress></div>
+  <nav class="slide-nav" aria-label="Navigasi slide">
+    <a href="../index.html">Dashboard</a>
+    <a href="./simulasi.html">Simulasi</a>
+  </nav>
+
+  <main class="slide-track" data-slide-track>
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">Hybrid metaheuristik · IPSO + GWO</p>
+        <div class="slide-grid" style="grid-template-columns:1.12fr .88fr;align-items:center">
+          <div>
+            <h1 class="slide-title">Jadwalkan task.<br><span style="color:var(--indigo)">Kurangi waktu &amp; energi.</span></h1>
+            <p class="slide-subtitle">Pemetaan task workflow ke sumber daya edge, fog, dan cloud menggunakan dua algoritma pencarian.</p>
+          </div>
+          <div class="orbit" aria-label="Ilustrasi pencarian di edge, fog, dan cloud">
+            <div class="orbit-core">IPSO</div>
+            <span class="orbit-node n1">EDGE</span>
+            <span class="orbit-node n2">FOG</span>
+            <span class="orbit-node n3">CLOUD</span>
+          </div>
+        </div>
+      </div>
+      <span class="slide-number">01 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">01 · Latar belakang</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Lingkungan heterogen</h2>
+        <div class="slide-grid three">
+          <article class="slide-panel"><h3>Edge</h3><p>Latensi rendah untuk task kecil dan sensitif waktu.</p></article>
+          <article class="slide-panel"><h3>Fog</h3><p>Komputasi menengah yang dekat dengan pengguna.</p></article>
+          <article class="slide-panel"><h3>Cloud</h3><p>Kapasitas besar untuk task berat, dengan biaya dan komunikasi.</p></article>
+        </div>
+        <p class="slide-subtitle">Tujuan paper: <strong>makespan</strong>, <strong>konsumsi energi</strong>, dan <strong>total cost</strong>. Metaheuristik dipakai untuk menjelajah jadwal yang sangat banyak tanpa mencoba semua kombinasi.</p>
+      </div>
+      <span class="slide-number">02 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">02 · Teori PSO</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Kawanan mencari posisi terbaik</h2>
+        <div class="particle-row" aria-label="Ilustrasi particle">
+          <div class="particle">T1</div>
+          <div class="particle">T2</div>
+          <div class="particle is-best">BEST</div>
+          <div class="particle">T4</div>
+          <div class="particle">T5</div>
+        </div>
+        <div class="formula">
+          $$v_i(t+1)=w_i v_i(t)+c_1r_1(pbest_i-x_i(t))+c_2r_2(gbest-x_i(t))$$
+          $$x_i(t+1)=x_i(t)+v_i(t+1)$$
+        </div>
+        <div class="slide-grid three" style="margin-top:18px">
+          <article class="slide-panel"><strong>pbest</strong><p>Jadwal terbaik milik satu particle.</p></article>
+          <article class="slide-panel"><strong>gbest</strong><p>Jadwal terbaik seluruh kawanan.</p></article>
+          <article class="slide-panel"><strong>w, c, r</strong><p>Inersia, koefisien belajar, dan variasi acak.</p></article>
+        </div>
+      </div>
+      <span class="slide-number">03 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">03 · Teori GWO</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Pemimpin mengarahkan kawanan</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <h3>Hierarki</h3>
+            <p><strong>α</strong>: solusi terbaik<br><strong>β</strong>: solusi kedua<br><strong>δ</strong>: solusi ketiga<br><strong>ω</strong>: kandidat lainnya</p>
+          </article>
+          <article class="slide-panel">
+            <h3>Mengepung &amp; menyerang</h3>
+            <p>Jarak dihitung terhadap α, β, dan δ. Posisi baru menjadi rata-rata tiga arah pemimpin.</p>
+          </article>
+        </div>
+        <div class="formula" style="margin-top:18px">
+          $$D_\alpha=|C_1X_\alpha-X|,\quad X(t+1)=\frac{X_1+X_2+X_3}{3}$$
+        </div>
+      </div>
+      <span class="slide-number">04 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">04 · IPSO pada paper</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Inertia weight menurun linear</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <div class="metric">0.8 → 0.3</div>
+            <p>Eksplorasi awal yang kuat berubah menjadi penyempurnaan lokal.</p>
+          </article>
+          <article class="slide-panel">
+            <div class="formula">$$w(t)=w_{end}+(w_{begin}-w_{end})\frac{I_{max}-t}{I_{max}}$$</div>
+            <p>Konfigurasi eksperimen: 25 particle, 100 iterasi, \(c_1=c_2=2\).</p>
+          </article>
+        </div>
+        <!-- TODO: verifikasi dengan paper — pastikan pernyataan randomized learning factors dan local search benar-benar dieksekusi. -->
+      </div>
+      <span class="slide-number">05 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">05 · Representasi solusi</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Satu vektor = satu jadwal</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <h3>Vektor 9 task</h3>
+            <div class="formula" style="font-size:1.35rem">$$P=(5,2,1,4,3,6,1,6,4)$$</div>
+            <p>Posisi vektor menyatakan task. Nilainya menyatakan node/VM tujuan.</p>
+          </article>
+          <article class="slide-panel">
+            <h3>Fitness</h3>
+            <div class="formula">$$F(p)=w_1MS+w_2TE+w_3TC$$</div>
+            <p>Nilai terkecil lebih baik. Pada eksperimen pembobotan dilaporkan bernilai 0.2 per objek, dengan normalisasi dianjurkan untuk implementasi nyata.</p>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">06 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">06 · Alur dua fase</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">50 iterasi IPSO → GWO</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <h3>Fase 1 · IPSO</h3>
+            <ol><li>Buat particle acak</li><li>Update velocity &amp; posisi</li><li>Evaluasi fitness</li><li>Pertahankan pbest/gbest</li></ol>
+          </article>
+          <article class="slide-panel">
+            <h3>Fase 2 · GWO</h3>
+            <ol><li>Jadikan gbest sebagai alpha awal</li><li>Bangun variasi wolf</li><li>Update α, β, δ, dan ω</li><li>Alpha akhir = jadwal terbaik</li></ol>
+          </article>
+        </div>
+        <!-- TODO: verifikasi dengan paper — pastikan tidak ada stopping criterion tambahan di luar 100 iterasi. -->
+      </div>
+      <span class="slide-number">07 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">07 · Flowchart</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Urutan eksekusi</h2>
+        <div class="mermaid">
+          flowchart TD
+            A["Workflow & resource"] --> B["Inisialisasi particle"]
+            B --> C["Update IPSO sampai iterasi 50"]
+            C --> D["gbest menjadi alpha"]
+            D --> E["Inisialisasi wolf"]
+            E --> F["Update alpha, beta, delta"]
+            F --> G{"Iterasi 100?"}
+            G -->|Belum| F
+            G -->|Ya| H["Solusi alpha terbaik"]
+        </div>
+      </div>
+      <span class="slide-number">08 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">08 · Pseudocode</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Dua fase dalam satu jadwal</h2>
+        <div class="slide-grid">
+          <pre><code>INISIALISASI particle acak
+UNTUK iterasi 1 sampai 50
+  turun w secara linear
+  update velocity &amp; posisi
+  evaluasi makespan, energi, biaya
+  update pbest dan gbest</code></pre>
+          <pre><code>alpha = gbest
+BANGUN wolf dari variasi IPSO
+UNTUK iterasi 51 sampai 100
+  tentukan alpha, beta, delta
+  update posisi omega
+  evaluasi ulang fitness
+KELUARKAN jadwal alpha</code></pre>
+        </div>
+      </div>
+      <span class="slide-number">09 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">08 · Ilustrasi buatan sendiri</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Contoh 5 task, 3 node</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Task</th><th>Node 1</th><th>Node 2</th><th>Node 3</th></tr></thead>
+            <tbody>
+              <tr><td>T1</td><td>4</td><td>6</td><td>9</td></tr>
+              <tr><td>T2</td><td>5</td><td>3</td><td>7</td></tr>
+              <tr><td>T3</td><td>8</td><td>6</td><td>4</td></tr>
+              <tr><td>T4</td><td>2</td><td>5</td><td>3</td></tr>
+              <tr><td>T5</td><td>7</td><td>4</td><td>6</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="slide-subtitle">Solusi \(X=(1,2,3,1,2)\): beban node = 6, 7, dan 4. Makespan buatan = <strong>7</strong>. Angka ini bukan data paper.</p>
+      </div>
+      <span class="slide-number">10 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">10 · Evaluasi kritis</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Kuat, tetapi tetap ada trade-off</h2>
+        <div class="slide-grid three">
+          <article class="slide-panel"><h3>Kelebihan</h3><p>Eksploitasi IPSO bertemu eksplorasi GWO tanpa overhead kuadrat GSA.</p></article>
+          <article class="slide-panel"><h3>Keterbatasan</h3><p>Sangat sensitif terhadap parameter, populasi, dan rasio pergantian fase.</p></article>
+          <article class="slide-panel"><h3>Risiko</h3><p>Bisa tercepat atau hemat energi, tetapi tidak selalu paling murah pada beban tinggi.</p></article>
+        </div>
+      </div>
+      <span class="slide-number">11 / 12</span>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">09–10 · Temuan &amp; referensi</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Hasil paper</h2>
+        <div class="slide-grid three">
+          <article class="slide-panel"><div class="metric">−26.14%</div><p>Makespan dalam ringkasan abstrak rata-rata, bukan angka tunggal setiap skenario.</p></article>
+          <article class="slide-panel"><div class="metric">−37.73%</div><p>Energy consumption dalam ringkasan abstrak.</p></article>
+          <article class="slide-panel"><div class="metric">−12.52%</div><p>Total cost dalam ringkasan abstrak.</p></article>
+        </div>
+        <p class="slide-subtitle" style="margin-top:18px">Ekspresi unggul pada sebagian besar workflow, tetapi biaya tidak konsisten pada beban tinggi. Baseline: PSO, GWO, IPSO, dan GSA.</p>
+        <p><a href="https://doi.org/10.1038/s41598-025-34462-w" target="_blank" rel="noopener">Scientific Reports · DOI 10.1038/s41598-025-34462-w</a></p>
+      </div>
+      <span class="slide-number">12 / 12</span>
+    </section>
+  </main>
+
+  <div class="slide-controls" aria-label="Kontrol slide">
+    <button type="button" data-slide-prev aria-label="Slide sebelumnya">←</button>
+    <div class="slide-dots" data-slide-dots></div>
+    <span class="slide-counter" data-slide-counter>01 / 12</span>
+    <button type="button" data-slide-next aria-label="Slide berikutnya">→</button>
+  </div>
+
+  <script defer src="../js/common.js"></script>
+  <script defer src="../js/slides.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"
+    onload="mermaid.initialize({startOnLoad:true,theme:'neutral'})"></script>
+</body>
+</html>
