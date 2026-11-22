@@ -17,15 +17,15 @@
     .sim-page .slide-controls { display:none; }
     .sim-page .slide-nav { position:fixed; }
     .sim-header { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin:12px 0 24px; }
-    .sim-header h1 { max-width:800px; margin:8px 0 10px; font-size:clamp(2rem,4.5vw,4rem); line-height:1; letter-spacing:-.045em; }
-    .sim-header p { max-width:780px; margin:0; color:#52617a; font-size:1.02rem; }
-    .sim-pill { flex:0 0 auto; padding:9px 13px; border-radius:999px; background:#e7edff; color:#3157d5; font-size:.77rem; font-weight:900; }
+    .sim-header h1 { max-width:800px; margin:8px 0 10px; color:var(--heading-color); font-size:clamp(2rem,4.5vw,4rem); line-height:1; letter-spacing:-.045em; }
+    .sim-header p { max-width:780px; margin:0; color:var(--text-muted); font-size:1.02rem; }
+    .sim-pill { flex:0 0 auto; padding:9px 13px; border-radius:999px; background:#e7edff; color:#2447c2; font-size:.77rem; font-weight:900; }
     .sim-grid { display:grid; grid-template-columns:310px minmax(0,1fr); gap:16px; align-items:start; }
     .sim-card { min-width:0; padding:18px; border:1px solid #dde3ed; border-radius:18px; background:rgba(255,255,255,.95); box-shadow:0 10px 30px rgba(31,54,98,.055); }
-    .sim-card h2,.sim-card h3 { margin:0 0 12px; color:#172033; }
+    .sim-card h2,.sim-card h3 { margin:0 0 12px; color:var(--heading-color); }
     .sim-card h2 { font-size:1.04rem; }
     .sim-card h3 { font-size:.91rem; }
-    .sim-muted { color:#69758a; font-size:.82rem; }
+    .sim-muted { color:var(--text-muted); font-size:.82rem; }
     .sim-controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .sim-field { display:grid; gap:5px; min-width:0; }
     .sim-field.full { grid-column:1/-1; }
