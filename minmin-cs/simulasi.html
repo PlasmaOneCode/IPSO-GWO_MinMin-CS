@@ -3,34 +3,264 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulasi interaktif Modified Min-Min dan Cuckoo Search untuk penjadwalan task cloud computing.">
   <title>Simulasi Min-Min + Cuckoo Search</title>
   <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Gaya khusus simulator; stylesheet global repo tetap dipakai. */
+    .slide-deck.sim-page { width:100%; height:auto; min-height:100vh; overflow-x:hidden; overflow-y:auto; background:#f3f5f9; }
+    .sim-page .slide-track { width:100%; height:auto; min-height:100vh; display:block; transform:none !important; }
+    .sim-page .slide { display:block; width:100%; min-height:100vh; height:auto; padding:clamp(22px,4vw,54px); overflow:visible; }
+    .sim-page .slide-inner { width:min(100%,1280px); opacity:1; transform:none; padding:14px 0 60px; }
+    .sim-page .ambient-field { opacity:.45; }
+    .sim-page .slide-number { position:static; display:block; width:min(100%,1280px); margin:-42px auto 24px; text-align:right; }
+    .sim-page .slide-controls { display:none; }
+    .sim-page .slide-nav { position:fixed; }
+    .sim-header { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin:12px 0 24px; }
+    .sim-header h1 { max-width:800px; margin:8px 0 10px; font-size:clamp(2rem,4.5vw,4rem); line-height:1; letter-spacing:-.045em; }
+    .sim-header p { max-width:780px; margin:0; color:#52617a; font-size:1.02rem; }
+    .sim-pill { flex:0 0 auto; padding:9px 13px; border-radius:999px; background:#e7edff; color:#3157d5; font-size:.77rem; font-weight:900; }
+    .sim-grid { display:grid; grid-template-columns:310px minmax(0,1fr); gap:16px; align-items:start; }
+    .sim-card { min-width:0; padding:18px; border:1px solid #dde3ed; border-radius:18px; background:rgba(255,255,255,.95); box-shadow:0 10px 30px rgba(31,54,98,.055); }
+    .sim-card h2,.sim-card h3 { margin:0 0 12px; color:#172033; }
+    .sim-card h2 { font-size:1.04rem; }
+    .sim-card h3 { font-size:.91rem; }
+    .sim-muted { color:#69758a; font-size:.82rem; }
+    .sim-controls { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .sim-field { display:grid; gap:5px; min-width:0; }
+    .sim-field.full { grid-column:1/-1; }
+    .sim-field label { color:#4b5870; font-size:.73rem; font-weight:800; }
+    .sim-field input,.sim-field select { width:100%; min-width:0; height:39px; border:1px solid #d7deea; border-radius:9px; padding:0 10px; background:#fff; color:#172033; font:700 .86rem Inter, "Segoe UI", Arial, sans-serif; }
+    .sim-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .sim-btn { min-height:38px; border:0; border-radius:9px; padding:8px 12px; background:#3157d5; color:#fff; font:800 .78rem Inter, "Segoe UI", Arial, sans-serif; cursor:pointer; transition:transform .15s,opacity .15s; }
+    .sim-btn:hover:not(:disabled) { transform:translateY(-1px); }
+    .sim-btn.secondary { background:#e9eef8; color:#25324a; }
+    .sim-btn.dark { background:#172033; }
+    .sim-btn:disabled { opacity:.38; cursor:not-allowed; }
+    .sim-divider { height:1px; margin:16px 0; background:#e6eaf1; }
+    .sim-note { margin:12px 0 0; padding:10px 11px; border-left:3px solid #d06a18; border-radius:7px; background:#fff6ec; color:#77512c; font-size:.76rem; line-height:1.45; }
+    .sim-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-bottom:14px; }
+    .sim-kpi { min-width:0; padding:13px 14px; border:1px solid #dde3ed; border-radius:14px; background:#fff; }
+    .sim-kpi span { display:block; color:#69758a; font-size:.7rem; font-weight:800; }
+    .sim-kpi strong { display:block; margin-top:4px; color:#172033; font-size:clamp(1.25rem,2vw,1.85rem); line-height:1.1; font-variant-numeric:tabular-nums; }
+    .sim-kpi small { color:#7a879b; font-size:.68rem; }
+    .sim-stage-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; }
+    .sim-stage-head h2 { margin:0; font-size:1.08rem; }
+    .sim-step-badge { white-space:nowrap; padding:6px 9px; border-radius:999px; background:#edf2fb; color:#3157d5; font-size:.72rem; font-weight:900; }
+    .sim-phase { padding:15px; border-radius:13px; background:linear-gradient(120deg,#172033,#263d66); color:#fff; }
+    .sim-phase .phase-label { margin:0 0 5px; color:#aabdfb; font-size:.68rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    .sim-phase h3 { margin:0 0 5px; color:#fff; font-size:1.04rem; }
+    .sim-phase p { margin:0; color:#d8e1f2; font-size:.82rem; }
+    .sim-progress { height:6px; margin-top:12px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.16); }
+    .sim-progress span { display:block; width:0; height:100%; border-radius:99px; background:#78d6cb; transition:width .2s; }
+    .sim-main-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:14px; margin-top:14px; }
+    .sim-section-title { display:flex; justify-content:space-between; align-items:center; gap:8px; margin:0 0 10px; }
+    .sim-section-title h3 { margin:0; }
+    .sim-tag { padding:4px 7px; border-radius:7px; background:#eef2f8; color:#5a6780; font-size:.67rem; font-weight:800; }
+    .sim-order { display:flex; flex-wrap:wrap; gap:6px; min-height:34px; align-items:center; }
+    .sim-chip { display:inline-grid; place-items:center; min-width:34px; height:30px; padding:0 7px; border-radius:8px; background:#edf2fb; color:#3157d5; font-size:.72rem; font-weight:900; box-shadow:inset 0 0 0 1px rgba(49,87,213,.12); }
+    .sim-chip.active { background:#d06a18; color:#fff; }
+    .sim-chip.entry { background:#3157d5; color:#fff; }
+    .sim-table-wrap { width:100%; overflow:auto; }
+    .sim-table { width:100%; border-collapse:collapse; font-size:.76rem; font-variant-numeric:tabular-nums; }
+    .sim-table th,.sim-table td { padding:8px 9px; border-bottom:1px solid #e6eaf1; text-align:right; white-space:nowrap; }
+    .sim-table th:first-child,.sim-table td:first-child { text-align:left; }
+    .sim-table thead th { color:#55627a; background:#f5f7fb; font-size:.69rem; }
+    .sim-table tbody tr:last-child td { border-bottom:0; }
+    .sim-highlight { color:#d06a18; font-weight:900; }
+    .sim-vm-list { display:grid; gap:10px; }
+    .sim-vm-row { display:grid; grid-template-columns:55px minmax(0,1fr) 62px; align-items:center; gap:8px; }
+    .sim-vm-name { color:#43516b; font-size:.73rem; font-weight:900; }
+    .sim-vm-rail { position:relative; min-width:0; height:26px; overflow:hidden; border-radius:7px; background:repeating-linear-gradient(90deg,#f1f4f9 0,#f1f4f9 calc(25% - 1px),#dfe5ef calc(25% - 1px),#dfe5ef 25%); }
+    .sim-vm-bar { position:absolute; top:3px; bottom:3px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:5px; color:#fff; font-size:.63rem; font-weight:900; white-space:nowrap; min-width:3px; }
+    .sim-vm-load { color:#65728a; font-size:.7rem; text-align:right; }
+    .sim-pop { display:grid; gap:7px; max-height:250px; overflow:auto; }
+    .sim-nest { display:grid; grid-template-columns:76px minmax(0,1fr) auto; gap:8px; align-items:center; padding:8px; border:1px solid #e4e9f1; border-radius:9px; background:#fbfcfe; }
+    .sim-nest.best { border-color:#e7a45f; background:#fff8f0; }
+    .sim-nest-label { color:#4d5a70; font-size:.7rem; font-weight:900; }
+    .sim-nest-order { display:flex; flex-wrap:wrap; gap:3px; }
+    .sim-nest-order span { min-width:23px; padding:3px 4px; border-radius:5px; background:#edf2fb; color:#425579; font-size:.62rem; font-weight:800; text-align:center; }
+    .sim-nest-score { color:#172033; font-size:.7rem; font-weight:900; white-space:nowrap; }
+    .sim-chart { width:100%; height:142px; display:block; overflow:visible; }
+    .sim-chart text { fill:#76839a; font:10px Inter,Arial,sans-serif; }
+    .sim-log { max-height:195px; overflow:auto; display:grid; gap:7px; }
+    .sim-log-item { display:grid; grid-template-columns:56px minmax(0,1fr); gap:9px; padding-bottom:7px; border-bottom:1px solid #edf0f5; font-size:.74rem; }
+    .sim-log-item:last-child { border-bottom:0; }
+    .sim-log-item time { color:#3157d5; font-weight:900; }
+    .sim-log-item span { color:#5a6780; }
+    .sim-summary { margin-top:14px; }
+    .sim-summary table { min-width:480px; }
+    .sim-footer-note { margin:18px 0 0; color:#6d7990; font-size:.77rem; line-height:1.5; }
+    .sim-status { display:inline-flex; align-items:center; gap:6px; color:#5b6a82; font-size:.71rem; font-weight:800; }
+    .sim-status::before { content:""; width:7px; height:7px; border-radius:50%; background:#20a58e; }
+    .sim-empty { color:#8591a5; font-size:.77rem; padding:8px 0; }
+    @media (max-width:1050px) {
+      .sim-grid { grid-template-columns:1fr; }
+      .sim-controls { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .sim-field.full { grid-column:auto; }
+    }
+    @media (max-width:700px) {
+      .sim-page .slide { padding:22px 14px 36px; }
+      .sim-header { display:block; }
+      .sim-pill { display:inline-block; margin-top:14px; }
+      .sim-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .sim-main-grid { grid-template-columns:1fr; }
+      .sim-controls { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .sim-nest { grid-template-columns:65px minmax(0,1fr); }
+      .sim-nest-score { grid-column:2; }
+    }
+    @media (prefers-reduced-motion:reduce) { .sim-btn,.sim-progress span { transition:none; } }
+  </style>
 </head>
-<body class="slide-deck">
+<body class="slide-deck sim-page">
   <div class="slide-progress" data-slide-progress></div>
-  <nav class="slide-nav" aria-label="Navigasi slide">
+  <nav class="slide-nav" aria-label="Navigasi halaman">
     <a href="../index.html">Dashboard</a>
     <a href="./">EMMCA</a>
   </nav>
+      
   <main class="slide-track" data-slide-track>
-    <section class="slide todo-slide">
+    <section class="slide">
       <div class="slide-inner">
-        <p class="eyebrow">Simulasi</p>
-        <h1 class="slide-title">Min-Min + Cuckoo Search</h1>
-        <p class="slide-subtitle">Area presentasi untuk animasi pemilihan task, VM, dan pencarian solusi.</p>
-        <!-- TODO: buat simulasi dan animasi Modified Min-Min + Cuckoo Search di halaman ini. -->
-        <!-- TODO: gunakan window.CloudTaskUtils.generateFairDataset agar perbandingan memakai seed dan data yang sama. -->
+        <header class="sim-header">
+          <div>
+            <p class="eyebrow">Simulasi interaktif · EMMCA</p>
+            <h1>Modified Min-Min <span style="color:var(--orange)">+</span> Cuckoo Search</h1>
+            <p>Ikuti pembentukan jadwal awal dengan Min-Min, lalu lihat proses <em>laying</em> dan <em>immigration</em> memperbaiki urutan task.</p>
+          </div>
+          <span class="sim-pill">Heuristik + Metaheuristik</span>
+        </header>
+
+        <div class="sim-grid">
+          <aside class="sim-card" aria-label="Pengaturan simulasi">
+            <h2>Pengaturan dataset</h2>
+            <p class="sim-muted">Dataset dibuat oleh <code>CloudTaskUtils.generateFairDataset()</code>. Seed dan ukuran yang sama dapat dipakai halaman algoritma kelompok lainnya.</p>
+            <div class="sim-controls">
+              <div class="sim-field">
+                <label for="task-count">Jumlah task</label>
+                <input id="task-count" type="number" min="4" max="24" step="1" value="12">
+              </div>
+              <div class="sim-field">
+                <label for="vm-count">Jumlah VM</label>
+                <input id="vm-count" type="number" min="2" max="8" step="1" value="4">
+              </div>
+              <div class="sim-field full">
+                <label for="seed">Seed dataset</label>
+                <input id="seed" type="number" min="1" max="999999" step="1" value="2026">
+              </div>
+              <div class="sim-field">
+                <label for="iterations">Iterasi CS</label>
+                <input id="iterations" type="number" min="1" max="50" step="1" value="15">
+              </div>
+              <div class="sim-field">
+                <label for="population">Ukuran populasi</label>
+                <input id="population" type="number" min="3" max="12" step="1" value="6">
+              </div>
+              <div class="sim-field full">
+                <label for="rho">Probabilitas immigration (ρ): <strong id="rho-value">0,50</strong></label>
+                <input id="rho" type="range" min="0.1" max="1" step="0.05" value="0.5">
+              </div>
+            </div>
+            <div class="sim-actions">
+              <button class="sim-btn" id="build-btn" type="button">Buat simulasi</button>
+              <button class="sim-btn secondary" id="reset-btn" type="button">Reset</button>
+            </div>
+            <div class="sim-divider"></div>
+            <h2>Kontrol animasi</h2>
+            <div class="sim-actions">
+              <button class="sim-btn dark" id="play-btn" type="button">▶ Putar</button>
+              <button class="sim-btn secondary" id="pause-btn" type="button" disabled>Ⅱ Pause</button>
+              <button class="sim-btn secondary" id="prev-step-btn" type="button">← Sebelumnya</button>
+              <button class="sim-btn secondary" id="next-step-btn" type="button">Berikutnya →</button>
+            </div>
+            <div class="sim-field" style="margin-top:12px">
+              <label for="speed">Kecepatan animasi</label>
+              <select id="speed">
+                <option value="1400">Lambat</option>
+                <option value="800" selected>Normal</option>
+                <option value="350">Cepat</option>
+              </select>
+            </div>
+            <p class="sim-note"><strong>Catatan model:</strong> generator repo saat ini membuat task independen (tanpa <em>dependency</em>). Karena itu semua task dianggap siap; batasan precedence constraint (PC) bersifat trivial. Untuk workflow DAG asli, data predecessor dan waktu komunikasi perlu ditambahkan.</p>
+          </aside>
+
+          <div>
+            <section class="sim-kpis" aria-label="Metrik utama">
+              <div class="sim-kpi"><span>MIN-MIN · MAKESPAN</span><strong id="kpi-minmin">—</strong><small>detik</small></div>
+              <div class="sim-kpi"><span>HYBRID TERBAIK</span><strong id="kpi-hybrid">—</strong><small>detik</small></div>
+              <div class="sim-kpi"><span>PENURUNAN MAKESPAN</span><strong id="kpi-gain">—</strong><small>vs. Min-Min</small></div>
+              <div class="sim-kpi"><span>LANGKAH SIMULASI</span><strong id="kpi-step">—</strong><small id="kpi-iteration">menyiapkan data</small></div>
+            </section>
+
+            <section class="sim-card" aria-live="polite">
+              <div class="sim-stage-head">
+                <h2>Proses algoritma</h2>
+                <span class="sim-step-badge" id="step-badge">Langkah 1 / 1</span>
+              </div>
+              <div class="sim-phase">
+                <p class="phase-label" id="phase-label">INPUT DATASET</p>
+                <h3 id="phase-title">Menyiapkan task dan VM</h3>
+                <p id="phase-description">Klik Buat simulasi untuk membangun dataset, ETC matrix, dan urutan awal.</p>
+                <div class="sim-progress"><span id="phase-progress"></span></div>
+              </div>
+
+              <div class="sim-main-grid">
+                <section class="sim-card" style="padding:14px;box-shadow:none">
+                  <div class="sim-section-title"><h3>Urutan task (task order)</h3><span class="sim-tag" id="order-tag">Belum dijadwalkan</span></div>
+                  <div class="sim-order" id="order-view"><span class="sim-empty">Urutan task akan muncul di sini.</span></div>
+                  <div class="sim-divider"></div>
+                  <div class="sim-section-title"><h3>Jadwal VM · Gantt chart</h3><span class="sim-tag" id="gantt-tag">0 task</span></div>
+                  <div class="sim-vm-list" id="gantt-view"><span class="sim-empty">Timeline VM akan muncul setelah langkah Min-Min.</span></div>
+                </section>
+                <section class="sim-card" style="padding:14px;box-shadow:none">
+                  <div class="sim-section-title"><h3>Populasi nest</h3><span class="sim-tag" id="population-tag">0 nest</span></div>
+                  <div class="sim-pop" id="population-view"><span class="sim-empty">Populasi Cuckoo Search muncul setelah solusi awal terbentuk.</span></div>
+                  <div class="sim-divider"></div>
+                  <div class="sim-section-title"><h3>Konvergensi makespan</h3><span class="sim-tag">lebih rendah lebih baik</span></div>
+                  <svg class="sim-chart" id="convergence-chart" viewBox="0 0 520 142" role="img" aria-label="Grafik konvergensi makespan">
+                    <text x="12" y="22">Grafik akan muncul setelah iterasi berjalan.</text>
+                  </svg>
+                </section>
+              </div>
+
+              <div class="sim-main-grid">
+                <section class="sim-card" style="padding:14px;box-shadow:none">
+                  <div class="sim-section-title"><h3>Matriks ETC</h3><span class="sim-tag">MI / MIPS = detik</span></div>
+                  <div class="sim-table-wrap" id="etc-view"><span class="sim-empty">Matriks execution time akan muncul di sini.</span></div>
+                </section>
+                <section class="sim-card" style="padding:14px;box-shadow:none">
+                  <div class="sim-section-title"><h3>Log langkah</h3><span class="sim-tag" id="log-count">0 aktivitas</span></div>
+                  <div class="sim-log" id="log-view"><span class="sim-empty">Log proses akan muncul di sini.</span></div>
+                </section>
+              </div>
+            </section>
+
+            <section class="sim-card sim-summary">
+              <div class="sim-section-title"><h2>Ringkasan hasil akhir</h2><span class="sim-status" id="sim-status">Siap dijalankan</span></div>
+              <div class="sim-table-wrap">
+                <table class="sim-table" aria-label="Perbandingan Min-Min dan Min-Min Cuckoo Search">
+                  <thead><tr><th>Metode</th><th>Makespan (s)</th><th>Load balance</th><th>Rentang beban (s)</th></tr></thead>
+                  <tbody id="result-table"><tr><td colspan="4" style="text-align:center;color:#8490a4">Hasil akan terisi setelah simulasi dibuat.</td></tr></tbody>
+                </table>
+              </div>
+              <p class="sim-footer-note">Fitness pada demo ini membandingkan makespan terlebih dahulu dan menggunakan load balance sebagai pemecah nilai seri. Operator laying dan immigration dibuat dalam bentuk perubahan urutan task diskret. Paper EMMCA memaparkan laying/immigration pada langkah algoritmanya; Lévy flight dibahas sebagai teori Cuckoo Search, tetapi tidak dipakai sebagai operator eksplisit pada pseudocode EMMCA di halaman materi.</p>
+            </section>
+          </div>
+        </div>
       </div>
-      <span class="slide-number">01 / 01</span>
+      <span class="slide-number">SIMULASI · EMMCA</span>
     </section>
   </main>
+  
   <div class="slide-controls" aria-label="Kontrol slide">
     <button type="button" data-slide-prev aria-label="Slide sebelumnya">←</button>
     <div class="slide-dots" data-slide-dots></div>
     <span class="slide-counter" data-slide-counter>01 / 01</span>
     <button type="button" data-slide-next aria-label="Slide berikutnya">→</button>
   </div>
+  
   <script src="../js/common.js"></script>
   <script src="../js/slides.js"></script>
+  <script src="../js/minmin-cs-simulation.js"></script>
 </body>
 </html>
