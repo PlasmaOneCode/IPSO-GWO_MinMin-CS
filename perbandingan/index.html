@@ -3,33 +3,695 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Perbandingan Algoritma</title>
+  <title>Perbandingan Algoritma Hybrid & Implementasi Nyata</title>
+  <meta name="description" content="Materi perbandingan mendalam antara IPSO-GWO dan EMMCA (Modified Min-Min + Cuckoo Search) serta implementasinya di dunia nyata.">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <style>
+    /* Styling pelengkap khusus halaman perbandingan */
+    .t-sm { font-size: clamp(1.8rem, 3.8vw, 3.2rem); margin-bottom: 16px; }
+    .slide-grid.tight { gap: 14px; }
+    .slide-panel.compact { padding: clamp(14px, 2vw, 20px); }
+    .slide-panel.compact h3 { margin-bottom: 6px; }
+    .note { margin: 12px 0 0; color: #5a6a85; font-size: .84rem; font-weight: 600; line-height: 1.4; }
+    .badge-tag {
+      display: inline-block; padding: 3px 9px; border-radius: 999px;
+      font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+      margin-bottom: 8px;
+    }
+    .badge-blue { background: #e0e7ff; color: #3157d5; }
+    .badge-orange { background: #ffedd5; color: #c25e00; }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+    .comp-winner {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: #16a34a; font-weight: 800; font-size: .78rem;
+    }
+    .comp-warning {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: #ea580c; font-weight: 800; font-size: .78rem;
+    }
+    .stat-row { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+    .stat-box {
+      flex: 1; min-width: 120px; padding: 12px; border-radius: 12px;
+      background: #f8fafc; border: 1px solid var(--border);
+    }
+    .stat-box .val { font-size: 1.6rem; font-weight: 900; line-height: 1.1; }
+    .stat-box .lbl { font-size: .75rem; font-weight: 700; color: #5a6a85; margin-top: 4px; }
+    .table-wrap table { font-size: clamp(.72rem, 1.12vw, .86rem); }
+    .table-wrap th, .table-wrap td { padding: 8px 10px; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .slide-controls .slide-dot { width: 7px; height: 7px; background: #b7c0d0; }
+    .slide-controls .slide-dot.is-active { width: 22px; background: var(--indigo); }
+
+    /* ── Fix orbit-node agar teks satu baris & center ── */
+    .orbit-node {
+      width: 60px;
+      height: 60px;
+      font-size: 0.62rem;
+      text-align: center;
+      line-height: 1.2;
+      white-space: nowrap;
+      padding: 0 4px;
+      box-sizing: border-box;
+    }
+
+    /* ── Override transisi slide agar smooth (hanya CSS transition, hapus konflik keyframe) ── */
+    .slide-track {
+      transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+      perspective: none !important;
+    }
+    /* Nonaktifkan keyframe entering/exiting yang konflik dengan track-translate */
+    .slide.is-entering-forward,
+    .slide.is-entering-backward,
+    .slide.is-exiting-forward,
+    .slide.is-exiting-backward {
+      animation: none !important;
+    }
+    /* Konten slide tetap fade-in saat aktif, tapi lebih cepat */
+    .slide-inner {
+      transition: opacity 350ms ease 80ms, transform 400ms cubic-bezier(0.4, 0, 0.2, 1) 60ms !important;
+    }
+
+    @media (max-width: 900px) {
+      .slide { overflow-y: auto; align-items: start; padding-bottom: 96px; }
+      .slide::before, .slide::after { display: none; }
+      .slide-grid, .slide-grid.three { grid-template-columns: minmax(0, 1fr); }
+      .slide-panel { min-width: 0; }
+      .mermaid svg { min-width: 820px; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .stat-box { background: #1a2942; border-color: #273956; }
+      .stat-box .lbl { color: #94a3b8; }
+      .badge-blue { background: rgba(49,87,213,0.25); color: #93c5fd; }
+      .badge-orange { background: rgba(234,88,12,0.25); color: #fdba74; }
+      .badge-green { background: rgba(22,163,74,0.25); color: #86efac; }
+      .badge-purple { background: rgba(147,51,234,0.25); color: #d8b4fe; }
+      .slide .note { color: #94a3b8; }
+    }
+  </style>
 </head>
 <body class="slide-deck">
   <div class="slide-progress" data-slide-progress></div>
   <nav class="slide-nav" aria-label="Navigasi slide">
     <a href="../index.html">Dashboard</a>
+    <a href="../ipso-gwo/index.html">IPSO-GWO</a>
+    <a href="../minmin-cs/index.html">EMMCA</a>
   </nav>
+
   <main class="slide-track" data-slide-track>
-    <section class="slide todo-slide">
+
+    <!-- 01 · Cover Slide -->
+    <section class="slide">
       <div class="slide-inner">
-        <p class="eyebrow">Analisis</p>
-        <h1 class="slide-title">Perbandingan Algoritma</h1>
-        <p class="slide-subtitle">Materi perbandingan metriks, trade-off, dan contoh penerapan dunia nyata.</p>
-        <!-- TODO: bandingkan IPSO-GWO dan EMMCA berdasarkan kecepatan, energi, biaya, kemudahan implementasi, dan limitasi. -->
-        <!-- TODO: tambahkan contoh implementasi dunia nyata beserta batasan dan asumsi tanpa mengarang data paper. -->
+        <p class="eyebrow">Analisis Komparatif &amp; Kasus Riil · W13 SOKA</p>
+        <div class="slide-grid" style="grid-template-columns:1.15fr .85fr;align-items:center">
+          <div>
+            <h1 class="slide-title">IPSO-GWO <span style="font-size:0.65em;color:#5a6a85">vs</span> EMMCA.<br><span style="color:var(--indigo)">Mana Lebih Unggul?</span></h1>
+            <p class="slide-subtitle">Perbandingan komprehensif dua algoritma hybrid penjadwalan workflow komputasi awan: analisis trade-off kecepatan, energi, biaya, kemudahan implementasi, serta penerapannya di dunia nyata.</p>
+          </div>
+          <div class="orbit" aria-label="Visualisasi perbandingan dua algoritma">
+            <div class="orbit-core">VS</div>
+            <span class="orbit-node n1" style="background:#3157d5;color:#fff">IPSO&#8209;GWO</span>
+            <span class="orbit-node n2" style="background:#d06a18;color:#fff">EMMCA</span>
+            <span class="orbit-node n3" style="background:#167d91;color:#fff">REALITY</span>
+          </div>
+        </div>
       </div>
-      <span class="slide-number">01 / 01</span>
+      <span class="slide-number">01 / 17</span>
     </section>
+
+    <!-- 02 · Landasan Paper & Konteks Riset -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">01 · Landasan Riset</p>
+        <h2 class="slide-title t-sm">Dua Pendekatan dari Dua Paper Rujukan</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">Paper 1 · Nature Scientific Reports (2026)</span>
+            <h3 style="font-size:1.15rem;margin:4px 0 8px">IPSO-GWO (Awad et al.)</h3>
+            <p style="font-size:0.86rem;margin-bottom:8px"><em>“Efficient workflow scheduling in fog-cloud collaboration using a hybrid IPSO-GWO algorithm”</em></p>
+            <ul style="font-size:0.84rem;padding-left:18px;line-height:1.55;color:#465570">
+              <li><strong>Target:</strong> Lingkungan heterogen 3-tier IoT-Fog-Cloud (IFC).</li>
+              <li><strong>Model:</strong> Metaheuristik sekuensial (IPSO diteruskan ke GWO).</li>
+              <li><strong>Fokus:</strong> Pengurangan waktu (makespan), konsumsi energi, dan total biaya.</li>
+              <li><strong>Skala:</strong> Sangat masif, hingga <strong>1.000 task</strong> pada 5 workflow Pegasus.</li>
+            </ul>
+            <a href="https://pubmed.ncbi.nlm.nih.gov/41617810/" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-size:0.78rem;font-weight:800;color:#3157d5;text-decoration:none;border-bottom:1px solid rgba(49,87,213,0.3)">🔗 PubMed · 41617810 ↗</a>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">Paper 2 · Springer Evolving Systems (2026)</span>
+            <h3 style="font-size:1.15rem;margin:4px 0 8px">EMMCA (Choudhary &amp; Rajak)</h3>
+            <p style="font-size:0.86rem;margin-bottom:8px"><em>“EMMCA: enhancing modified Min-Min using cuckoo search algorithm in cloud computing”</em></p>
+            <ul style="font-size:0.84rem;padding-left:18px;line-height:1.55;color:#465570">
+              <li><strong>Target:</strong> Lingkungan komputasi awan multi-server dan multi-VM.</li>
+              <li><strong>Model:</strong> Heuristik deterministik (Modified Min-Min) + Metaheuristik (Cuckoo Search).</li>
+              <li><strong>Fokus:</strong> Penyeimbangan beban (load balancing) &amp; pemotongan makespan.</li>
+              <li><strong>Skala:</strong> Skala kecil hingga menengah (<strong>24–100 task</strong>).</li>
+            </ul>
+            <a href="https://link.springer.com/article/10.1007/s12530-025-09768-9" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-size:0.78rem;font-weight:800;color:#c25e00;text-decoration:none;border-bottom:1px solid rgba(194,94,0,0.3)">🔗 Springer · Evolving Systems ↗</a>
+          </article>
+        </div>
+        <p class="note">Keduanya menggunakan 5 dataset workflow ilmiah Pegasus yang sama (Montage, Epigenomics, CyberShake, LIGO, SIPHT) tetapi dengan arsitektur komputasi dan tujuan optimasi yang berbeda secara fundamental.</p>
+      </div>
+      <span class="slide-number">02 / 17</span>
+    </section>
+
+    <!-- 03 · Paradigma Arsitektur Komputasi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">02 · Arsitektur Komputasi</p>
+        <h2 class="slide-title t-sm">Hierarki 3-Tier (IFC) vs. Multi-Server Cloud</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO · IoT-Fog-Cloud (IFC)</span>
+            <h3>Kolaborasi Tiga Tingkat</h3>
+            <div style="font-size:0.85rem;line-height:1.55;color:#465570">
+              <p><strong>1. IoT / Edge Layer (5 perangkat):</strong> Berada paling dekat pengguna. Menjalankan task ringan &amp; sensitif delay secara lokal tanpa biaya transmisi (biaya transfer = $0).</p>
+              <p><strong>2. Fog Layer (5 node):</strong> Perangkat perantara (1200–1600 MIPS). Mengurangi beban cloud dengan latensi moderat dan konsumsi daya seimbang.</p>
+              <p><strong>3. Cloud Layer (5 node):</strong> Server data center besar (1600–2000 MIPS). Kapasitas tak terbatas untuk komputasi berat, tetapi dikenakan biaya finansial dan latensi transmisi jaringan.</p>
+            </div>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA · Clustered Cloud Servers</span>
+            <h3>Topologi Server &amp; VM Terpusat</h3>
+            <div style="font-size:0.85rem;line-height:1.55;color:#465570">
+              <p><strong>1. Struktur Server:</strong> Kumpulan server fisik \(N = \{N_1, N_2, \dots, N_k\}\) di pusat data cloud yang terhubung melalui communication link (\(CO_{\text{link}}\)).</p>
+              <p><strong>2. Virtual Machine:</strong> Setiap server memiliki sejumlah mesin virtual \(Q = \{Q_1, Q_2, \dots, Q_p\}\) dengan kapasitas pemrosesan yang bervariasi.</p>
+              <p><strong>3. Sifat Komunikasi:</strong> Waktu komunikasi adalah <strong>0</strong> jika dua task dependen dieksekusi pada <em>server fisik yang sama</em>, dan bernilai positif jika melintasi batas server.</p>
+            </div>
+          </article>
+        </div>
+        <p class="note"><strong>Implikasi Desain:</strong> IPSO-GWO memperhitungkan latensi jaringan uplink/downlink bertingkat nyata, sedangkan EMMCA mengoptimalkan penempatan task di dalam cluster datacenter.</p>
+      </div>
+      <span class="slide-number">03 / 17</span>
+    </section>
+
+    <!-- 04 · Filosofi & Strategi Hybridisasi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">03 · Filosofi Hybrid</p>
+        <h2 class="slide-title t-sm">Bagaimana Kedua Algoritma Menggabungkan Kekuatan?</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO: Metaheuristik + Metaheuristik</span>
+            <h3>Transisi Sekuensial di Titik Tengah</h3>
+            <p style="font-size:0.86rem;line-height:1.55;color:#465570">
+              <strong>Fase 1 (Iterasi 1–50) · IPSO:</strong> Memulai dengan populasi partikel acak. Bobot inersia menurun secara linear (\(w: 0.8 \to 0.3\)). Partikel melakukan penjelajahan luas (eksplorasi) lalu berangsur menyempit (eksploitasi).<br><br>
+              <strong>Fase 2 (Iterasi 51–100) · GWO:</strong> Solusi terbaik global (\(gbest\)) dari IPSO dijadikan Serigala Alpha (\(\alpha\)) awal. Kawanan serigala (\(\beta, \delta, \omega\)) mengepung target untuk mencegah jebakan lokal optimum PSO dan menyempurnakan solusi akhir.
+            </p>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA: Heuristik + Metaheuristik</span>
+            <h3>Pondasi Cerdas yang Dievolusikan</h3>
+            <p style="font-size:0.86rem;line-height:1.55;color:#465570">
+              <strong>Tahap 1 · Modified Min-Min (Heuristik):</strong> Membangun populasi awal berdasarkan perhitungan \(\tau^{\text{ECT}}\) dan kendala presedensi (PC). Solusi awal sudah berkualitas tinggi (disebut <em>Prime Order</em>), bukan acak murni!<br><br>
+              <strong>Tahap 2 · Cuckoo Search (Metaheuristik):</strong> Mereorganisasi urutan tugas melalui <em>Egg-Laying Radius</em> (MoRt) dan operator imigrasi legal. Mekanisme brood parasitism dan Lévy flight mencari ruang solusi baru secara cerdas tanpa melanggar dependensi graf.
+            </p>
+          </article>
+        </div>
+        <p class="note"><strong>Perbedaan Utama:</strong> IPSO-GWO murni mengandalkan pencarian stokastik bertingkat, sedangkan EMMCA memberikan "kepala start" berkualitas tinggi dengan heuristik Min-Min deterministik.</p>
+      </div>
+      <span class="slide-number">04 / 17</span>
+    </section>
+
+    <!-- 05 · Representasi Solusi & Penanganan DAG -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">04 · Representasi Solusi</p>
+        <h2 class="slide-title t-sm">Pemetaan Langsung vs. Antrean Permutasi Prioritas</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO · Direct Discrete Mapping</span>
+            <h3>Vektor Alokasi Task ke VM</h3>
+            <div class="formula" style="font-size:1.15rem;margin:10px 0">$$P = (v_1, v_2, \dots, v_M), \quad v_i \in [1, \text{VMs}]$$</div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.5;color:#465570">
+              <li>Panjang array sama persis dengan jumlah task (\(M\)). Nilai pada indeks \(i\) adalah ID mesin virtual yang mengeksekusi task \(T_i\).</li>
+              <li>Struktur vektor tidak berubah saat transisi dari partikel IPSO menjadi serigala GWO.</li>
+              <li><strong>Penanganan DAG:</strong> Diserahkan ke mesin simulator (FogWorkflowSim) yang menahan eksekusi anak sampai data dari induk selesai ditransfer.</li>
+            </ul>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA · Permutation Priority Queue</span>
+            <h3>Urutan Urut Eksekusi (Legal Sequence)</h3>
+            <div class="formula" style="font-size:1.15rem;margin:10px 0">$$\text{Order} = (R_1, R_4, R_5, R_2, R_3, R_7, R_6, R_8)$$</div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.5;color:#465570">
+              <li>Vektor merepresentasikan urutan prioritas eksekusi task yang wajib mematuhi Precedence Constraints (PC).</li>
+              <li>Task lalu dialokasikan ke VM menggunakan aturan Earliest Completion Time (\(\tau^{\text{EFT}}\)).</li>
+              <li><strong>Fitur Khusus:</strong> Menggunakan <em>Task Duplication</em> pada entry task untuk menghilangkan latensi transfer data antar-server.</li>
+            </ul>
+          </article>
+        </div>
+        <p class="note"><strong>Trade-off:</strong> Vektor IPSO-GWO lebih sederhana tetapi bisa menghasilkan jadwal tidak valid jika dependensi tidak dimonitor ketat; EMMCA menjamin kepatuhan dependensi lewat operator legal sequence.</p>
+      </div>
+      <span class="slide-number">05 / 17</span>
+    </section>
+
+    <!-- 06 · Fungsi Objektif & Metrik Optimasi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">05 · Fungsi Objektif</p>
+        <h2 class="slide-title t-sm">Weighted Sum Tiga Metrik vs. Multi-QoS Terpisah</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO · Weighted Sum Formula</span>
+            <h3>Fungsi Objektif Agregat Tunggal</h3>
+            <div class="formula" style="font-size:1.05rem;margin:8px 0">$$F(p) = w_1 \cdot \text{MS} + w_2 \cdot \text{TE} + w_3 \cdot \text{TC}$$</div>
+            <div style="font-size:0.82rem;line-height:1.5;color:#465570">
+              <p>Bobot seimbang: \(w_1 = w_2 = w_3 = 0.2\) (menyisakan fleksibilitas untuk parameter QoS lain).</p>
+              <p><strong>Makespan (MS):</strong> \(\max(FT) - \min(ST)\).</p>
+              <p><strong>Total Energi (TE):</strong> \(E_{\text{active}} + E_{\text{idle}}\), memodelkan konsumsi daya saat sibuk (\(\alpha f V^2\)) dan daya saat idle/sleep mode pada fog &amp; cloud.</p>
+              <p><strong>Total Biaya (TC):</strong> Biaya sewa komputasi ED/FD/CD ditambah biaya transfer data antar node.</p>
+            </div>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA · Dual Prime Objectives</span>
+            <h3>Makespan &amp; Keseimbangan Beban</h3>
+            <div class="formula" style="font-size:1.05rem;margin:8px 0">$$m_{\text{SPAN}} = \min\{\tau^{\text{EFT}}(R_{\text{exit}}, Q)\}, \quad L_{\text{balance}} = \frac{L_{\text{avg}}^N}{m_{\text{SPAN}}}$$</div>
+            <div style="font-size:0.82rem;line-height:1.5;color:#465570">
+              <p>Tidak digabung ke dalam satu fungsi bobot, melainkan dievaluasi sebagai multi-QoS independen:</p>
+              <p><strong>Speedup (\(SP^{\text{up}}\)):</strong> Rasio total komputasi terhadap makespan.</p>
+              <p><strong>Efisiensi (\(Eff\)):</strong> \(SP^{\text{up}} / p \times 100\%\) terhadap jumlah VM.</p>
+              <p><strong>Biaya Finansial (\(C_{\text{cost}}\)):</strong> Akumulasi waktu eksekusi dikali tarif sewa per VM.</p>
+              <p><strong>Catatan Kritis:</strong> <em>Sama sekali tidak memodelkan konsumsi energi!</em></p>
+            </div>
+          </article>
+        </div>
+        <p class="note">IPSO-GWO sangat peduli terhadap dampak lingkungan (Green Computing), sedangkan EMMCA fokus pada efisiensi pemanfaatan kapasitas server (Throughput &amp; Fairness).</p>
+      </div>
+      <span class="slide-number">06 / 17</span>
+    </section>
+
+    <!-- 07 · Tabel Komparasi Head-to-Head -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">06 · Matriks Perbandingan</p>
+        <h2 class="slide-title t-sm">Tabel Komparasi Head-to-Head (8 Dimensi)</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dimensi Evaluasi</th>
+                <th>IPSO-GWO (Awad et al., 2026)</th>
+                <th>EMMCA (Choudhary &amp; Rajak, 2026)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Arsitektur Sistem</strong></td>
+                <td>3-Tier Heterogen: IoT/Edge, Fog, dan Cloud</td>
+                <td>Multi-Server Cloud Datacenter dengan Virtual Machines</td>
+              </tr>
+              <tr>
+                <td><strong>Komposisi Algoritma</strong></td>
+                <td>Metaheuristik + Metaheuristik (IPSO &rarr; GWO sekuensial)</td>
+                <td>Heuristik Deterministik + Metaheuristik (Modified Min-Min &rarr; CS)</td>
+              </tr>
+              <tr>
+                <td><strong>Representasi Solusi</strong></td>
+                <td>Vektor Alokasi Task-ke-VM (\(1 \times M\))</td>
+                <td>Vektor Permutasi Urutan Task (Prioritas Presedensi DAG)</td>
+              </tr>
+              <tr>
+                <td><strong>Mekanisme Eksplorasi</strong></td>
+                <td>Dynamic Inertia Weight (\(0.8 \to 0.3\)) &amp; Perburuan Serigala</td>
+                <td>Lévy Flight, Egg-Laying Radius (MoRt), &amp; Operator Imigrasi</td>
+              </tr>
+              <tr>
+                <td><strong>Optimasi Energi</strong></td>
+                <td><span class="comp-winner">&check; Ya (Aktif &amp; Sleep Mode, penurunan s.d. 37.7%)</span></td>
+                <td><span class="comp-warning">&cross; Tidak Dipertimbangkan (Diabaikan)</span></td>
+              </tr>
+              <tr>
+                <td><strong>Optimasi Load Balance</strong></td>
+                <td>Tidak dioptimasi secara eksplisit (hanya Makespan, Energi, Cost)</td>
+                <td><span class="comp-winner">&check; Objektif Primer (\(L_{\text{balance}}\) rasio beban rata-rata)</span></td>
+              </tr>
+              <tr>
+                <td><strong>Skala Pengujian Task</strong></td>
+                <td>Besar s.d. Ekstrem: <strong>100, 500, hingga 1.000 task</strong></td>
+                <td>Kecil s.d. Menengah: <strong>24, 25, 30, 46, 50, 60, 100 task</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Kompleksitas Waktu</strong></td>
+                <td>\(O(\text{maxIter} \cdot \text{popSize} \cdot M \cdot \text{VMs})\) (Efisien)</td>
+                <td>Bertambah dengan pemeriksaan konsistensi graf &amp; migrasi cuckoo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <span class="slide-number">07 / 17</span>
+    </section>
+
+    <!-- 08 · Analisis Kinerja: Makespan -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">07 · Evaluasi Metrik: Makespan</p>
+        <h2 class="slide-title t-sm">Kecepatan Eksekusi Alur Kerja (Makespan)</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO: Pengurangan Rata-rata 26.14%</span>
+            <h3>Unggul Signifikan di Skala Besar</h3>
+            <div class="stat-row">
+              <div class="stat-box">
+                <div class="val" style="color:var(--indigo)">-26.1%</div>
+                <div class="lbl">Rata-rata Makespan</div>
+              </div>
+              <div class="stat-box">
+                <div class="val" style="color:var(--indigo)">-32.0%</div>
+                <div class="lbl">Montage (1000 task)</div>
+              </div>
+            </div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.55;color:#465570;margin-top:10px">
+              <li>Pada Montage 1000 task: memangkas makespan hingga 32% vs PSO dan 24.6% vs GSA.</li>
+              <li>Pada Epigenomics, LIGO, dan SIPHT: uji ANOVA mengonfirmasi keunggulan signifikan dengan nilai \(p < 0.001\).</li>
+              <li>Pengecualian: Pada CyberShake, GWO murni sedikit lebih cepat pada 100 &amp; 1000 task karena karakteristik I/O tinggi.</li>
+            </ul>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA: Pengurangan s.d. 52.6% vs Heuristik</span>
+            <h3>Lompatan Signifikan dari Min-Min &amp; HEFT</h3>
+            <div class="stat-row">
+              <div class="stat-box">
+                <div class="val" style="color:var(--orange)">-52.6%</div>
+                <div class="lbl">LIGO vs CPOP</div>
+              </div>
+              <div class="stat-box">
+                <div class="val" style="color:var(--orange)">-46.4%</div>
+                <div class="lbl">CyberShake vs CPOP</div>
+              </div>
+            </div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.55;color:#465570;margin-top:10px">
+              <li>LIGO Inspiral: memangkas makespan 39.3% vs Modified Min-Min dan 52.6% vs CPOP.</li>
+              <li>CyberShake: reduksi makespan 32.2% vs Modified Min-Min dan 38.2% vs HEFT.</li>
+              <li>Montage: reduksi makespan 4.9%–8.46%. Uji ANOVA membuktikan perbedaan sangat signifikan (\(F_{\text{stat}} > F_{\text{crit}}\)).</li>
+            </ul>
+          </article>
+        </div>
+        <p class="note">Kedua algoritma sangat sukses mengalahkan baseline masing-masing dalam hal makespan, namun IPSO-GWO telah teruji stabil hingga 1.000 task sedangkan EMMCA baru dievaluasi hingga 100 task.</p>
+      </div>
+      <span class="slide-number">08 / 17</span>
+    </section>
+
+    <!-- 09 · Analisis Kinerja: Konsumsi Energi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">08 · Evaluasi Metrik: Energi</p>
+        <h2 class="slide-title t-sm">Konsumsi Energi &amp; Green Cloud Computing</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO: Pengurangan Rata-rata 37.73%</span>
+            <h3>Pemodelan Daya Aktif &amp; Idle (Sleep Mode)</h3>
+            <div class="stat-row">
+              <div class="stat-box">
+                <div class="val" style="color:var(--indigo)">-76.9%</div>
+                <div class="lbl">vs GWO (Epigenomics)</div>
+              </div>
+              <div class="stat-box">
+                <div class="val" style="color:var(--indigo)">-79.6%</div>
+                <div class="lbl">vs GSA (Epigenomics)</div>
+              </div>
+            </div>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570;margin-top:10px">
+              IPSO-GWO memperhitungkan bahwa server yang menganggur tetap menghabiskan daya tinggi (idle power: Cloud = 1300 MW, Fog = 40 MW, Edge = 30 MW). Dengan mengaktifkan <em>sleep mode</em> bertegangan terendah dan memusatkan komputasi secara efektif, penghematan energi mencapai angka fantastis di seluruh pengujian ANOVA (\(p < 0.001\)).
+            </p>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA: Ketiadaan Metrik Energi</span>
+            <h3>Absennya Model Konsumsi Daya</h3>
+            <div class="stat-row">
+              <div class="stat-box" style="border-color:#fca5a5">
+                <div class="val" style="color:#dc2626">N/A</div>
+                <div class="lbl">Konsumsi Energi</div>
+              </div>
+              <div class="stat-box">
+                <div class="val" style="color:#5a6a85">0%</div>
+                <div class="lbl">Data Terlaporkan</div>
+              </div>
+            </div>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570;margin-top:10px">
+              EMMCA sama sekali <strong>tidak menyertakan formula konsumsi daya maupun evaluasi energi</strong>. Penulis paper memfokuskan seluruh daya komputasi pada perataan utilisasi CPU (load balancing). Akibatnya, jadwal yang dihasilkan EMMCA berpotensi menyalakan banyak mesin virtual secara terus-menerus tanpa memedulikan pemborosan listrik pusat data.
+            </p>
+          </article>
+        </div>
+        <p class="note"><strong>Pemenang Mutlak di Aspek Energi:</strong> <strong>IPSO-GWO</strong>. Bagi penyedia infrastruktur yang memprioritaskan biaya operasional listrik (OPEX) dan regulasi ESG, IPSO-GWO adalah pilihan wajib.</p>
+      </div>
+      <span class="slide-number">09 / 17</span>
+    </section>
+
+    <!-- 10 · Analisis Kinerja: Total Biaya & Trade-off -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">09 · Evaluasi Metrik: Biaya Finansial</p>
+        <h2 class="slide-title t-sm">Total Cost &amp; Dilema Trade-Off Nyata</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO · Rata-rata -12.52%</span>
+            <h3>Anomali Biaya pada Beban Ekstrem</h3>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              IPSO-GWO sukses memangkas biaya rata-rata 12.52%. Namun pada LIGO dan SIPHT skala 500–1000 task, biaya IPSO-GWO justru <strong>lebih mahal 9%–15%</strong> dibanding algoritma GSA (didukung uji ANOVA signifikan, \(p < 0.001\)).<br><br>
+              <strong>Mengapa demikian?</strong> Terjadi trade-off alami: demi mengejar makespan cepat dan energi rendah, IPSO-GWO terpaksa menyewa server cloud berbiaya premium.
+            </p>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA · Biaya Terdistribusi</span>
+            <h3>Degradasi Biaya pada Skala 100 Task</h3>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              Pada skala kecil (24–50 task), EMMCA menekan biaya sewa VM hingga 7%–13% dibanding HEFT dan PETS.<br><br>
+              Namun saat task bertambah ke 100 (khususnya pada Epigenomics, LIGO, dan SIPHT), penulis paper secara jujur mengakui bahwa performa biaya <strong>“not up to the mark”</strong>. Karena algoritma terus berusaha memangkas makespan, ia memetakan task-task berat ke VM berbiaya satuan tertinggi (Cost/Unit Time tinggi).
+            </p>
+          </article>
+        </div>
+        <p class="note"><strong>Insight Penting:</strong> Tidak ada algoritma yang sempurna di semua metrik (No Free Lunch Theorem). Baik IPSO-GWO maupun EMMCA harus membayar "harga moneter" lebih mahal jika menginginkan alur kerja selesai lebih cepat.</p>
+      </div>
+      <span class="slide-number">10 / 17</span>
+    </section>
+
+    <!-- 11 · Analisis Kinerja: Load Balancing -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">10 · Evaluasi Metrik: Keseimbangan Beban</p>
+        <h2 class="slide-title t-sm">Pemerataan Beban Kerja Mesin Virtual</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA: Load Balancing sebagai Pilar Utama</span>
+            <h3>Mencegah Server Menganggur &amp; Overload</h3>
+            <div class="formula" style="font-size:0.95rem;margin:8px 0">$$L_{\text{balance}} = \frac{L_{\text{avg}}^N}{m_{\text{SPAN}}} = \frac{\sum_{i=1}^K \tau^{\text{pr}} / p}{m_{\text{SPAN}}}$$</div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.5;color:#465570">
+              <li>EMMCA dirancang khusus untuk meminimalkan derajat ketimpangan antar VM.</li>
+              <li>Pengujian ANOVA membuktikan efektivitas pemerataan beban pada Epigenomics (\(F=12.00\)), Montage (\(F=11.87\)), LIGO (\(F=4.67\)), dan SIPHT (\(F=103.32\)) dengan \(p < 0.005\).</li>
+              <li>Pengecualian: Pada CyberShake, nilai \(p = 0.1107\) (tidak berbeda signifikan secara statistik karena pola graf pipih).</li>
+            </ul>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO: Alokasi Berbasis Kapabilitas</span>
+            <h3>Fokus Penyerahan Beban Bertingkat</h3>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              IPSO-GWO <strong>tidak menjadikan rasio load balancing sebagai fungsi fitness</strong>.<br><br>
+              Konsekuensinya:
+              <br>&bull; Server fog dan cloud berkecepatan tinggi cenderung menerima lebih banyak tugas kritis.
+              <br>&bull; Node edge hanya menerima tugas-tugas ringan.
+              <br>&bull; Distribusi beban antar VM bisa sangat timpang asalkan tujuan makespan, energi total, dan biaya agregat tercapai.
+            </p>
+          </article>
+        </div>
+        <p class="note"><strong>Pemenang di Aspek Load Balancing:</strong> <strong>EMMCA</strong>. Algoritma ini sangat unggul untuk penyedia cloud publik multi-tenant yang ingin menjamin SLA dan utilisasi server yang merata tanpa hotspot.</p>
+      </div>
+      <span class="slide-number">11 / 17</span>
+    </section>
+
+    <!-- 12 · Kemudahan Implementasi & Kompleksitas -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">11 · Kompleksitas &amp; Rekayasa</p>
+        <h2 class="slide-title t-sm">Kemudahan Implementasi &amp; Beban Komputasi</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">IPSO-GWO · Kompleksitas Rendah</span>
+            <h3>Struktur Vektor Bersih &amp; Efisien</h3>
+            <div class="formula" style="font-size:1rem;margin:8px 0">$$\mathcal{O}(\text{maxIter} \times \text{popSize} \times M \times \text{VMs})$$</div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.5;color:#465570">
+              <li><strong>Kemudahan Kode:</strong> Pemetaan task-ke-VM menggunakan array bilangan bulat sederhana. Transisi di iterasi ke-50 bersifat handoff langsung (\(gbest \to \text{wolf}_\alpha\)).</li>
+              <li><strong>Kompleksitas:</strong> Bebas dari operasi perbandingan kuadratik partikel (\(\text{popSize}^2\) seperti GSA), sehingga tetap sangat cepat untuk 1.000 task.</li>
+            </ul>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">EMMCA · Kompleksitas Logika Graf</span>
+            <h3>Validasi Dependensi &amp; Rekayasa Imigrasi</h3>
+            <div class="formula" style="font-size:1rem;margin:8px 0">$$\mathcal{O}(\text{Iter} \times \text{Nests} \times M^2 + \text{Graph Check})$$</div>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.5;color:#465570">
+              <li><strong>Tantangan Kode:</strong> Setiap operasi laying cuckoo (MoRt) dan imigrasi wajib memvalidasi <em>Legal Sequence</em> agar pertukaran urutan tidak membalik dependensi parent-child DAG.</li>
+              <li><strong>Overhead:</strong> Membutuhkan waktu CPU algoritma yang lebih intensif saat graf workflow menjadi sangat besar dan memiliki rantai dependensi yang dalam.</li>
+            </ul>
+          </article>
+        </div>
+        <p class="note"><strong>Aspek Rekayasa:</strong> IPSO-GWO lebih ramah untuk diintegrasikan ke orkestrator kontainer (seperti Kubernetes/FogWorkflowSim), sementara EMMCA memerlukan parser DAG dan penegak presedensi yang ketat.</p>
+      </div>
+      <span class="slide-number">12 / 17</span>
+    </section>
+
+    <!-- 13 · Limitasi & Batasan Paper -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">12 · Evaluasi Kritis</p>
+        <h2 class="slide-title t-sm">Batasan &amp; Limitasi Menurut Penulis Paper</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">Limitasi IPSO-GWO (Awad et al., Hal. 25)</span>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.55;color:#465570">
+              <li><strong>Sensitivitas Parameter:</strong> Sangat bergantung pada penalaan rentang bobot inersia (\(w_{\text{begin}}, w_{\text{end}}\)), koefisien akselerasi \(c_1, c_2\), dan rasio titik perpindahan fase (50:50).</li>
+              <li><strong>Suboptimal Stagnation:</strong> Masih ada probabilitas terjebak pada optimum lokal jika populasi kehilangan diversitas sebelum fase serigala mengambil alih.</li>
+              <li><strong>General-Purpose Nature:</strong> Algoritma tidak memanfaatkan karakteristik heuristik alur kerja secara langsung (berbeda dengan list scheduling).</li>
+              <li><strong>Penyederhanaan Daya:</strong> Model mengasumsikan daya konstan tanpa memperhitungkan Dynamic Voltage &amp; Frequency Scaling (DVFS).</li>
+            </ul>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">Limitasi EMMCA (Choudhary &amp; Rajak, Hal. 27–28)</span>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.55;color:#465570">
+              <li><strong>Pengabaian Energi:</strong> Sama sekali tidak memodelkan parameter konsumsi daya atau dampak emisi karbon komputasi.</li>
+              <li><strong>Asumsi Sumber Daya Statis:</strong> Mengasumsikan ketersediaan VM dan kapasitas bandwidth konstan tanpa memodelkan jitter jaringan, downtime, atau kegagalan node (fault tolerance).</li>
+              <li><strong>Degradasi Biaya &amp; Load Balance:</strong> Pada skala 100 task pada Epigenomics dan SIPHT, load balancing dan total biaya mengalami penurunan performa.</li>
+              <li><strong>Skalabilitas Terbatas:</strong> Belum pernah diuji pada alur kerja berskala di atas 100 task.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">13 / 17</span>
+    </section>
+
+    <!-- 14 · Implementasi Nyata 1: Seismologi & Gempa (CyberShake) -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">13 · Contoh Kasus Nyata I</p>
+        <h2 class="slide-title t-sm">Sistem Peringatan Dini Gempa (CyberShake)</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-purple">Karakteristik Alur Kerja Seismik</span>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              <strong>Workflow CyberShake:</strong> Menghitung Probabilistic Seismic Hazard Analysis (PSHA) dengan mensimulasikan gelombang seismik sintetis akibat pergeseran lempeng bumi.<br><br>
+              <strong>Kebutuhan Nyata:</strong>
+              <br>&bull; Tahap awal (ekstraksi getaran seismometer) butuh latensi sangat rendah (&lt; 2 detik) untuk membunyikan sirine darurat.
+              <br>&bull; Tahap lanjut (simulasi perambatan gelombang tanah 3D) membutuhkan ratusan gigaflop komputasi intensif.
+            </p>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-green">Rekomendasi Algoritma: IPSO-GWO</span>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              <strong>Alasan Pemilihan:</strong>
+              <br>&check; <em>Arsitektur Edge-Fog-Cloud cocok sempurna:</em> Task deteksi awal dieksekusi di Edge Gateway sesar gempa. Agregasi data regional diproses di Fog stasiun BMKG. Simulasi 3D penuh dialirkan ke Cloud Data Center.
+              <br>&check; Mengurangi beban bandwidth komunikasi saat bencana.
+            </p>
+            <p class="note"><strong>Batasan &amp; Asumsi:</strong> Mengasumsikan tower komunikasi tidak padam pasca gempa utama; jika jaringan seluler putus, task fog tidak dapat di-offload ke cloud.</p>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">14 / 17</span>
+    </section>
+
+    <!-- 15 · Implementasi Nyata 2: Bioinformatika & Medis (Epigenomics & SIPHT) -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">14 · Contoh Kasus Nyata II</p>
+        <h2 class="slide-title t-sm">Surveilans Genomik Rumah Sakit (Epigenomics &amp; SIPHT)</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-purple">Karakteristik Alur Kerja DNA</span>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              <strong>Workflow:</strong> Pemetaan sekuensing Illumina Solexa (Epigenomics) dan anotasi RNA bakteri patogen (SIPHT) untuk diagnosa cepat infeksi pasien kritis di rumah sakit.<br><br>
+              <strong>Kebutuhan Nyata:</strong>
+              <br>&bull; Alur kerja berbasis batch dengan ribuan potongan reads DNA berukuran besar (ratusan GB data mentah).
+              <br>&bull; Memerlukan utilisasi memori dan prosesor server yang maksimal agar antrean pasien tidak menumpuk.
+            </p>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-green">Rekomendasi: EMMCA untuk Cloud / IPSO-GWO untuk Hybrid</span>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              <strong>Skenario 1 (Pusat Data Cloud):</strong> <strong>EMMCA</strong> sangat ideal karena Modified Min-Min segera memprioritaskan potongan genom terpendek, lalu Cuckoo Search meratakan beban ke seluruh node VM server secara adil (efisiensi speedup meningkat s.d. 15.8%).<br><br>
+              <strong>Skenario 2 (Lab Bergerak / Lapangan):</strong> <strong>IPSO-GWO</strong> lebih unggul jika sequencer DNA portabel (seperti Oxford Nanopore) memproses data di lab lapangan dengan suplai daya genset/baterai terbatas (hemat energi s.d. 76%).
+            </p>
+            <p class="note"><strong>Batasan &amp; Asumsi:</strong> Regulasi privasi medis (HIPAA/UU PDP) menuntut data pasien dienkripsi sebelum ditransfer, menimbulkan overhead waktu komputasi tambahan.</p>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">15 / 17</span>
+    </section>
+
+    <!-- 16 · Implementasi Nyata 3: Observatorium Astronomi (LIGO & Montage) -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">15 · Contoh Kasus Nyata III</p>
+        <h2 class="slide-title t-sm">Pemrosesan Citra Antariksa &amp; Gelombang Gravitasi</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-purple">Karakteristik Big Data Astronomi</span>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              <strong>LIGO &amp; Montage:</strong> Memproses data koalesensi lubang hitam biner dan menyatukan ribuan citra teleskop inframerah NASA berformat FITS menjadi mosaik langit mosaik raksasa.<br><br>
+              <strong>Kebutuhan Nyata:</strong>
+              <br>&bull; Karakteristik <em>communication-intensive</em> dan <em>I/O heavy</em>.
+              <br>&bull; Volume data astronomi berskala petabyte yang disimpan dalam klaster cloud terdistribusi global.
+            </p>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-green">Rekomendasi Algoritma: IPSO-GWO</span>
+            <p style="font-size:0.84rem;line-height:1.55;color:#465570">
+              <strong>Alasan Pemilihan:</strong>
+              <br>&check; Terbukti andal menangani graf ekstrem hingga <strong>1.000 task</strong> dengan reduksi makespan hingga 32% (Montage) dan 17% (LIGO).
+              <br>&check; Memangkas energi idle pada klaster superkomputer data center yang sangat rakus listrik.
+            </p>
+            <p class="note"><strong>Batasan &amp; Asumsi:</strong> Kedua paper mengasumsikan bandwidth jaringan statis; pada kenyataannya, throughput koneksi antar-benua (WAN) berfluktuasi drastis dan sering menjadi bottleneck utama.</p>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">16 / 17</span>
+    </section>
+
+    <!-- 17 · Panduan Rekomendasi & Matriks Keputusan -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">16 · Panduan Arsitek Sistem</p>
+        <h2 class="slide-title t-sm">Kapan Memilih IPSO-GWO &amp; Kapan Memilih EMMCA?</h2>
+        <div class="slide-grid">
+          <article class="slide-panel">
+            <span class="badge-tag badge-blue">Pilih IPSO-GWO Jika:</span>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.6;color:#465570">
+              <li>Arsitektur mencakup perangkat Edge/IoT, gateway Fog, dan server Cloud.</li>
+              <li><strong>Konsumsi energi &amp; efisiensi listrik</strong> adalah Key Performance Indicator (KPI) utama sistem Anda (Green Computing).</li>
+              <li>Skala workflow sangat masif (ratusan hingga ribuan task berantai).</li>
+              <li>Anda memerlukan algoritma dengan struktur data ringan yang mudah diintegrasikan ke orkestrator kontainer.</li>
+            </ul>
+          </article>
+          <article class="slide-panel">
+            <span class="badge-tag badge-orange">Pilih EMMCA Jika:</span>
+            <ul style="font-size:0.83rem;padding-left:18px;line-height:1.6;color:#465570">
+              <li>Arsitektur beroperasi murni di lingkungan Cloud Datacenter / Private Cloud.</li>
+              <li><strong>Keseimbangan beban (Load Balancing)</strong> antar VM adalah prioritas tertinggi untuk mencegah server bottleneck atau SLA breach.</li>
+              <li>Skala alur kerja berada pada level kecil hingga menengah (&le; 100–200 task).</li>
+              <li>Anda ingin jadwal awal yang terjamin valid dan terstruktur langsung melalui heuristik Modified Min-Min tanpa memulai dari solusi acak.</li>
+            </ul>
+          </article>
+        </div>
+        <p class="note" style="text-align:center;margin-top:16px"><strong>Kesimpulan Akhir:</strong> Kedua algoritma mewakili paradigma mutakhir dalam orkestrasi alur kerja awan modern. Masa depan riset mengarah pada penggabungan metrik Green Computing IPSO-GWO dengan keunggulan Load Balancing EMMCA.</p>
+      </div>
+      <span class="slide-number">17 / 17</span>
+    </section>
+
   </main>
+
+  <!-- Kontrol Navigasi Slide -->
   <div class="slide-controls" aria-label="Kontrol slide">
     <button type="button" data-slide-prev aria-label="Slide sebelumnya">←</button>
     <div class="slide-dots" data-slide-dots></div>
-    <span class="slide-counter" data-slide-counter>01 / 01</span>
+    <span class="slide-counter" data-slide-counter>01 / 17</span>
     <button type="button" data-slide-next aria-label="Slide berikutnya">→</button>
   </div>
-  <script src="../js/common.js"></script>
-  <script src="../js/slides.js"></script>
+
+  <script defer src="../js/common.js"></script>
+  <script defer src="../js/slides.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"
+    onload="mermaid.initialize({startOnLoad:true,theme:'neutral'})"></script>
 </body>
 </html>
