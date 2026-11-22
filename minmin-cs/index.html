@@ -4,7 +4,68 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Min-Min + Cuckoo Search</title>
+  <meta name="description" content="Materi EMMCA (Modified Min-Min + Cuckoo Search) untuk penjadwalan workflow di cloud computing.">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <style>
+    /* Gaya khusus halaman ini (css/style.css bersama tidak diubah). */
+    .t-sm { font-size: clamp(1.8rem, 3.6vw, 3.2rem); margin-bottom: 18px; }
+    .slide-grid.tight { gap: 12px; }
+    .slide-panel.compact { padding: clamp(14px, 2vw, 20px); }
+    .slide-panel.compact h3 { margin-bottom: 6px; }
+    .note { margin: 14px 0 0; color: var(--muted); font-size: .86rem; font-weight: 600; }
+    .slide .note { color: #5a6a85; }
+    .order-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 7px 0; }
+    .order-row .lbl { min-width: 104px; font-size: .78rem; font-weight: 800; color: #465570; }
+    .chip {
+      display: inline-grid; place-items: center; min-width: 38px; height: 34px; padding: 0 8px;
+      border-radius: 10px; background: #edf2fb; color: var(--indigo);
+      font-size: .85rem; font-weight: 800; box-shadow: inset 0 0 0 1px rgba(49,87,213,.14);
+    }
+    .chip.entry { background: var(--indigo); color: #fff; }
+    .chip.best { background: var(--orange); color: #fff; }
+    .ms { margin-left: 6px; padding: 5px 10px; border-radius: 999px; background: #172033; color: #fff; font-size: .74rem; font-weight: 800; }
+    .ms.good { background: var(--orange); }
+    .gantt { display: grid; gap: 8px; margin-top: 6px; }
+    .lane { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 8px; }
+    .lane .who { font-size: .78rem; font-weight: 800; color: #465570; }
+    .lane .rail { position: relative; height: 38px; border-radius: 9px; background: #edf2fb; }
+    .bar {
+      position: absolute; top: 4px; bottom: 4px; display: grid; place-items: center;
+      border-radius: 7px; background: var(--indigo); color: #fff; font-size: .74rem; font-weight: 800;
+      box-shadow: 0 0 0 2px #f5f7fb;
+    }
+    .bar.alt { background: var(--cyan); }
+    .bar.hot { background: var(--orange); }
+    .axis { display: grid; grid-template-columns: 74px 1fr; gap: 8px; font-size: .7rem; font-weight: 800; color: #5a6a85; }
+    .axis div { display: flex; justify-content: space-between; }
+    /* Titik navigasi: selector bersama `.slide-controls button` menimpa `.slide-dot`, jadi titik jadi bulat besar. */
+    .slide-controls .slide-dot { width: 7px; height: 7px; background: #b7c0d0; }
+    .slide-controls .slide-dot.is-active { width: 22px; background: var(--indigo); }
+    /* Layar kecil: slide yang lebih tinggi dari layar bisa di-scroll, tidak terpotong. */
+    @media (max-width: 900px) {
+      .slide { overflow-y: auto; align-items: start; padding-bottom: 96px; }
+      .slide::before, .slide::after { display: none; }
+      .slide { grid-template-columns: minmax(0, 1fr); }
+      .slide-grid, .slide-grid.three { grid-template-columns: minmax(0, 1fr); }
+      .slide-panel { min-width: 0; }
+      .mermaid svg { min-width: 880px; }
+    }
+    /* Mermaid mengukur teks saat .slide-inner masih scale(.985), sehingga label terpotong. Slide flowchart tidak di-scale. */
+    .slide.mermaid-slide .slide-inner { transform: none; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .table-wrap table { font-size: clamp(.74rem, 1.15vw, .9rem); }
+    .table-wrap th, .table-wrap td { padding: 7px 10px; }
+    @media (prefers-color-scheme: dark) {
+      .chip, .lane .rail { background: #1a2942; }
+      .chip { color: #9fb4ff; box-shadow: inset 0 0 0 1px rgba(159,180,255,.2); }
+      .chip.entry { background: var(--indigo); color: #fff; }
+      .chip.best { background: var(--orange); color: #fff; }
+      .order-row .lbl, .lane .who, .axis { color: #bdc8d8; }
+      .bar { box-shadow: 0 0 0 2px #0d1525; }
+      .slide .note { color: #adb9ce; }
+    }
+  </style>
 </head>
 <body class="slide-deck">
   <div class="slide-progress" data-slide-progress></div>
@@ -12,25 +73,491 @@
     <a href="../index.html">Dashboard</a>
     <a href="./simulasi.html">Simulasi</a>
   </nav>
+
   <main class="slide-track" data-slide-track>
-    <section class="slide todo-slide">
+
+    <!-- 01 · Judul -->
+    <section class="slide">
       <div class="slide-inner">
-        <p class="eyebrow">Algoritma hybrid</p>
-        <h1 class="slide-title">Min-Min + Cuckoo Search</h1>
-        <p class="slide-subtitle">Materi EMMCA dalam format slide.</p>
-        <!-- TODO: jelaskan latar belakang, Modified Min-Min, EMMCA, cara kerja Cuckoo Search, fitness, flowchart, dan hasil paper. -->
-        <!-- TODO: verifikasi detail metode dan hasil langsung dari paper sebelum menulis konten final. -->
+        <p class="eyebrow">Hybrid heuristik + metaheuristik · EMMCA</p>
+        <div class="slide-grid" style="grid-template-columns:1.12fr .88fr;align-items:center">
+          <div>
+            <h1 class="slide-title">Urutkan task.<br><span style="color:var(--orange)">Seimbangkan beban VM.</span></h1>
+            <p class="slide-subtitle">Modified Min-Min menyusun urutan awal, Cuckoo Search memperbaikinya sampai makespan menurun.</p>
+          </div>
+          <div class="orbit" aria-label="Ilustrasi EMMCA: Min-Min, Cuckoo Search, dan DAG">
+            <div class="orbit-core">EMMCA</div>
+            <span class="orbit-node n1">MM</span>
+            <span class="orbit-node n2">CS</span>
+            <span class="orbit-node n3">DAG</span>
+          </div>
+        </div>
       </div>
-      <span class="slide-number">01 / 01</span>
+      <span class="slide-number">01 / 20</span>
+    </section>
+
+    <!-- 02 · Latar belakang -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">01 · Latar belakang</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Terlalu banyak request, VM terbatas</h2>
+        <div class="slide-grid three">
+          <article class="slide-panel"><h3>Task scheduling</h3><p>Memilih urutan task lalu memetakannya ke sumber daya yang sesuai. Targetnya waktu eksekusi lebih pendek dan sumber daya terpakai optimal.</p></article>
+          <article class="slide-panel"><h3>Load balancing</h3><p>Memindahkan beban dari resource yang berat ke yang ringan agar sistem stabil dan tidak overload.</p></article>
+          <article class="slide-panel"><h3>NP-complete</h3><p>Keduanya termasuk masalah NP-complete, sehingga dipakai heuristik dan metaheuristik, bukan mencoba semua kombinasi.</p></article>
+        </div>
+        <p class="slide-subtitle">Workflow ilmiah berbentuk DAG: task punya ketergantungan, jadi urutan eksekusi harus menghormati <strong>precedence constraints (PC)</strong>.</p>
+      </div>
+      <span class="slide-number">02 / 20</span>
+    </section>
+
+    <!-- 03 · Kontribusi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">02 · Ide utama paper</p>
+        <h2 class="slide-title" style="font-size:clamp(2.2rem,5vw,4.8rem)">Dua tahap, satu jadwal</h2>
+        <div class="slide-grid three">
+          <article class="slide-panel"><h3>1 · Modified Min-Min</h3><p>Menghasilkan populasi awal berupa task order yang sudah memenuhi PC.</p></article>
+          <article class="slide-panel"><h3>2 · Cuckoo Search</h3><p>Membangkitkan task order baru ("telur"), bermigrasi ke arah order terbaik, dan membuang order terburuk.</p></article>
+          <article class="slide-panel"><h3>3 · Evaluasi</h3><p>5 workflow ilmiah, 4 pembanding, 5 parameter QoS, plus uji statistik ANOVA.</p></article>
+        </div>
+        <p class="slide-subtitle" style="margin-top:18px">Celah yang diklaim: studi sebelumnya banyak berfokus pada makespan saja. EMMCA menargetkan <strong>makespan</strong> dan <strong>load balancing</strong> sekaligus.</p>
+      </div>
+      <span class="slide-number">03 / 20</span>
+    </section>
+
+    <!-- 04 · Model masalah -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">03 · Model masalah</p>
+        <h2 class="slide-title t-sm">Workflow DAG di beberapa server</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Workflow</h3>
+            <div class="formula" style="font-size:1.05rem">$$R^{flow}=\{R_i,\;CO_{link},\;CO_{time}\}$$</div>
+            <p>Task entry tanpa predecessor, task exit tanpa successor. Setiap link antar task membawa waktu komunikasi.</p>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Platform</h3>
+            <p>Server \(N=\{N_1,\dots,N_k\}\), tiap server memiliki sejumlah VM \(Q=\{Q_1,\dots,Q_p\}\). Scheduler memetakan task dari task queue ke VM.</p>
+            <div class="formula" style="font-size:1rem">$$CO_{time}(R_i,R_j)=\begin{cases}0 &amp; \text{satu server}\\ CO_{link} &amp; \text{lainnya}\end{cases}$$</div>
+          </article>
+        </div>
+        <p class="note">Satu server = tanpa biaya komunikasi. Itu sebabnya penempatan task yang saling bergantung penting.</p>
+      </div>
+      <span class="slide-number">04 / 20</span>
+    </section>
+
+    <!-- 05 · Metrik waktu -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">04 · Waktu eksekusi</p>
+        <h2 class="slide-title t-sm">ECT, EFT, dan makespan</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Estimated computation time</h3>
+            <p>Matriks durasi task \(R_i\) pada VM \(Q_j\).</p>
+            <div class="formula" style="font-size:1rem">$$\tau^{ECT}_{ij}\;(m\times n)$$</div>
+            <h3 style="margin-top:14px">Minimum execution time</h3>
+            <div class="formula" style="font-size:1rem">$$\tau^{MET}=\min\{\tau^{ECT}(R_i,Q_n)\}$$</div>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Earliest start &amp; finish</h3>
+            <p>EST bernilai 0 untuk task entry. Untuk task lain, EST ditentukan oleh selesainya predecessor ditambah waktu transfer data (rumus lengkap di paper memuat suku MET; di sini disederhanakan).</p>
+            <div class="formula" style="font-size:1rem">$$\tau^{EFT}(R_i,Q_j)=\tau^{ECT}_{ij}+\tau^{EST}(R_i,Q_j)$$</div>
+            <h3 style="margin-top:14px">Makespan</h3>
+            <div class="formula" style="font-size:1rem">$$m_{SPAN}=\min\{\tau^{EFT}(R_{exit},Q)\}$$</div>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">05 / 20</span>
+    </section>
+
+    <!-- 06 · Metrik QoS -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">05 · Parameter QoS</p>
+        <h2 class="slide-title t-sm">Load balance, speedup, efficiency, cost</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Load balance</h3>
+            <div class="formula" style="font-size:1rem">$$L_{balance}=\frac{L^{N}_{avg}}{m_{SPAN}},\quad L^{N}_{avg}=\frac{\sum\tau^{pr}}{p}$$</div>
+            <p>Rasio rata-rata beban mesin terhadap makespan.</p>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Speedup &amp; efficiency</h3>
+            <div class="formula" style="font-size:1rem">$$SP^{up}=\frac{\min\left[\sum\tau^{ECT}_{ij}\right]}{m_{SPAN}},\quad Eff=\frac{SP^{up}}{p}\times100$$</div>
+            <p>Seberapa cepat dibanding eksekusi berurutan, dan seberapa efisien VM dipakai.</p>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Cost</h3>
+            <div class="formula" style="font-size:1rem">$$C_{cost}=\sum\tau^{pr}_{ij}\times Cost(Q_j)$$</div>
+            <p>Waktu proses dikalikan tarif per unit waktu tiap VM.</p>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Fungsi tujuan</h3>
+            <p>Dua tujuan utama: <strong>makespan minimum</strong> dan <strong>beban VM yang merata</strong>. Speedup, efficiency, dan cost menjadi parameter pendukung.</p>
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">06 / 20</span>
+    </section>
+
+    <!-- 07 · Modified Min-Min -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">06 · Basis: Modified Min-Min</p>
+        <h2 class="slide-title t-sm">Task tercepat dulu, tetap patuh PC</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Min-Min klasik <span style="font-weight:600;font-size:.8rem">(penjelasan umum, bukan dari paper)</span></h3>
+            <ol>
+              <li>Untuk tiap task yang belum dijadwalkan, cari VM dengan waktu selesai terkecil.</li>
+              <li>Pilih task yang waktu terkecilnya paling kecil.</li>
+              <li>Tetapkan ke VM tersebut, perbarui ketersediaan VM, ulangi.</li>
+            </ol>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Versi modifikasi di EMMCA</h3>
+            <p>Tugasnya dependen, sehingga prioritas dihitung dari τECT minimum dengan syarat PC terpenuhi.</p>
+            <div class="formula" style="font-size:.9rem">$$P(R_i)=\min\{\min\{\tau^{ECT}(R_i,Q_{1..p})\}\}\ \text{dengan PC}$$</div>
+          </article>
+        </div>
+        <p class="note">Ukuran populasi = jumlah task order awal. Setiap order dibuat dari matriks τECT yang berbeda pada struktur workflow yang sama.</p>
+      </div>
+      <span class="slide-number">07 / 20</span>
+    </section>
+
+    <!-- 08 · Cuckoo Search -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">07 · Teori Cuckoo Search</p>
+        <h2 class="slide-title t-sm">Burung kukuk menitip telur</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Tiga aturan ideal (Yang &amp; Deb, 2009)</h3>
+            <ol>
+              <li>Setiap kukuk meletakkan satu telur di sarang acak.</li>
+              <li>Telur (solusi) berkualitas dari sarang terbaik diwariskan.</li>
+              <li>Jumlah sarang tetap; induk menemukan telur asing dengan peluang \(P_a\), lalu membuangnya atau membuat sarang baru.</li>
+            </ol>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Lévy flight</h3>
+            <div class="formula" style="font-size:1rem">$$x_i^{t+1}=x_i^t+\alpha\oplus \text{Lévy}(\lambda)$$</div>
+            <p>Langkah acak berekor tebal: sebagian besar langkah kecil (eksploitasi), kadang melompat jauh (eksplorasi).</p>
+          </article>
+        </div>
+        <!-- CATATAN: paper menjelaskan Lévy flight di Bagian 4, tetapi langkah metode EMMCA (Bagian 5) dan pseudocode (Tabel 4) memakai operator diskret laying & immigration, tanpa langkah Lévy eksplisit. -->
+        <p class="note">Lévy flight adalah dasar teori. Pada EMMCA, "telur" berupa task order, sehingga dipakai operator diskret (slide berikut).</p>
+      </div>
+      <span class="slide-number">08 / 20</span>
+    </section>
+
+    <!-- 09 · Laying -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">08 · Laying: membuat task order baru</p>
+        <h2 class="slide-title t-sm">Y offspring per parent</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Jumlah offspring</h3>
+            <div class="formula" style="font-size:1rem">$$Y=(NOr_{max}-NOr_{min})\times Rand[0,1]+NOr_{min}$$</div>
+            <p>Setiap parent order menghasilkan Y order baru, dengan Y antara \(NOr_{min}\) dan \(NOr_{max}\).</p>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Modification radius</h3>
+            <div class="formula" style="font-size:.92rem">$$MoR_t=\left[\lambda\times\frac{\text{current schedule's }K}{\text{total schedule }K}\right]\times(V_{hi,t}-V_{low,t})$$</div>
+            <p>MoR membatasi berapa task yang boleh bergeser posisi di dalam <strong>legal sequence</strong>.</p>
+          </article>
+        </div>
+        <div class="slide-grid three tight" style="margin-top:12px">
+          <article class="slide-panel compact"><strong>Legal sequence</strong><p>Kumpulan task yang masih memenuhi PC jika ditukar posisinya.</p></article>
+          <article class="slide-panel compact"><strong>Dikecualikan</strong><p>Task entry dan exit tidak ikut diubah karena melanggar PC.</p></article>
+          <article class="slide-panel compact"><strong>Seleksi</strong><p>Offspring terbaik menjadi <em>prime order</em> sebagai pembanding berikutnya.</p></article>
+        </div>
+      </div>
+      <span class="slide-number">09 / 20</span>
+    </section>
+
+    <!-- 10 · Immigration & terminasi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">09 · Immigration &amp; terminasi</p>
+        <h2 class="slide-title t-sm">Bergerak ke arah order terbaik</h2>
+        <div class="slide-grid tight">
+          <article class="slide-panel compact">
+            <h3>Cuckoo immigration</h3>
+            <p>Task yang sama dipindahkan antar order mengikuti legal sequence milik <em>prime order</em>, dengan probabilitas ρ, tanpa melanggar dependensi. Order hasil migrasi menggantikan yang lama jika fitness lebih baik.</p>
+          </article>
+          <article class="slide-panel compact">
+            <h3>Syarat migrasi</h3>
+            <p>Hanya order dengan <strong>comparable legal sequence</strong> (indeks awal sama dengan prime order). Jika jumlah legal sequence-nya sama dengan prime order, order tersebut tidak dimigrasikan, supaya tidak terjebak di optimum lokal.</p>
+          </article>
+        </div>
+        <div class="slide-grid tight" style="margin-top:12px">
+          <article class="slide-panel compact"><h3>Order terburuk dibuang</h3><p>Menjaga ukuran populasi tetap dan keseimbangan "populasi burung".</p></article>
+          <article class="slide-panel compact">
+            <h3>Terminasi</h3>
+            <p>Berhenti setelah jumlah iterasi tertentu.</p>
+            <!-- CATATAN: paper menyebut "ten number" untuk iterasi (Bagian 5, langkah d), contoh ilustrasi memakai 5 iterasi, dan hasil eksperimen dirata-rata "setelah 20 iterasi" (Bagian 6). Angka ini tidak konsisten di paper, jadi tidak ditulis sebagai satu nilai pasti. -->
+          </article>
+        </div>
+      </div>
+      <span class="slide-number">10 / 20</span>
+    </section>
+
+    <!-- 11 · Framework -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">10 · Kerangka enam fase</p>
+        <h2 class="slide-title t-sm">Dari program aplikasi ke metrik QoS</h2>
+        <div class="slide-grid three tight">
+          <article class="slide-panel compact"><strong>I · Application program</strong><p>Pernyataan \(R_1,\dots,R_p\) dari request pengguna.</p></article>
+          <article class="slide-panel compact"><strong>II · Dekomposisi</strong><p>Program dipecah menjadi workflow DAG.</p></article>
+          <article class="slide-panel compact"><strong>III · Computing priority</strong><p>Modified Min-Min + Cuckoo Search menghasilkan task order terbaik.</p></article>
+          <article class="slide-panel compact"><strong>IV · Task order queue</strong><p>Order terbaik masuk antrean untuk scheduler.</p></article>
+          <article class="slide-panel compact"><strong>V · Task mapping</strong><p>Pemetaan ke VM memakai τECT dan τEFT, dengan duplikasi task entry di beberapa server.</p></article>
+          <article class="slide-panel compact"><strong>VI · Prime objectives</strong><p>Hitung makespan, load balance, speedup, efficiency, dan cost.</p></article>
+        </div>
+      </div>
+      <span class="slide-number">11 / 20</span>
+    </section>
+
+    <!-- 12 · Flowchart -->
+    <section class="slide mermaid-slide">
+      <div class="slide-inner">
+        <p class="eyebrow">11 · Flowchart</p>
+        <h2 class="slide-title t-sm">Urutan eksekusi EMMCA</h2>
+        <div class="mermaid">
+          flowchart LR
+            A["Populasi awal&lt;br/&gt;(Modified Min-Min)"] --> B["Fitness awal,&lt;br/&gt;prime order"]
+            B --> C{"Konvergen?"}
+            C -->|Belum| D["Laying: Y order&lt;br/&gt;baru per parent"]
+            D --> E["Seleksi: update prime,&lt;br/&gt;buang terburuk"]
+            E --> F["Immigration ke&lt;br/&gt;arah prime order"]
+            F --> G["Perbarui populasi,&lt;br/&gt;iterasi + 1"]
+            G --> C
+            C -->|Ya| H["Best order, mapping&lt;br/&gt;ke VM, hitung QoS"]
+        </div>
+        <p class="note">Input: workflow, τECT, ukuran populasi, NOrmax, NOrmin, ρ, MAXGEN. Satu iterasi = laying → seleksi → immigration → pembaruan populasi.</p>
+      </div>
+      <span class="slide-number">12 / 20</span>
+    </section>
+
+    <!-- 13 · Pseudocode -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">12 · Pseudocode</p>
+        <h2 class="slide-title t-sm">Laying lalu immigration, berulang</h2>
+        <!-- CATATAN: Tabel 4 paper merujuk "eq. (6)" untuk fitness dan "eq. (6), eq. (7)" untuk makespan/load balance, sedangkan makespan didefinisikan di eq. (13) dan load balance di eq. (14). Kemungkinan salah rujukan di paper. -->
+        <div class="slide-grid tight">
+          <pre><code>INISIALISASI populasi task order
+  (Modified Min-Min)
+HITUNG fitness tiap order
+TETAPKAN prime order &amp; prime value
+SELAMA belum konvergen:
+  UNTUK tiap order dalam populasi:
+    buat legal sequence
+    tentukan Y, hitung MoR
+  evaluasi fitness semua offspring
+  jika current &lt; prime: perbarui prime</code></pre>
+          <pre><code>  perbarui New_Population (POPsize)
+  UNTUK tiap legal sequence prime order:
+    immigration dengan probabilitas ρ
+  evaluasi ulang fitness
+  jika current &lt; prime: perbarui prime
+  perbarui populasi
+  jika iterasi &gt;= MAXGEN: konvergen
+  iterasi = iterasi + 1
+HITUNG makespan &amp; load balance
+  dari best order</code></pre>
+        </div>
+      </div>
+      <span class="slide-number">13 / 20</span>
+    </section>
+
+    <!-- 14 · Contoh paper: populasi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">13 · Contoh dari paper (8 task, 3 VM)</p>
+        <h2 class="slide-title t-sm">Populasi awal → offspring</h2>
+        <div class="slide-panel compact">
+          <h3>Populasi awal (Modified Min-Min, ukuran 3)</h3>
+          <div class="order-row"><span class="lbl">Order 1 · Y=3</span>
+            <span class="chip entry">R1</span><span class="chip">R3</span><span class="chip">R5</span><span class="chip">R2</span><span class="chip">R4</span><span class="chip">R6</span><span class="chip">R7</span><span class="chip">R8</span><span class="ms">mSPAN 64</span></div>
+          <div class="order-row"><span class="lbl">Order 2 · Y=2</span>
+            <span class="chip entry">R1</span><span class="chip">R4</span><span class="chip">R2</span><span class="chip">R5</span><span class="chip">R3</span><span class="chip">R7</span><span class="chip">R6</span><span class="chip">R8</span><span class="ms">mSPAN 73</span></div>
+          <div class="order-row"><span class="lbl">Order 3 · Y=4</span>
+            <span class="chip entry">R1</span><span class="chip">R2</span><span class="chip">R3</span><span class="chip">R5</span><span class="chip">R6</span><span class="chip">R4</span><span class="chip">R7</span><span class="chip">R8</span><span class="ms good">mSPAN 60 · prime</span></div>
+        </div>
+        <div class="slide-panel compact" style="margin-top:12px">
+          <h3>Offspring hasil laying (NOrmax=4, NOrmin=2)</h3>
+          <div class="order-row"><span class="lbl">Offspring 1</span>
+            <span class="chip entry">R1</span><span class="chip">R4</span><span class="chip">R5</span><span class="chip">R2</span><span class="chip">R3</span><span class="chip">R7</span><span class="chip">R6</span><span class="chip">R8</span><span class="ms good">mSPAN 59 · terbaik</span></div>
+          <div class="order-row"><span class="lbl">Offspring 2</span>
+            <span class="chip entry">R1</span><span class="chip">R5</span><span class="chip">R3</span><span class="chip">R2</span><span class="chip">R6</span><span class="chip">R4</span><span class="chip">R7</span><span class="chip">R8</span><span class="ms">mSPAN 60</span></div>
+          <div class="order-row"><span class="lbl">Offspring 3</span>
+            <span class="chip entry">R1</span><span class="chip">R3</span><span class="chip">R2</span><span class="chip">R5</span><span class="chip">R6</span><span class="chip">R4</span><span class="chip">R7</span><span class="chip">R8</span><span class="ms">mSPAN 60</span></div>
+        </div>
+        <p class="note">Offspring 1 (59) mengalahkan prime (60), lalu menjadi prime baru. Contoh memakai ρ = 0,5.</p>
+      </div>
+      <span class="slide-number">14 / 20</span>
+    </section>
+
+    <!-- 15 · Contoh paper: mapping -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">14 · Contoh dari paper · pemetaan akhir</p>
+        <h2 class="slide-title t-sm">Best order → jadwal di VM: makespan 59</h2>
+        <div class="order-row" style="margin-bottom:10px"><span class="lbl">Best order</span>
+          <span class="chip entry">R1</span><span class="chip best">R4</span><span class="chip best">R5</span><span class="chip best">R2</span><span class="chip best">R3</span><span class="chip best">R7</span><span class="chip best">R6</span><span class="chip best">R8</span></div>
+        <div class="slide-panel compact">
+          <div class="gantt" role="img" aria-label="Jadwal task pada VM Q1, Q2, dan Q3 dengan makespan 59">
+            <div class="lane"><span class="who">N2 · Q3</span><div class="rail">
+              <span class="bar" style="left:0;width:calc(12 / 59 * 100%)">R1</span>
+              <span class="bar alt" style="left:calc(12 / 59 * 100%);width:calc(14 / 59 * 100%)">R5</span></div></div>
+            <div class="lane"><span class="who">N1 · Q2</span><div class="rail">
+              <span class="bar alt" style="left:calc(14 / 59 * 100%);width:calc(14 / 59 * 100%)">R2</span>
+              <span class="bar" style="left:calc(28 / 59 * 100%);width:calc(8 / 59 * 100%)">R3</span>
+              <span class="bar alt" style="left:calc(36 / 59 * 100%);width:calc(13 / 59 * 100%)">R7</span>
+              <span class="bar hot" style="left:calc(49 / 59 * 100%);width:calc(10 / 59 * 100%)">R8</span></div></div>
+            <div class="lane"><span class="who">N1 · Q1</span><div class="rail">
+              <span class="bar" style="left:0;width:calc(14 / 59 * 100%)">R1</span>
+              <span class="bar alt" style="left:calc(14 / 59 * 100%);width:calc(12 / 59 * 100%)">R4</span>
+              <span class="bar" style="left:calc(36 / 59 * 100%);width:calc(8 / 59 * 100%)">R6</span></div></div>
+            <div class="axis"><span></span><div><span>0</span><span>15</span><span>30</span><span>45</span><span>59</span></div></div>
+          </div>
+        </div>
+        <p class="note">R1 (task entry) diduplikasi di Q1 dan Q3. Durasi tiap bar sama dengan nilai τECT pada Tabel 5 paper. Hasil ini bukan data eksperimen skala besar.</p>
+      </div>
+      <span class="slide-number">15 / 20</span>
+    </section>
+
+    <!-- 16 · Setup eksperimen -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">15 · Setup eksperimen</p>
+        <h2 class="slide-title t-sm">5 workflow ilmiah, 4 pembanding</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Workflow</th><th>Bidang</th><th>Jumlah task</th><th>Server</th><th>VM</th><th>Populasi</th></tr></thead>
+            <tbody>
+              <tr><td>Epigenomics</td><td>Bioinformatika</td><td>24 / 46 / 100</td><td>2 / 3 / 6</td><td>5 / 7 / 15</td><td>12 / 15 / 25</td></tr>
+              <tr><td>Montage</td><td>Astronomi</td><td>25 / 50 / 100</td><td>3 / 4 / 7</td><td>7 / 10 / 15</td><td>15 / 20 / 25</td></tr>
+              <tr><td>Cybershake</td><td>Gempa bumi</td><td>30 / 50 / 100</td><td>3 / 4 / 7</td><td>7 / 10 / 15</td><td>17 / 20 / 25</td></tr>
+              <tr><td>LIGO Inspiral</td><td>Gelombang gravitasi</td><td>30 / 50 / 100</td><td>3 / 4 / 6</td><td>7 / 10 / 15</td><td>17 / 20 / 25</td></tr>
+              <tr><td>SIPHT</td><td>Mikrobiologi</td><td>30 / 60 / 100</td><td>3 / 4 / 7</td><td>7 / 10 / 15</td><td>17 / 20 / 25</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="slide-grid three tight" style="margin-top:12px">
+          <article class="slide-panel compact"><strong>Pembanding</strong><p>Modified Min-Min, HEFT, PETS, CPOP.</p></article>
+          <article class="slide-panel compact"><strong>Parameter</strong><p>Probabilitas immigration ρ = 0,8; implementasi Python di laptop Intel Core i5-1235U, 16 GB RAM.</p></article>
+          <article class="slide-panel compact"><strong>Metrik</strong><p>Makespan, load balancing, speedup, efficiency, cost.</p></article>
+        </div>
+      </div>
+      <span class="slide-number">16 / 20</span>
+    </section>
+
+    <!-- 17 · Hasil -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">16 · Hasil makespan</p>
+        <h2 class="slide-title t-sm">Terendah di semua workflow</h2>
+        <div class="slide-grid three tight">
+          <article class="slide-panel compact"><div class="metric" style="font-size:clamp(1.8rem,3.4vw,3rem)">39,3–52,6%</div><p>Penurunan makespan LIGO Inspiral terhadap empat pembanding (menurut paper).</p></article>
+          <article class="slide-panel compact"><div class="metric" style="font-size:clamp(1.8rem,3.4vw,3rem)">4,9–8,46%</div><p>Penurunan makespan Montage terhadap empat pembanding.</p></article>
+          <article class="slide-panel compact"><div class="metric" style="font-size:clamp(1.8rem,3.4vw,3rem)">1,1–6,7%</div><p>Angka load balancing Montage yang dilaporkan paper (lihat catatan di slide evaluasi).</p></article>
+        </div>
+        <div class="table-wrap" style="margin-top:12px">
+          <table>
+            <caption style="text-align:left;font-weight:800;padding:0 0 6px;font-size:.8rem">Makespan pada 100 task (satuan waktu sesuai paper; Tabel 9–13)</caption>
+            <thead><tr><th>Workflow</th><th class="num">EMMCA</th><th class="num">Mod. Min-Min</th><th class="num">HEFT</th><th class="num">PETS</th><th class="num">CPOP</th></tr></thead>
+            <tbody>
+              <tr><td>Epigenomics</td><td class="num"><strong>543.881</strong></td><td class="num">602.331</td><td class="num">659.551</td><td class="num">629.672</td><td class="num">611.919</td></tr>
+              <tr><td>Montage</td><td class="num"><strong>586.323</strong></td><td class="num">602.325</td><td class="num">616.427</td><td class="num">621.622</td><td class="num">617.805</td></tr>
+              <tr><td>Cybershake</td><td class="num"><strong>283.853</strong></td><td class="num">450.623</td><td class="num">453.743</td><td class="num">512.976</td><td class="num">496.718</td></tr>
+              <tr><td>LIGO Inspiral</td><td class="num"><strong>985.991</strong></td><td class="num">1.378.672</td><td class="num">1.328.124</td><td class="num">1.395.365</td><td class="num">1.512.248</td></tr>
+              <tr><td>SIPHT</td><td class="num"><strong>695.766</strong></td><td class="num">831.828</td><td class="num">1.009.054</td><td class="num">1.025.879</td><td class="num">1.164.618</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <span class="slide-number">17 / 20</span>
+    </section>
+
+    <!-- 18 · ANOVA -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">17 · Uji statistik</p>
+        <h2 class="slide-title t-sm">ANOVA: beda nyata, kecuali satu</h2>
+        <div class="table-wrap">
+          <table>
+            <caption style="text-align:left;font-weight:800;padding:0 0 6px;font-size:.8rem">100 task, 10 kali jalan per algoritma, F kritis = 2,5787 (Tabel 14–23)</caption>
+            <thead><tr><th>Workflow</th><th class="num">F makespan</th><th class="num">p makespan</th><th class="num">F load balance</th><th class="num">p load balance</th></tr></thead>
+            <tbody>
+              <tr><td>Epigenomics</td><td class="num">21,63</td><td class="num">5,2×10⁻¹⁰</td><td class="num">12,00</td><td class="num">1,0×10⁻⁶</td></tr>
+              <tr><td>Montage</td><td class="num">17,91</td><td class="num">7,3×10⁻⁹</td><td class="num">11,88</td><td class="num">1,1×10⁻⁶</td></tr>
+              <tr><td>Cybershake</td><td class="num">14,83</td><td class="num">8,4×10⁻⁸</td><td class="num"><strong>2,00</strong></td><td class="num"><strong>0,111</strong></td></tr>
+              <tr><td>LIGO Inspiral</td><td class="num">2,70</td><td class="num">0,042</td><td class="num">4,67</td><td class="num">0,0031</td></tr>
+              <tr><td>SIPHT</td><td class="num">6,85</td><td class="num">2,1×10⁻⁴</td><td class="num">103,33</td><td class="num">4,5×10⁻²²</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">H0: rata-rata kelima algoritma sama. Ditolak bila F &gt; F kritis. Hanya load balance Cybershake yang tidak signifikan. ANOVA menunjukkan <em>ada</em> perbedaan antar kelompok, bukan algoritma mana yang terbaik.</p>
+      </div>
+      <span class="slide-number">18 / 20</span>
+    </section>
+
+    <!-- 19 · Evaluasi kritis -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">18 · Evaluasi kritis</p>
+        <h2 class="slide-title t-sm">Kuat di makespan, ada trade-off</h2>
+        <div class="slide-grid three tight">
+          <article class="slide-panel compact"><h3>Kelebihan</h3><p>Makespan EMMCA paling rendah pada seluruh 15 konfigurasi di tabel paper. Penurunan terbesar terlihat pada Cybershake dan LIGO Inspiral.</p></article>
+          <article class="slide-panel compact"><h3>Keterbatasan (paper)</h3><p>Cenderung ke optimum lokal, sensitif terhadap discovery rate dan ukuran populasi, makin mahal saat beban naik, dan mengasumsikan resource statis tanpa deadline, biaya, atau energi.</p></article>
+          <article class="slide-panel compact"><h3>Cost tidak selalu terendah</h3><p>Contoh SIPHT 60 task: HEFT 1.598.452 vs EMMCA 2.809.108. Pada LIGO 30 task, Min-Min juga lebih murah.</p></article>
+        </div>
+        <div class="slide-grid tight" style="margin-top:12px">
+          <article class="slide-panel compact"><h3>Catatan pembacaan</h3><p>Arah "load balancing berkurang" tidak seragam: pada Montage vs CPOP, nilai EMMCA justru sekitar 1% lebih tinggi, sedangkan teks LIGO menyebut hasilnya kurang memuaskan padahal nilai tabelnya tinggi. Perlu hati-hati mengutipnya.</p></article>
+          <article class="slide-panel compact"><h3>Cakupan</h3><p>Pembanding hanya heuristik (Min-Min, HEFT, PETS, CPOP), dan pengujian berupa simulasi Python, belum di cloud nyata.</p></article>
+        </div>
+      </div>
+      <span class="slide-number">19 / 20</span>
+    </section>
+
+    <!-- 20 · Referensi -->
+    <section class="slide">
+      <div class="slide-inner">
+        <p class="eyebrow">19 · Ringkasan &amp; referensi</p>
+        <h2 class="slide-title t-sm">Satu kalimat: EMMCA</h2>
+        <p class="slide-subtitle">Populasi awal dari Modified Min-Min dipoles dengan laying dan immigration ala Cuckoo Search, hasilnya jadwal dengan makespan lebih pendek di lima workflow ilmiah.</p>
+        <div class="slide-grid three tight" style="margin-top:14px">
+          <article class="slide-panel compact"><strong>Paper utama</strong><p>Choudhary, A., &amp; Rajak, R. (2026). EMMCA: enhancing modified Min-Min using cuckoo search algorithm in cloud computing. <em>Evolving Systems, 17</em>, 15.</p></article>
+          <article class="slide-panel compact"><strong>Dasar Cuckoo Search</strong><p>Yang, X.-S., &amp; Deb, S. (2009). Cuckoo search via Lévy flights. NaBIC 2009.</p></article>
+          <article class="slide-panel compact"><strong>Operator laying</strong><p>Rajabioun, R. (2011). Cuckoo optimization algorithm. <em>Applied Soft Computing, 11</em>(8).</p></article>
+        </div>
+        <p style="margin-top:14px"><a href="https://doi.org/10.1007/s12530-025-09768-9" target="_blank" rel="noopener">Evolving Systems · DOI 10.1007/s12530-025-09768-9</a></p>
+      </div>
+      <span class="slide-number">20 / 20</span>
     </section>
   </main>
+
   <div class="slide-controls" aria-label="Kontrol slide">
     <button type="button" data-slide-prev aria-label="Slide sebelumnya">←</button>
     <div class="slide-dots" data-slide-dots></div>
-    <span class="slide-counter" data-slide-counter>01 / 01</span>
+    <span class="slide-counter" data-slide-counter>01 / 20</span>
     <button type="button" data-slide-next aria-label="Slide berikutnya">→</button>
   </div>
-  <script src="../js/common.js"></script>
-  <script src="../js/slides.js"></script>
+
+  <script defer src="../js/common.js"></script>
+  <script defer src="../js/slides.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"
+    onload="mermaid.initialize({startOnLoad:true,theme:'neutral',themeVariables:{fontFamily:'Inter, Segoe UI, Arial, sans-serif'},flowchart:{wrappingWidth:120,nodeSpacing:28,rankSpacing:34}})"></script>
 </body>
 </html>
