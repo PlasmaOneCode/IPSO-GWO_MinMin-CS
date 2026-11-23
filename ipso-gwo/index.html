@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IPSO + GWO · Penjadwalan Workflow Fog-Cloud</title>
-  <meta name="description" content="Penjelasan mendalam algoritma hybrid IPSO-GWO untuk penjadwalan workflow di lingkungan IoT-Fog-Cloud berdasarkan Awad dkk. (2026).">
+  <meta name="description" content="Penjelasan padat 15 slide algoritma hybrid IPSO-GWO untuk penjadwalan workflow di lingkungan IoT-Fog-Cloud berdasarkan Awad dkk. (2026).">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="./theme.css">
   <link rel="stylesheet" href="./motion.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
-<body class="slide-deck ipso-deck" data-motion="kurzgesagt">
+<body class="slide-deck ipso-deck" data-motion="kurzgesagt" data-active-theme="dark">
   <div class="slide-progress" data-slide-progress></div>
   <nav class="slide-nav" aria-label="Navigasi halaman">
     <a href="../index.html">Dashboard</a>
@@ -21,7 +21,7 @@
   <main class="slide-track" data-slide-track>
 
     <!-- 01 · Hero -->
-    <section class="slide" data-theme="light">
+    <section class="slide" data-theme="dark" data-tone="cosmos">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
           <p class="eyebrow">Hybrid Metaheuristik · IPSO + GWO</p>
@@ -30,79 +30,81 @@
         <div class="slide-grid hero-split">
           <div>
             <h1 class="slide-title hero-title">Jadwalkan task.<br><span class="title-accent">Pangkas waktu &amp; energi.</span></h1>
-            <p class="slide-subtitle" data-reveal>Bagaimana algoritma hybrid <strong>Improved Particle Swarm Optimization + Grey Wolf Optimization</strong> memetakan workflow ilmiah ke jaringan <em>Edge, Fog,</em> dan <em>Cloud</em> secara cerdas.</p>
-            <div class="slide-grid tight" style="margin-top:16px" data-reveal>
+            <p class="slide-subtitle" data-reveal>Bagaimana algoritma hybrid <strong>Improved Particle Swarm Optimization + Grey Wolf Optimization</strong> memetakan workflow ilmiah ke jaringan <em>Edge, Fog,</em> dan <em>Cloud</em>.</p>
+            <div class="slide-grid tight" style="margin-top:14px" data-reveal>
               <article class="slide-panel">
                 <h3>Sumber Utama</h3>
                 <p>Awad, Gamal, El Salam &amp; Abdel-Kader, <em>Scientific Reports</em> (2026) 16:4359.</p>
               </article>
               <article class="slide-panel">
-                <h3>3 Target Utama</h3>
-                <p>Menekan <strong>makespan</strong>, <strong>konsumsi energi</strong>, dan <strong>total biaya</strong> sekaligus.</p>
+                <h3>3 Target Optimasi</h3>
+                <p>Menekan <strong>makespan</strong>, <strong>konsumsi energi</strong>, dan <strong>total biaya</strong> secara simultan.</p>
               </article>
             </div>
           </div>
           <div class="viz-stage" data-reveal aria-label="Ilustrasi orbit Edge, Fog, dan Cloud mengelilingi inti IPSO-GWO">
-            <svg viewBox="0 0 380 340" role="img" aria-label="Diagram orbit IPSO-GWO">
+            <svg viewBox="0 0 380 340" role="img" aria-label="Diagram orbit Kurzgesagt IPSO-GWO">
               <defs>
                 <radialGradient id="heroCoreGrad" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stop-color="#6ce8ed"/>
-                  <stop offset="52%" stop-color="#3560e0"/>
-                  <stop offset="100%" stop-color="#1b3599"/>
+                  <stop offset="0%" stop-color="#8ffaff"/>
+                  <stop offset="48%" stop-color="#2de8e8"/>
+                  <stop offset="100%" stop-color="#2c55e0"/>
                 </radialGradient>
                 <linearGradient id="edgeGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#ffb84d"/>
-                  <stop offset="100%" stop-color="#e07014"/>
+                  <stop offset="0%" stop-color="#ffd257"/>
+                  <stop offset="100%" stop-color="#e87a14"/>
                 </linearGradient>
                 <linearGradient id="fogGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#3ad8df"/>
-                  <stop offset="100%" stop-color="#0d7a8a"/>
+                  <stop offset="0%" stop-color="#44f0f0"/>
+                  <stop offset="100%" stop-color="#0d8c9e"/>
                 </linearGradient>
                 <linearGradient id="cloudGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#6f96ff"/>
-                  <stop offset="100%" stop-color="#2748c4"/>
+                  <stop offset="0%" stop-color="#7fa4ff"/>
+                  <stop offset="100%" stop-color="#345be0"/>
                 </linearGradient>
               </defs>
+              <!-- Expanding Kurzgesagt sonar waves -->
+              <circle cx="190" cy="170" r="64" fill="none" stroke="rgba(45,232,232,0.45)" stroke-width="2" class="kz-sonar"/>
+              <circle cx="190" cy="170" r="64" fill="none" stroke="rgba(94,139,255,0.45)" stroke-width="2" class="kz-sonar-delay"/>
               <!-- Concentric orbits -->
-              <circle cx="190" cy="170" r="136" fill="none" stroke="rgba(47,85,212,0.16)" stroke-width="2" stroke-dasharray="7 8" class="kz-orbit-cw"/>
-              <circle cx="190" cy="170" r="98" fill="none" stroke="rgba(14,138,156,0.26)" stroke-width="2" stroke-dasharray="5 7" class="kz-orbit-ccw"/>
-              <circle cx="190" cy="170" r="64" fill="rgba(47,85,212,0.08)" class="kz-pulse"/>
-              <!-- Orbiting satellite planets -->
+              <circle cx="190" cy="170" r="136" fill="none" stroke="rgba(127,164,255,0.22)" stroke-width="2" stroke-dasharray="7 8" class="kz-orbit-cw"/>
+              <circle cx="190" cy="170" r="98" fill="none" stroke="rgba(45,232,232,0.34)" stroke-width="2" stroke-dasharray="5 7" class="kz-orbit-ccw"/>
+              <!-- Orbiting luminous satellites -->
               <g class="kz-orbit-cw">
-                <circle cx="190" cy="34" r="6" fill="#e68a00"/>
-                <circle cx="326" cy="170" r="5" fill="#0e8a9c"/>
-                <circle cx="190" cy="306" r="6" fill="#2f55d4"/>
+                <circle cx="190" cy="34" r="7" fill="#ffc43d"/>
+                <circle cx="326" cy="170" r="6" fill="#3cf0a5"/>
+                <circle cx="190" cy="306" r="6" fill="#ff5b84"/>
               </g>
-              <!-- Core Hero Orb (shared morph anchor) -->
+              <!-- Faceted Core Hero Orb (shared morph anchor) -->
               <g class="kz-squash-pop" data-hero-orb>
-                <circle cx="190" cy="170" r="46" fill="url(#heroCoreGrad)"/>
-                <circle cx="176" cy="154" r="10" fill="#ffffff" opacity="0.24"/>
-                <text x="190" y="166" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900">IPSO</text>
-                <text x="190" y="184" text-anchor="middle" fill="#b7f4f7" font-size="11" font-weight="800">+ GWO</text>
+                <circle cx="190" cy="170" r="48" fill="url(#heroCoreGrad)"/>
+                <polygon points="190,130 224,150 224,190 190,210 156,190 156,150" fill="none" stroke="rgba(255,255,255,0.42)" stroke-width="2"/>
+                <text x="190" y="166" text-anchor="middle" fill="#07152a" font-size="15" font-weight="900">IPSO</text>
+                <text x="190" y="185" text-anchor="middle" fill="#0b2345" font-size="12" font-weight="900">+ GWO</text>
               </g>
               <!-- Edge / Fog / Cloud floating nodes -->
               <g class="kz-bob">
-                <rect x="28" y="48" width="84" height="44" rx="22" fill="url(#edgeGrad)"/>
-                <text x="70" y="75" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900">EDGE</text>
+                <rect x="24" y="46" width="88" height="44" rx="22" fill="url(#edgeGrad)"/>
+                <text x="68" y="73" text-anchor="middle" fill="#1e1000" font-size="13" font-weight="900">EDGE</text>
               </g>
               <g class="kz-bob-2">
-                <rect x="266" y="114" width="84" height="44" rx="22" fill="url(#fogGrad)"/>
-                <text x="308" y="141" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900">FOG</text>
+                <rect x="266" y="114" width="88" height="44" rx="22" fill="url(#fogGrad)"/>
+                <text x="310" y="141" text-anchor="middle" fill="#052126" font-size="13" font-weight="900">FOG</text>
               </g>
               <g class="kz-bob-3">
-                <rect x="52" y="252" width="96" height="44" rx="22" fill="url(#cloudGrad)"/>
-                <text x="100" y="279" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900">CLOUD</text>
+                <rect x="46" y="252" width="100" height="44" rx="22" fill="url(#cloudGrad)"/>
+                <text x="96" y="279" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900">CLOUD</text>
               </g>
             </svg>
-            <p class="viz-caption">Scheduler memetakan setiap task ke lapisan komputasi yang paling tepat.</p>
+            <p class="viz-caption">Scheduler memetakan setiap task ke lapisan komputasi yang paling efisien.</p>
           </div>
         </div>
       </div>
-      <span class="slide-number">01 / 20</span>
+      <span class="slide-number">01 / 15</span>
     </section>
 
-    <!-- 02 · Latar Belakang: Arsitektur Edge-Fog-Cloud -->
-    <section class="slide" data-theme="dark">
+    <!-- 02 · Arsitektur 3 Lapis Edge-Fog-Cloud -->
+    <section class="slide" data-theme="dark" data-tone="abyss">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
           <p class="eyebrow">01 · Latar Belakang</p>
@@ -113,91 +115,85 @@
           <div class="slide-grid tight" style="grid-template-columns:1fr" data-reveal>
             <article class="slide-panel">
               <h3>1. Edge / IoT Layer (5 perangkat)</h3>
-              <p>Paling dekat dengan pengguna. Cocok untuk task ringan dan sensitif latensi — gratis biaya eksekusi &amp; komunikasi (<strong>1000 MIPS</strong>, $0), tapi kapasitas terbatas.</p>
+              <p>Paling dekat ke pengguna. Tangani task ringan &amp; sensitif delay secara lokal (<strong>1000 MIPS</strong>, biaya eksekusi &amp; komunikasi $0), kapasitas terbatas.</p>
             </article>
             <article class="slide-panel">
               <h3>2. Fog Layer (5 node perantara)</h3>
-              <p>Menjembatani Edge dan Cloud. Daya komputasi menengah (<strong>1200–1600 MIPS</strong>, $0.1–$0.5) dengan latensi lebih rendah dari data center jauh.</p>
+              <p>Jembatan antara Edge dan Cloud (<strong>1200–1600 MIPS</strong>, $0.1–$0.5, comm $0.01). Mengurangi antrean Cloud dengan latensi rendah.</p>
             </article>
             <article class="slide-panel">
-              <h3>3. Cloud Layer (5 node pusat data)</h3>
-              <p>Kapasitas terbesar untuk beban berat (<strong>1600–2000 MIPS</strong>, $0.5–$0.9), namun punya biaya tinggi, uplink sempit (1 Mbps), dan daya idle besar.</p>
+              <h3>3. Cloud Layer (5 server pusat data)</h3>
+              <p>Kapasitas terbesar untuk task berat (<strong>1600–2000 MIPS</strong>, $0.5–$0.9, comm $0.02), tetapi uplink sempit (1 Mbps) dan daya idle sangat tinggi.</p>
             </article>
           </div>
           <div class="viz-stage" data-reveal>
             <svg viewBox="0 0 360 310" role="img" aria-label="Diagram 3 lapisan IoT Edge, Fog, dan Cloud">
               <defs>
                 <linearGradient id="tierCloud" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#3b63e6"/><stop offset="100%" stop-color="#6e94ff"/>
+                  <stop offset="0%" stop-color="#3b63e6"/><stop offset="100%" stop-color="#7fa4ff"/>
                 </linearGradient>
                 <linearGradient id="tierFog" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#0d8a9c"/><stop offset="100%" stop-color="#3ee2e8"/>
+                  <stop offset="0%" stop-color="#0d8c9e"/><stop offset="100%" stop-color="#2de8e8"/>
                 </linearGradient>
                 <linearGradient id="tierEdge" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#ffc04d"/>
+                  <stop offset="0%" stop-color="#e07b10"/><stop offset="100%" stop-color="#ffd257"/>
                 </linearGradient>
               </defs>
-              <!-- Cloud Tier -->
               <g class="kz-bob">
-                <rect x="30" y="18" width="300" height="68" rx="18" fill="url(#tierCloud)" opacity="0.95"/>
-                <text x="52" y="48" fill="#ffffff" font-size="14" font-weight="900">CLOUD LAYER</text>
-                <text x="52" y="68" fill="#dce7ff" font-size="11" font-weight="700">1600–2000 MIPS · Idle 1300 MW* · $0.5–$0.9</text>
+                <rect x="28" y="18" width="304" height="68" rx="18" fill="url(#tierCloud)"/>
+                <text x="50" y="48" fill="#ffffff" font-size="14" font-weight="900">CLOUD LAYER</text>
+                <text x="50" y="68" fill="#dce7ff" font-size="11" font-weight="700">1600–2000 MIPS · Idle 1300 MW* · $0.5–$0.9</text>
               </g>
-              <!-- Flow arrows Cloud <-> Fog -->
-              <line x1="180" y1="88" x2="180" y2="120" stroke="#6e94ff" stroke-width="2.5" stroke-dasharray="4 4"/>
-              <circle cx="180" cy="96" r="5" fill="#3ee2e8" class="kz-flow-y"/>
-              <!-- Fog Tier (Hero Orb Anchor) -->
+              <line x1="180" y1="88" x2="180" y2="122" stroke="#7fa4ff" stroke-width="2.5" stroke-dasharray="4 4"/>
+              <circle cx="180" cy="92" r="5.5" fill="#2de8e8" class="kz-flow-y"/>
               <g class="kz-bob-2">
-                <rect x="30" y="122" width="300" height="68" rx="18" fill="url(#tierFog)" opacity="0.95"/>
-                <circle cx="298" cy="156" r="18" fill="rgba(255,255,255,0.22)" data-hero-orb/>
-                <text x="52" y="152" fill="#071926" font-size="14" font-weight="900">FOG LAYER</text>
-                <text x="52" y="172" fill="#072833" font-size="11" font-weight="800">1200–1600 MIPS · Idle 40 MW* · $0.1–$0.5</text>
+                <rect x="28" y="122" width="304" height="68" rx="18" fill="url(#tierFog)"/>
+                <circle cx="298" cy="156" r="18" fill="rgba(255,255,255,0.28)" data-hero-orb/>
+                <text x="50" y="152" fill="#061d24" font-size="14" font-weight="900">FOG LAYER</text>
+                <text x="50" y="172" fill="#072b36" font-size="11" font-weight="800">1200–1600 MIPS · Idle 40 MW* · $0.1–$0.5</text>
               </g>
-              <!-- Flow arrows Fog <-> Edge -->
-              <line x1="180" y1="192" x2="180" y2="224" stroke="#3ee2e8" stroke-width="2.5" stroke-dasharray="4 4"/>
-              <circle cx="180" cy="200" r="5" fill="#ffc04d" class="kz-flow-y"/>
-              <!-- Edge Tier -->
+              <line x1="180" y1="192" x2="180" y2="226" stroke="#2de8e8" stroke-width="2.5" stroke-dasharray="4 4"/>
+              <circle cx="180" cy="196" r="5.5" fill="#ffc43d" class="kz-flow-y-delay"/>
               <g class="kz-bob-3">
-                <rect x="30" y="226" width="300" height="68" rx="18" fill="url(#tierEdge)" opacity="0.95"/>
-                <text x="52" y="256" fill="#1f1200" font-size="14" font-weight="900">EDGE / IoT LAYER</text>
-                <text x="52" y="276" fill="#2b1800" font-size="11" font-weight="800">1000 MIPS · Idle 30 MW* · Gratis ($0)</text>
+                <rect x="28" y="226" width="304" height="68" rx="18" fill="url(#tierEdge)"/>
+                <text x="50" y="256" fill="#1f1100" font-size="14" font-weight="900">EDGE / IoT LAYER</text>
+                <text x="50" y="276" fill="#2b1700" font-size="11" font-weight="800">1000 MIPS · Idle 30 MW* · Gratis ($0)</text>
               </g>
             </svg>
-            <p class="viz-caption">*Satuan daya tertulis "MW" pada Tabel 2 paper (FogWorkflowSim). Angka diambil langsung dari Tabel 2 Awad dkk. (2026).</p>
+            <p class="viz-caption">*Satuan daya tertulis "MW" pada Tabel 2 Awad dkk. (2026) di FogWorkflowSim.</p>
           </div>
         </div>
       </div>
-      <span class="slide-number">02 / 20</span>
+      <span class="slide-number">02 / 15</span>
     </section>
 
-    <!-- 03 · Mengapa Workflow DAG & NP-Hard Butuh Metaheuristik -->
-    <section class="slide" data-theme="light">
+    <!-- 03 · Workflow DAG, NP-Hard & Metaheuristik -->
+    <section class="slide" data-theme="dark" data-tone="nebula">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
           <p class="eyebrow">02 · Akar Masalah</p>
           <span class="source-badge theory">Teori standar</span>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Mengapa workflow DAG itu sulit (NP-Hard)?</h2>
+        <h2 class="slide-title">Mengapa workflow DAG itu NP-Hard?</h2>
         <div class="slide-grid visual-split">
           <div class="slide-grid tight" style="grid-template-columns:1fr" data-reveal>
             <article class="slide-panel">
               <h3>Task independen vs. Workflow (DAG)</h3>
-              <p>Pada task independen, tugas boleh dikerjakan acak. Pada <strong>workflow berbentuk DAG</strong> \(G=(T,E)\), tugas anak \(t_j\) <em>wajib menunggu</em> induk \(t_i\) selesai dan data hasil \(d_{i,j}\) selesai dikirim.</p>
+              <p>Pada <strong>DAG</strong> \(G=(T,E)\), task anak \(t_j\) <em>wajib menunggu</em> task induk \(t_i\) selesai sekaligus menunggu transfer data \(d_{i,j}\). Task pada level sama boleh berjalan paralel.</p>
             </article>
             <article class="slide-panel">
               <h3>Ledakan kombinasi (NP-Hard)</h3>
-              <p>Jika ada \(M\) task dan \(V\) node/VM, jumlah kemungkinan jadwal adalah \(V^M\). Untuk 100 task pada 15 node, ada \(15^{100} \approx 4 \times 10^{117}\) jadwal — mustahil dicoba satu per satu (brute force)!</p>
+              <p>Memetakan \(M\) task ke \(V\) VM menghasilkan \(V^M\) jadwal. Untuk 100 task pada 15 VM ada \(15^{100} \approx 4\times 10^{117}\) kombinasi — mustahil dicek satu per satu!</p>
             </article>
             <article class="slide-panel">
-              <h3>Solusinya: Metaheuristik</h3>
-              <p>Metaheuristik (seperti PSO &amp; GWO) tidak menjamin jawaban sempurna 100%, tapi mampu menemukan jadwal <strong>mendekati optimal dalam hitungan detik</strong> lewat pencarian cerdas berbasis populasi.</p>
+              <h3>Mengapa metaheuristik?</h3>
+              <p>Algoritma berbasis populasi (PSO, GWO) menelusuri ruang solusi secara cerdas agar menemukan jadwal <strong>mendekati optimal dalam waktu singkat</strong>.</p>
             </article>
           </div>
           <div class="viz-stage" data-reveal>
             <svg viewBox="0 0 360 280" role="img" aria-label="Ilustrasi Directed Acyclic Graph workflow">
-              <!-- Edges -->
-              <g stroke="#2f55d4" stroke-width="2.5" opacity="0.45">
+              <g stroke="#7fa4ff" stroke-width="2.5" opacity="0.48">
                 <line x1="180" y1="42" x2="88" y2="112"/>
                 <line x1="180" y1="42" x2="180" y2="112"/>
                 <line x1="180" y1="42" x2="272" y2="112"/>
@@ -208,51 +204,48 @@
                 <line x1="132" y1="216" x2="180" y2="246"/>
                 <line x1="232" y1="216" x2="180" y2="246"/>
               </g>
-              <!-- Animated data transfer pulses -->
-              <circle cx="180" cy="64" r="5" fill="#0e8a9c" class="kz-flow-y"/>
-              <circle cx="132" cy="166" r="5" fill="#e68a00" class="kz-flow-y"/>
-              <!-- Nodes -->
-              <g class="kz-bob">
-                <circle cx="180" cy="36" r="22" fill="#2f55d4"/>
+              <circle cx="180" cy="60" r="5.5" fill="#2de8e8" class="kz-flow-y"/>
+              <circle cx="132" cy="156" r="5.5" fill="#ffc43d" class="kz-flow-y-delay"/>
+              <g class="kz-bob" data-hero-orb>
+                <circle cx="180" cy="36" r="22" fill="#4e7bff"/>
                 <text x="180" y="41" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">T1</text>
               </g>
               <g class="kz-bob-2">
-                <circle cx="88" cy="124" r="20" fill="#0e8a9c"/>
-                <text x="88" y="129" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">T2</text>
-                <circle cx="180" cy="124" r="20" fill="#0e8a9c"/>
-                <text x="180" y="129" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">T3</text>
-                <circle cx="272" cy="124" r="20" fill="#0e8a9c"/>
-                <text x="272" y="129" text-anchor="middle" fill="#fff" font-size="12" font-weight="900">T4</text>
+                <circle cx="88" cy="124" r="20" fill="#2de8e8"/>
+                <text x="88" y="129" text-anchor="middle" fill="#062129" font-size="12" font-weight="900">T2</text>
+                <circle cx="180" cy="124" r="20" fill="#2de8e8"/>
+                <text x="180" y="129" text-anchor="middle" fill="#062129" font-size="12" font-weight="900">T3</text>
+                <circle cx="272" cy="124" r="20" fill="#2de8e8"/>
+                <text x="272" y="129" text-anchor="middle" fill="#062129" font-size="12" font-weight="900">T4</text>
               </g>
               <g class="kz-bob-3">
-                <circle cx="132" cy="200" r="19" fill="#e68a00"/>
-                <text x="132" y="205" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">T5</text>
-                <circle cx="232" cy="200" r="19" fill="#e68a00"/>
-                <text x="232" y="205" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">T6</text>
+                <circle cx="132" cy="200" r="19" fill="#ffc43d"/>
+                <text x="132" y="205" text-anchor="middle" fill="#211300" font-size="11" font-weight="900">T5</text>
+                <circle cx="232" cy="200" r="19" fill="#ffc43d"/>
+                <text x="232" y="205" text-anchor="middle" fill="#211300" font-size="11" font-weight="900">T6</text>
               </g>
               <g>
-                <circle cx="180" cy="252" r="20" fill="#172033"/>
+                <circle cx="180" cy="252" r="20" fill="#ff5b84"/>
                 <text x="180" y="257" text-anchor="middle" fill="#fff" font-size="11" font-weight="900">Exit</text>
               </g>
             </svg>
-            <p class="viz-caption">T2, T3, T4 bisa berjalan paralel, tetapi baru mulai setelah T1 selesai &amp; mengirim datanya.</p>
+            <p class="viz-caption">T2, T3, T4 berjalan paralel, tetapi baru mulai setelah T1 rampung &amp; mengirim datanya.</p>
           </div>
         </div>
       </div>
-      <span class="slide-number">03 / 20</span>
+      <span class="slide-number">03 / 15</span>
     </section>
 
-    <!-- 04 · Representasi Masalah & Encoding Solusi -->
-    <section class="slide" data-theme="dark">
+    <!-- 04 · Representasi Solusi & Fungsi Fitness -->
+    <section class="slide" data-theme="dark" data-tone="cosmos">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">03 · Representasi Masalah</p>
+          <p class="eyebrow">03 · Encoding &amp; Fungsi Fitness</p>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Satu vektor angka = satu rencana jadwal</h2>
-        <p class="slide-subtitle" data-reveal>Di IPSO-GWO, setiap kandidat solusi (partikel atau serigala) dikodekan sebagai array berukuran \(M\) (jumlah task). <strong>Posisi indeks</strong> = nomor task, <strong>isinya</strong> = ID VM tujuan \(k \in [1, \text{VMs}]\).</p>
+        <h2 class="slide-title">Satu vektor = satu jadwal, dinilai fungsi fitness</h2>
         <div class="slide-panel" data-reveal>
-          <h3>Contoh encoding dari Fig. 5 paper (9 task → 6 VM)</h3>
+          <h3>Encoding vektor (Fig. 5 paper: 9 task → 6 VM)</h3>
           <div class="vec-strip" aria-label="Vektor solusi P sama dengan 5, 2, 1, 4, 3, 6, 1, 6, 4">
             <div class="vec-cell tier-fog"><small>T1</small><strong>VM5</strong></div>
             <div class="vec-cell tier-cloud"><small>T2</small><strong>VM2</strong></div>
@@ -264,131 +257,51 @@
             <div class="vec-cell tier-edge"><small>T8</small><strong>VM6</strong></div>
             <div class="vec-cell tier-fog"><small>T9</small><strong>VM4</strong></div>
           </div>
-          <p>Hasil pemetaan: <strong>Cloud</strong> (VM1–3) menangani {T3, T7}, {T2}, {T5}; <strong>Fog</strong> (VM4–5) menangani {T4, T9}, {T1}; <strong>Edge</strong> (VM6) menangani {T6, T8}.</p>
+          <p>Indeks = nomor task; nilai integer \(k \in [1, \text{VMs}]\) = VM tujuan (Cloud VM1–3, Fog VM4–5, Edge VM6). Urutan dependensi DAG dijaga otomatis oleh <em>workflow engine</em> FogWorkflowSim.</p>
         </div>
-        <details class="learn-more" data-reveal>
-          <summary>Pelajari lebih lanjut: Bagaimana dependensi DAG &amp; VM di Edge dijaga?</summary>
-          <div class="learn-more-body">
-            <p><strong>Penjaga urutan DAG:</strong> Vektor solusi hanya menentukan <em>task mana jalan di VM mana</em>. Urutan eksekusi induk–anak tetap dijaga otomatis oleh <em>workflow engine</em> di <strong>FogWorkflowSim</strong>, yang menahan task anak sampai seluruh induk selesai dan data transfer tiba.</p>
-            <p><strong>Mengapa Edge punya VM?</strong> Paper memasang VM ringan di perangkat akhir (Edge) agar task kecil &amp; sensitif latensi bisa langsung diproses lokal tanpa harus selalu naik ke Fog/Cloud, sekaligus terisolasi antar aplikasi.</p>
-          </div>
-        </details>
-      </div>
-      <span class="slide-number">04 / 20</span>
-    </section>
-
-    <!-- 05 · Fungsi Fitness & Tiga Objektif -->
-    <section class="slide" data-theme="light">
-      <div class="slide-inner">
-        <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">04 · Fungsi Fitness</p>
-          <span class="source-badge paper">Dari paper</span>
+        <div class="formula" style="margin-top:12px" data-reveal>
+          $$F(p) = w_1 \cdot MS + w_2 \cdot TE + w_3 \cdot TC \qquad (w_1 = w_2 = w_3 = 0.2,\;\text{makin kecil makin baik})$$
         </div>
-        <h2 class="slide-title">Menilai seberapa bagus sebuah jadwal</h2>
-        <div class="formula" data-reveal>
-          $$F(p) = w_1 \cdot MS + w_2 \cdot TE + w_3 \cdot TC \qquad (w_1 = w_2 = w_3 = 0.2)$$
-        </div>
-        <div class="slide-grid three tight" style="margin-top:14px" data-reveal>
+        <div class="slide-grid three tight" style="margin-top:12px" data-reveal>
           <article class="slide-panel">
-            <h3>1. Makespan (\(MS\))</h3>
-            <p>Total durasi workflow dari task pertama mulai hingga task terakhir selesai:</p>
-            <p>\(MS = \max(FT_{t_i}) - \min(ST_{t_i})\)</p>
+            <h3>Makespan (\(MS\))</h3>
+            <p>Total durasi workflow: \(\max(FT_{t_i}) - \min(ST_{t_i})\).</p>
           </article>
           <article class="slide-panel">
-            <h3>2. Total Energi (\(TE\))</h3>
-            <p>Gabungan energi saat sibuk mengeksekusi task (\(E_{\text{active}}\)) dan energi saat node menganggur/<em>sleep mode</em> (\(E_{\text{idle}}\)).</p>
+            <h3>Total Energi (\(TE\))</h3>
+            <p>\(E_{\text{active}} + E_{\text{idle}}\) (termasuk daya saat node menganggur/<em>sleep mode</em>).</p>
           </article>
           <article class="slide-panel">
-            <h3>3. Total Biaya (\(TC\))</h3>
-            <p>Biaya sewa komputasi per detik di tiap VM (\(CE\)) ditambah biaya transfer data antar node (\(CC\); bernilai 0 jika di node sama atau di Edge).</p>
+            <h3>Total Biaya (\(TC\))</h3>
+            <p>Sewa komputasi VM (\(CE\)) + biaya transfer data antar node (\(CC\); 0 di Edge).</p>
           </article>
         </div>
         <details class="learn-more" data-reveal>
           <summary>Pelajari lebih lanjut: Rumus lengkap Eqs. (1)–(7) &amp; alasan bobot 0.2</summary>
           <div class="learn-more-body">
-            <p><strong>Mengapa \(w_1=w_2=w_3=0.2\) (total 0.6)?</strong> Paper mengikuti studi Subramoney &amp; Nyirenda (2022) untuk memberi bobot setara pada ketiga objektif sambil menyisakan ruang bobot bagi metrik QoS tambahan di riset lanjutan. Karena ini masalah minimisasi, <strong>semakin kecil \(F(p)\), semakin baik jadwalnya</strong>.</p>
-            <p><strong>Energi (Eqs. 2–4):</strong> \(E_{\text{active}} = \sum \alpha f_i V_i^2 (FT_{t_i}-ST_{t_i})\), \(E_{\text{idle}} = \sum \alpha f_{\min,j} V_{\min,j}^2 L_{j,k}\). Di FogWorkflowSim, tegangan &amp; frekuensi dibuat konstan lewat profil <em>busy/idle power</em> pada Tabel 2 (tanpa DVFS dinamis).</p>
-            <p><strong>Biaya (Eqs. 5–7):</strong> \(CE_i^r = p_r (FT_{t_i}-ST_{t_i})\) dan \(CC_{i,j} = trc_{i,j} \cdot d_{i,j}\).</p>
+            <p><strong>Bobot setara \(0.2\):</strong> Mengikuti Subramoney &amp; Nyirenda (2022) agar ketiga objektif seimbang sekaligus menyisakan ruang untuk metrik QoS tambahan di riset lanjutan.</p>
+            <p><strong>Energi (Eqs. 2–4):</strong> \(E_{\text{active}}=\sum \alpha f_i V_i^2(FT_{t_i}-ST_{t_i})\), \(E_{\text{idle}}=\sum \alpha f_{\min,j} V_{\min,j}^2 L_{j,k}\) (disimulasikan dengan daya busy/idle konstan Tabel 2, tanpa DVFS). <strong>Biaya (Eqs. 5–7):</strong> \(CE_i^r=p_r(FT_{t_i}-ST_{t_i})\), \(CC_{i,j}=trc_{i,j}\cdot d_{i,j}\).</p>
           </div>
         </details>
       </div>
-      <span class="slide-number">05 / 20</span>
+      <span class="slide-number">04 / 15</span>
     </section>
 
-    <!-- 06 · Intuisi PSO -->
-    <section class="slide" data-theme="dark">
+    <!-- 05 · Teori & Rumus PSO + Interactive Sandbox -->
+    <section class="slide" data-theme="dark" data-tone="abyss">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">05 · Intuisi PSO</p>
-          <span class="source-badge theory">Teori standar</span>
-        </div>
-        <h2 class="slide-title">Analogi PSO: kawanan burung mencari makan</h2>
-        <div class="slide-grid visual-split">
-          <div class="slide-grid tight" style="grid-template-columns:1fr" data-reveal>
-            <article class="slide-panel">
-              <h3>Partikel = satu kandidat jadwal</h3>
-              <p>Bayangkan 25 burung terbang mencari titik makanan terbaik di lembah yang berkabut. Setiap posisi burung adalah satu kemungkinan jadwal workflow.</p>
-            </article>
-            <article class="slide-panel">
-              <h3>Memori pribadi (<code>pbest</code>)</h3>
-              <p>Tiap burung mengingat titik terbaik yang <em>pernah ia temukan sendiri</em> sepanjang perjalanan.</p>
-            </article>
-            <article class="slide-panel">
-              <h3>Info kawanan (<code>gbest</code>)</h3>
-              <p>Seluruh kawanan juga tahu titik terbaik yang ditemukan <em>oleh siapa pun</em> di kelompoknya, lalu sama-sama bergerak mengarah ke sana.</p>
-            </article>
-          </div>
-          <div class="viz-stage" data-reveal>
-            <svg viewBox="0 0 360 270" role="img" aria-label="Animasi kawanan partikel bergerak menuju gbest">
-              <!-- Contours around gbest -->
-              <circle cx="252" cy="130" r="88" fill="none" stroke="rgba(62,226,232,0.16)" stroke-width="2" stroke-dasharray="6 6"/>
-              <circle cx="252" cy="130" r="54" fill="none" stroke="rgba(62,226,232,0.28)" stroke-width="2"/>
-              <circle cx="252" cy="130" r="28" fill="rgba(255,192,77,0.20)" class="kz-pulse"/>
-              <!-- gbest beacon (Hero Orb Anchor) -->
-              <g data-hero-orb>
-                <circle cx="252" cy="130" r="18" fill="#ffc04d"/>
-                <text x="252" y="134" text-anchor="middle" fill="#1a1200" font-size="10" font-weight="900">gbest</text>
-              </g>
-              <!-- Swarm particles converging -->
-              <g class="kz-swarm-1">
-                <circle cx="76" cy="76" r="13" fill="#6e94ff"/>
-                <text x="76" y="80" text-anchor="middle" fill="#fff" font-size="10" font-weight="900">P1</text>
-              </g>
-              <g class="kz-swarm-2">
-                <circle cx="118" cy="206" r="13" fill="#3ee2e8"/>
-                <text x="118" y="210" text-anchor="middle" fill="#062128" font-size="10" font-weight="900">P2</text>
-              </g>
-              <g class="kz-swarm-3">
-                <circle cx="62" cy="154" r="12" fill="#8bb0ff"/>
-                <text x="62" y="158" text-anchor="middle" fill="#0b1838" font-size="10" font-weight="900">P3</text>
-              </g>
-              <g class="kz-swarm-4">
-                <circle cx="164" cy="54" r="12" fill="#ff7a96"/>
-                <text x="164" y="58" text-anchor="middle" fill="#fff" font-size="10" font-weight="900">P4</text>
-              </g>
-            </svg>
-            <p class="viz-caption">Partikel bergerak memadukan arah lama, memori <code>pbest</code>, dan daya tarik <code>gbest</code>.</p>
-          </div>
-        </div>
-      </div>
-      <span class="slide-number">06 / 20</span>
-    </section>
-
-    <!-- 07 · Rumus PSO + Interactive Sandbox -->
-    <section class="slide" data-theme="light">
-      <div class="slide-inner">
-        <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">06 · Rumus &amp; Eksperimen Mini PSO</p>
+          <p class="eyebrow">04 · Teori &amp; Sandbox PSO</p>
           <span class="source-badge theory">Teori standar</span>
           <span class="source-badge demo">Ilustrasi kami</span>
         </div>
-        <h2 class="slide-title">Arti simbol rumus PSO &amp; efek parameternya</h2>
+        <h2 class="slide-title">PSO: kawanan mencari <code>pbest</code> &amp; <code>gbest</code></h2>
         <div class="formula" data-reveal>
-          $$V_i(t+1) = \underbrace{w \cdot V_i(t)}_{\text{inersia}} + \underbrace{C_1 r_1 (pbest_i - X_i(t))}_{\text{kognitif / diri sendiri}} + \underbrace{C_2 r_2 (gbest - X_i(t))}_{\text{sosial / kawanan}}, \qquad X_i(t+1)=X_i(t)+V_i(t+1)$$
+          $$V_i(t+1) = \underbrace{w\,V_i(t)}_{\text{inersia}} + \underbrace{C_1 r_1(pbest_i - X_i(t))}_{\text{memori pribadi}} + \underbrace{C_2 r_2(gbest - X_i(t))}_{\text{info kawanan}}, \quad X_i(t+1)=X_i(t)+V_i(t+1)$$
         </div>
-        <div class="slide-grid visual-split" style="margin-top:14px">
+        <div class="slide-grid visual-split" style="margin-top:12px">
           <article class="slide-panel" data-reveal>
-            <h3>Coba geser parameter (1 partikel contoh)</h3>
+            <h3>Geser parameter — lihat gerak 1 partikel</h3>
             <div class="interactive-controls">
               <div class="slider-row">
                 <label for="pso-w">Inersia (w)</label>
@@ -406,45 +319,46 @@
                 <output id="pso-c2-val" for="pso-c2">2.0</output>
               </div>
             </div>
-            <p id="pso-sandbox-note" style="margin-top:10px;font-weight:700"></p>
-            <p style="margin-top:8px"><strong>Kelemahan PSO standar:</strong> jika \(w\) tetap tinggi atau semua partikel terlalu cepat berkumpul ke <code>gbest</code>, kawanan kehilangan variasi dan terjebak di <strong>konvergensi prematur</strong> (optimum lokal).</p>
+            <p id="pso-sandbox-note" style="margin-top:10px;color:var(--accent-warm);font-weight:700"></p>
+            <p style="margin-top:6px"><strong>Kelemahan PSO standar:</strong> bila kawanan terlalu cepat menyatu ke satu <code>gbest</code>, variasi hilang dan terjebak <strong>konvergensi prematur</strong> (optimum lokal).</p>
           </article>
           <div class="viz-stage" data-reveal>
             <svg viewBox="0 0 380 210" role="img" aria-label="Lintasan interaktif partikel PSO terhadap pbest dan gbest">
-              <rect x="8" y="8" width="364" height="194" rx="14" fill="var(--surface-subtle)"/>
-              <!-- Start, pbest, gbest markers -->
-              <circle cx="58" cy="148" r="8" fill="#42516b"/>
-              <text x="58" y="172" text-anchor="middle" fill="var(--text-muted)" font-size="11" font-weight="800">Start</text>
-              <circle cx="150" cy="58" r="11" fill="#0e8a9c"/>
-              <text x="150" y="40" text-anchor="middle" fill="var(--heading-color)" font-size="11" font-weight="900">pbest</text>
-              <circle cx="318" cy="122" r="14" fill="#e68a00"/>
-              <text x="318" y="100" text-anchor="middle" fill="var(--heading-color)" font-size="11" font-weight="900">gbest</text>
-              <!-- Dynamic trajectory path -->
-              <path id="pso-path" d="M58,148 L140,120" fill="none" stroke="#2f55d4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+              <rect x="8" y="8" width="364" height="194" rx="14" fill="rgba(24,42,79,0.72)"/>
+              <circle cx="318" cy="122" r="34" fill="none" stroke="rgba(255,196,61,0.34)" stroke-width="2" class="kz-sonar"/>
+              <circle cx="58" cy="148" r="8" fill="#8ab0ff"/>
+              <text x="58" y="172" text-anchor="middle" fill="#b6c6e0" font-size="11" font-weight="800">Start</text>
+              <circle cx="150" cy="56" r="12" fill="#2de8e8"/>
+              <text x="150" y="38" text-anchor="middle" fill="#90f7f7" font-size="11" font-weight="900">pbest</text>
+              <g data-hero-orb>
+                <circle cx="318" cy="122" r="15" fill="#ffc43d"/>
+                <text x="318" y="99" text-anchor="middle" fill="#ffe08a" font-size="11" font-weight="900">gbest</text>
+              </g>
+              <path id="pso-path" d="M58,148 L140,120" fill="none" stroke="#5e8bff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
               <g id="pso-end-dot" transform="translate(140,120)">
-                <circle cx="0" cy="0" r="10" fill="#2f55d4"/>
-                <circle cx="0" cy="0" r="4" fill="#ffffff"/>
+                <circle cx="0" cy="0" r="10" fill="#3cf0a5"/>
+                <circle cx="0" cy="0" r="4" fill="#081529"/>
               </g>
             </svg>
-            <p class="viz-caption">\(r_1, r_2 \in [0,1]\) adalah faktor acak (pada demo ini ditahan tetap agar efek \(w, c_1, c_2\) mudah diamati).</p>
+            <p class="viz-caption">\(r_1, r_2 \in [0,1]\) adalah variasi acak (di demo ini ditahan tetap agar efek \(w, c_1, c_2\) terlihat jelas).</p>
           </div>
         </div>
       </div>
-      <span class="slide-number">07 / 20</span>
+      <span class="slide-number">05 / 15</span>
     </section>
 
-    <!-- 08 · Intuisi GWO + Interactive Clickable Wolf Pack -->
-    <section class="slide" data-theme="dark">
+    <!-- 06 · Teori GWO: Hierarki Serigala (Interaktif) -->
+    <section class="slide" data-theme="dark" data-tone="nebula">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">07 · Teori GWO</p>
+          <p class="eyebrow">05 · Teori GWO · Hierarki</p>
           <span class="source-badge theory">Teori standar</span>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Hierarki serigala abu-abu memimpin perburuan</h2>
+        <h2 class="slide-title">Tiga pemimpin serigala menjaga arah perburuan</h2>
         <div class="slide-grid visual-split">
           <div data-reveal>
-            <p class="slide-subtitle">Berbeda dari PSO yang hanya dipandu 1 titik global, <strong>Grey Wolf Optimization</strong> memandu kawanan memakai <strong>3 pemimpin terbaik sekaligus</strong> (α, β, δ). Klik peran di bawah untuk melihat tugasnya:</p>
+            <p class="slide-subtitle">Berbeda dari PSO yang bergantung pada 1 titik global, <strong>Grey Wolf Optimization</strong> memandu kawanan memakai <strong>3 solusi terbaik sekaligus (α, β, δ)</strong>. Klik tiap peran:</p>
             <div class="wolf-tabs" role="group" aria-label="Pilih peran serigala GWO">
               <button type="button" class="wolf-btn" data-wolf-role="alpha" aria-pressed="true">α Alpha</button>
               <button type="button" class="wolf-btn" data-wolf-role="beta" aria-pressed="false">β Beta</button>
@@ -453,86 +367,80 @@
             </div>
             <div class="wolf-detail-box" aria-live="polite">
               <h4 id="wolf-role-title">Alpha (α) — Pemimpin Kawanan</h4>
-              <p id="wolf-role-desc">Memegang jadwal dengan fitness terbaik.</p>
+              <p id="wolf-role-desc">Memegang jadwal dengan fitness paling rendah.</p>
             </div>
           </div>
           <div class="viz-stage" data-reveal>
-            <svg viewBox="0 0 360 280" role="img" aria-label="Kawanan serigala Alpha, Beta, Delta, Omega mengepung mangsa">
-              <!-- Encircling dashed ring -->
-              <circle cx="180" cy="144" r="96" fill="none" stroke="rgba(62,226,232,0.34)" stroke-width="2.5" stroke-dasharray="8 8" class="kz-wolf-ring"/>
-              <!-- Prey (optimal solution) -->
+            <svg viewBox="0 0 360 275" role="img" aria-label="Kawanan serigala Alpha, Beta, Delta, Omega mengepung mangsa">
+              <circle cx="180" cy="142" r="96" fill="none" stroke="rgba(45,232,232,0.38)" stroke-width="2.5" stroke-dasharray="8 8" class="kz-wolf-ring"/>
+              <circle cx="180" cy="142" r="32" fill="none" stroke="rgba(255,91,132,0.45)" stroke-width="2" class="kz-sonar"/>
               <g data-hero-orb>
-                <circle cx="180" cy="144" r="22" fill="#ff7a96" class="kz-pulse"/>
-                <text x="180" y="148" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="900">MANGSA</text>
+                <circle cx="180" cy="142" r="23" fill="#ff5b84" class="kz-pulse"/>
+                <text x="180" y="146" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="900">MANGSA</text>
               </g>
-              <!-- Alpha -->
               <g class="kz-wolf-node" data-wolf-svg="alpha" tabindex="0" role="button" aria-label="Serigala Alpha">
-                <polygon points="180,30 156,74 204,74" fill="#ffc04d"/>
-                <circle cx="180" cy="58" r="18" fill="#ffc04d"/>
-                <text x="180" y="63" text-anchor="middle" fill="#1e1300" font-size="14" font-weight="900">α</text>
+                <polygon points="180,26 154,72 206,72" fill="#ffc43d"/>
+                <circle cx="180" cy="56" r="18" fill="#ffc43d"/>
+                <text x="180" y="61" text-anchor="middle" fill="#1e1300" font-size="14" font-weight="900">α</text>
               </g>
-              <!-- Beta -->
               <g class="kz-wolf-node" data-wolf-svg="beta" tabindex="0" role="button" aria-label="Serigala Beta">
-                <circle cx="88" cy="126" r="20" fill="#6e94ff"/>
-                <text x="88" y="131" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900">β</text>
+                <circle cx="86" cy="124" r="21" fill="#5e8bff"/>
+                <text x="86" y="129" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900">β</text>
               </g>
-              <!-- Delta -->
               <g class="kz-wolf-node" data-wolf-svg="delta" tabindex="0" role="button" aria-label="Serigala Delta">
-                <circle cx="272" cy="126" r="20" fill="#3ee2e8"/>
-                <text x="272" y="131" text-anchor="middle" fill="#062129" font-size="14" font-weight="900">δ</text>
+                <circle cx="274" cy="124" r="21" fill="#2de8e8"/>
+                <text x="274" y="129" text-anchor="middle" fill="#062129" font-size="14" font-weight="900">δ</text>
               </g>
-              <!-- Omega wolves -->
               <g class="kz-wolf-node" data-wolf-svg="omega" tabindex="0" role="button" aria-label="Serigala Omega">
-                <circle cx="116" cy="224" r="15" fill="#8b9dc2"/>
-                <text x="116" y="229" text-anchor="middle" fill="#0d1525" font-size="12" font-weight="900">ω</text>
-                <circle cx="180" cy="238" r="15" fill="#8b9dc2"/>
-                <text x="180" y="243" text-anchor="middle" fill="#0d1525" font-size="12" font-weight="900">ω</text>
-                <circle cx="244" cy="224" r="15" fill="#8b9dc2"/>
-                <text x="244" y="229" text-anchor="middle" fill="#0d1525" font-size="12" font-weight="900">ω</text>
+                <circle cx="116" cy="222" r="15" fill="#8b9dc2"/>
+                <text x="116" y="227" text-anchor="middle" fill="#0b1428" font-size="12" font-weight="900">ω</text>
+                <circle cx="180" cy="236" r="15" fill="#8b9dc2"/>
+                <text x="180" y="241" text-anchor="middle" fill="#0b1428" font-size="12" font-weight="900">ω</text>
+                <circle cx="244" cy="222" r="15" fill="#8b9dc2"/>
+                <text x="244" y="227" text-anchor="middle" fill="#0b1428" font-size="12" font-weight="900">ω</text>
               </g>
             </svg>
-            <p class="viz-caption">Klik lingkaran α, β, δ, atau ω di gambar untuk menyorot perannya.</p>
+            <p class="viz-caption">Klik lingkaran α, β, δ, atau ω pada gambar untuk melihat perannya.</p>
           </div>
         </div>
       </div>
-      <span class="slide-number">08 / 20</span>
+      <span class="slide-number">06 / 15</span>
     </section>
 
-    <!-- 09 · Tiga Fase & Rumus GWO + Interactive 'a' Slider -->
-    <section class="slide" data-theme="light">
+    <!-- 07 · Tiga Fase & Rumus GWO + Interactive Slider a -->
+    <section class="slide" data-theme="dark" data-tone="cosmos">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">08 · Rumus &amp; Mekanisme GWO</p>
+          <p class="eyebrow">06 · Rumus &amp; Fase GWO</p>
           <span class="source-badge theory">Teori standar</span>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Dari mencari luas ke menyerang target (\(a: 2 \to 0\))</h2>
+        <h2 class="slide-title">Dari mencari luas ke menyerang (\(a: 2 \to 0\))</h2>
         <div class="slide-grid visual-split">
           <div data-reveal>
-            <div class="formula" style="font-size:0.95rem">
-              $$D_k = |C_k \cdot X_k(t) - X(t)|, \quad X_k' = X_k(t) - A_k \cdot D_k$$
-              $$X(t+1) = \frac{X_1' + X_2' + X_3'}{3}, \qquad A = 2 a r_1 - a,\quad C = 2 r_2$$
-              $$a(t) = 2 - \frac{2t}{I_{\max}}$$
+            <div class="formula" style="font-size:0.92rem">
+              $$D_k = |C_k X_k(t) - X(t)|,\quad X_k' = X_k(t) - A_k D_k$$
+              $$X(t+1) = \frac{X_1' + X_2' + X_3'}{3},\quad A = 2ar_1 - a,\quad C = 2r_2,\quad a(t)=2-\frac{2t}{I_{\max}}$$
             </div>
             <article class="slide-panel" style="margin-top:12px">
-              <h3>Arti simbol penting</h3>
+              <h3>Tiga fase kendali parameter \(a, A, C\)</h3>
               <ul>
-                <li><strong>\(a\)</strong>: parameter kendali yang turun linear dari 2 ke 0 sepanjang iterasi.</li>
-                <li><strong>\(A \in [-a, +a]\)</strong>: pengatur eksplorasi vs. eksploitasi. Jika \(|A| > 1\) serigala menyebar (mencari); jika \(|A| < 1\) serigala merapat (menyerang).</li>
-                <li><strong>\(C \in [0, 2]\)</strong>: bobot acak posisi mangsa agar tidak terjebak di optimum lokal.</li>
+                <li><strong>Mencari (\(|A| > 1\)):</strong> Saat \(a\) masih besar, kawanan menyebar menjauhi kandidat lama (<strong>eksplorasi</strong>).</li>
+                <li><strong>Mengepung:</strong> Jarak \(D_\alpha, D_\beta, D_\delta\) dihitung lalu dirata-ratakan; bobot acak \(C \in [0,2]\) mencegah terjebak lokal.</li>
+                <li><strong>Menyerang (\(|A| < 1\)):</strong> Saat \(a \to 0\), langkah mengecil memusat tepat ke target (<strong>eksploitasi</strong>).</li>
               </ul>
             </article>
           </div>
           <div class="viz-stage" data-reveal>
-            <svg viewBox="0 0 340 190" role="img" aria-label="Visualisasi penyusutan radius kepungan serigala saat a turun dari 2 ke 0">
-              <circle cx="170" cy="95" r="78" fill="none" stroke="rgba(47,85,212,0.18)" stroke-width="2" stroke-dasharray="5 5"/>
+            <svg viewBox="0 0 340 190" role="img" aria-label="Visualisasi penyusutan kepungan serigala saat a turun dari 2 ke 0">
+              <circle cx="170" cy="95" r="78" fill="none" stroke="rgba(127,164,255,0.22)" stroke-width="2" stroke-dasharray="5 5"/>
               <g id="gwo-radius-ring" style="transform-box:fill-box;transform-origin:center;transition:transform 260ms ease">
-                <circle cx="170" cy="95" r="72" fill="rgba(14,138,156,0.14)" stroke="#0e8a9c" stroke-width="3"/>
-                <circle cx="170" cy="23" r="8" fill="#2f55d4"/>
-                <circle cx="107" cy="131" r="8" fill="#0e8a9c"/>
-                <circle cx="233" cy="131" r="8" fill="#e68a00"/>
+                <circle cx="170" cy="95" r="72" fill="rgba(45,232,232,0.12)" stroke="#2de8e8" stroke-width="3"/>
+                <circle cx="170" cy="23" r="8.5" fill="#ffc43d"/>
+                <circle cx="107" cy="131" r="8.5" fill="#5e8bff"/>
+                <circle cx="233" cy="131" r="8.5" fill="#3cf0a5"/>
               </g>
-              <circle cx="170" cy="95" r="14" fill="#e04f6b"/>
+              <circle cx="170" cy="95" r="14" fill="#ff5b84"/>
               <text x="170" y="99" text-anchor="middle" fill="#fff" font-size="9" font-weight="900">SOL</text>
             </svg>
             <div class="interactive-controls" style="padding:0 6px">
@@ -541,20 +449,20 @@
                 <input id="gwo-iter" type="range" min="0" max="100" step="2" value="20">
                 <output id="gwo-iter-val" for="gwo-iter">20 / 100</output>
               </div>
-              <p id="gwo-a-val" style="margin:0;font-size:0.82rem;font-weight:900;color:var(--heading-color)"></p>
-              <p id="gwo-phase-val" style="margin:0;font-size:0.80rem;color:var(--text-muted)"></p>
+              <p id="gwo-a-val" style="margin:0;font-size:0.81rem;font-weight:900;color:var(--accent-warm)"></p>
+              <p id="gwo-phase-val" style="margin:0;font-size:0.79rem;color:var(--text-muted)"></p>
             </div>
           </div>
         </div>
       </div>
-      <span class="slide-number">09 / 20</span>
+      <span class="slide-number">07 / 15</span>
     </section>
 
-    <!-- 10 · Apa yang "Improved" di IPSO? -->
-    <section class="slide" data-theme="dark">
+    <!-- 08 · Bagian "Improved" pada IPSO -->
+    <section class="slide" data-theme="dark" data-tone="abyss">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">09 · Modifikasi "Improved" pada IPSO</p>
+          <p class="eyebrow">07 · Apa yang "Improved" di IPSO?</p>
           <span class="source-badge paper">Dari paper</span>
         </div>
         <h2 class="slide-title">Bobot inersia turun linear: 0.8 → 0.3</h2>
@@ -563,225 +471,193 @@
             <div class="formula">
               $$w(t) = w_{\text{end}} + (w_{\text{begin}} - w_{\text{end}}) \times \frac{\text{maxIter} - t}{\text{maxIter}}$$
             </div>
-            <div class="slide-grid tight" style="margin-top:14px">
+            <div class="slide-grid tight" style="margin-top:12px">
               <article class="slide-panel">
                 <h3>PSO Standar (Tabel 3)</h3>
-                <p>Memakai inersia konstan \(w = 1\). Partikel cenderung melompat terlalu jauh di akhir iterasi sehingga sulit memoles solusi terbaik.</p>
+                <p>Memakai inersia konstan \(w = 1\). Partikel tetap melompat besar sampai akhir sehingga sulit memoles solusi terbaik.</p>
               </article>
               <article class="slide-panel">
                 <h3>IPSO di Paper (LDIW)</h3>
-                <p>Memakai <strong>Linearly Decreasing Inertia Weight</strong> dari \(w_{\text{begin}}=0.8\) turun ke \(w_{\text{end}}=0.3\) (dengan \(N=25, C_1=C_2=2\)). Awalnya luas menjelajah, makin akhir makin halus.</p>
+                <p><strong>Linearly Decreasing Inertia Weight</strong> turun dari \(0.8 \to 0.3\) (\(N=25, C_1=C_2=2\)). Awalnya luas menjelajah, makin akhir makin halus.</p>
               </article>
             </div>
             <details class="learn-more">
-              <summary>Catatan verifikasi paper: Bagaimana soal chaotic learning factor &amp; local search?</summary>
+              <summary>Verifikasi paper: Bagaimana soal chaotic learning factor &amp; local search?</summary>
               <div class="learn-more-body">
-                <p>Di paragraf pengantar IPSO (hal. 8), penulis menyebut secara umum bahwa perbaikan IPSO di literatur <em>biasanya</em> mencakup (1) inersia adaptif, (2) <em>chaotic/randomized learning factors</em>, dan (3) <em>local search refinement</em>.</p>
-                <p>Namun saat diverifikasi langsung ke <strong>Eq. (9)–(11), Tabel 3, Fig. 3, dan Algorithm 1</strong>, satu-satunya modifikasi yang benar-benar dirumuskan &amp; dieksekusi di paper adalah <strong>LDIW (\(0.8 \to 0.3\))</strong>, sedangkan \(C_1 = C_2 = 2\) tetap konstan dan tidak ada operator <em>local search</em> terpisah.</p>
+                <p>Di paragraf pengantar IPSO (hal. 8), paper menyebut secara umum bahwa variasi IPSO di literatur <em>biasanya</em> mencakup inersia adaptif, <em>chaotic/randomized learning factors</em>, dan <em>local search</em>. Namun setelah diverifikasi langsung ke <strong>Eq. (9)–(11), Tabel 3, Fig. 3, dan Algorithm 1</strong>, satu-satunya modifikasi yang benar-benar dieksekusi di paper adalah <strong>LDIW (\(0.8 \to 0.3\))</strong>, sedangkan \(C_1=C_2=2\) konstan dan tidak ada operator <em>local search</em> terpisah.</p>
               </div>
             </details>
           </div>
           <div class="viz-stage" data-reveal>
             <svg viewBox="0 0 340 240" role="img" aria-label="Grafik penurunan linear bobot inersia w dari 0.8 ke 0.3">
-              <!-- Axes -->
               <line x1="46" y1="192" x2="310" y2="192" stroke="var(--border)" stroke-width="2"/>
               <line x1="46" y1="30" x2="46" y2="192" stroke="var(--border)" stroke-width="2"/>
-              <!-- Exploration / Exploitation zones -->
-              <rect x="48" y="34" width="128" height="156" fill="rgba(110,148,255,0.12)"/>
-              <rect x="176" y="34" width="132" height="156" fill="rgba(62,226,232,0.12)"/>
-              <text x="112" y="54" text-anchor="middle" fill="#8bb0ff" font-size="11" font-weight="800">EKSPLORASI</text>
-              <text x="242" y="54" text-anchor="middle" fill="#3ee2e8" font-size="11" font-weight="800">EKSPLOITASI</text>
-              <!-- Linear decay line -->
-              <line x1="56" y1="68" x2="300" y2="156" stroke="#ffc04d" stroke-width="4.5" stroke-linecap="round"/>
-              <circle cx="56" cy="68" r="9" fill="#6e94ff" data-hero-orb/>
-              <circle cx="300" cy="156" r="9" fill="#3ee2e8"/>
-              <text x="62" y="88" fill="#f0f6ff" font-size="12" font-weight="900">w = 0.8</text>
-              <text x="260" y="144" fill="#f0f6ff" font-size="12" font-weight="900">w = 0.3</text>
-              <text x="178" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="11" font-weight="700">Iterasi t (1 → maxIter)</text>
+              <rect x="48" y="34" width="128" height="156" fill="rgba(94,139,255,0.14)"/>
+              <rect x="176" y="34" width="132" height="156" fill="rgba(45,232,232,0.12)"/>
+              <text x="112" y="54" text-anchor="middle" fill="#8ab0ff" font-size="11" font-weight="900">EKSPLORASI</text>
+              <text x="242" y="54" text-anchor="middle" fill="#2de8e8" font-size="11" font-weight="900">EKSPLOITASI</text>
+              <line x1="56" y1="68" x2="300" y2="156" stroke="#ffc43d" stroke-width="4.5" stroke-linecap="round"/>
+              <!-- Moving luminous bead along the linear decay -->
+              <g class="kz-bead-slide" data-hero-orb>
+                <circle cx="56" cy="68" r="11" fill="#2de8e8"/>
+                <circle cx="56" cy="68" r="5" fill="#ffffff"/>
+              </g>
+              <text x="64" y="92" fill="#f3f7ff" font-size="12" font-weight="900">w = 0.8</text>
+              <text x="256" y="142" fill="#f3f7ff" font-size="12" font-weight="900">w = 0.3</text>
+              <text x="178" y="218" text-anchor="middle" fill="#b6c6e0" font-size="11" font-weight="700">Iterasi t (1 → maxIter)</text>
             </svg>
-            <p class="viz-caption">Penurunan linear menjaga keseimbangan antara pencarian global awal dan pemolesan lokal.</p>
+            <p class="viz-caption">Transisi mulus dari langkah jelajah besar ke pemolesan lokal yang presisi.</p>
           </div>
         </div>
       </div>
-      <span class="slide-number">10 / 20</span>
+      <span class="slide-number">08 / 15</span>
     </section>
 
-    <!-- 11 · Strategi Hybrid IPSO → GWO -->
-    <section class="slide" data-theme="light">
+    <!-- 09 · Strategi Hybrid Dua Fase -->
+    <section class="slide" data-theme="dark" data-tone="nebula">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">10 · Mekanisme Hybrid</p>
+          <p class="eyebrow">08 · Cara Hybrid IPSO + GWO</p>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Estafet dua fase: 50 iterasi IPSO → 50 iterasi GWO</h2>
+        <h2 class="slide-title">Estafet dua babak: 50 IPSO → 50 GWO</h2>
         <div class="viz-stage" style="margin-bottom:14px" data-reveal>
-          <svg viewBox="0 0 760 130" role="img" aria-label="Diagram alir pertukaran informasi antara Fase 1 IPSO dan Fase 2 GWO">
-            <!-- Phase 1 Box -->
-            <rect x="16" y="18" width="276" height="92" rx="20" fill="#2f55d4"/>
+          <svg viewBox="0 0 760 132" role="img" aria-label="Diagram alir pertukaran informasi antara Fase 1 IPSO dan Fase 2 GWO">
+            <rect x="16" y="18" width="276" height="94" rx="20" fill="#3a63e8"/>
             <text x="38" y="50" fill="#ffffff" font-size="15" font-weight="900">FASE 1 · IPSO (Iterasi 1–50)</text>
             <text x="38" y="74" fill="#dbe6ff" font-size="12" font-weight="700">25 partikel · LDIW 0.8 → 0.3</text>
-            <text x="38" y="94" fill="#9eeef2" font-size="11" font-weight="700">Cepat mempersempit wilayah potensial</text>
-            <!-- Handoff Bridge -->
-            <line x1="296" y1="64" x2="454" y2="64" stroke="#0e8a9c" stroke-width="4" stroke-dasharray="8 6"/>
-            <circle cx="330" cy="64" r="7" fill="#e68a00" class="kz-flow-x"/>
-            <circle cx="330" cy="64" r="6" fill="#0e8a9c" class="kz-flow-x-delay"/>
+            <text x="38" y="96" fill="#90f7f7" font-size="11" font-weight="800">Cepat mempersempit wilayah potensial</text>
+
+            <line x1="296" y1="66" x2="458" y2="66" stroke="#2de8e8" stroke-width="4" stroke-dasharray="8 6"/>
+            <circle cx="316" cy="66" r="7" fill="#ffc43d" class="kz-flow-x"/>
+            <circle cx="316" cy="66" r="6" fill="#3cf0a5" class="kz-flow-x-delay"/>
             <g data-hero-orb>
-              <rect x="316" y="20" width="122" height="32" rx="16" fill="#e68a00"/>
-              <text x="377" y="40" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="900">gbest → α-wolf</text>
+              <rect x="316" y="18" width="124" height="32" rx="16" fill="#ffc43d"/>
+              <text x="378" y="38" text-anchor="middle" fill="#1e1200" font-size="11.5" font-weight="900">gbest → α-wolf</text>
             </g>
-            <!-- Phase 2 Box -->
-            <rect x="462" y="18" width="282" height="92" rx="20" fill="#0e8a9c"/>
+
+            <rect x="462" y="18" width="282" height="94" rx="20" fill="#0d8c9e"/>
             <text x="484" y="50" fill="#ffffff" font-size="15" font-weight="900">FASE 2 · GWO (Iterasi 51–100)</text>
             <text x="484" y="74" fill="#d9fafc" font-size="12" font-weight="700">25 serigala · Panduan α, β, δ</text>
-            <text x="484" y="94" fill="#fff1c2" font-size="11" font-weight="700">Jaga keragaman &amp; hindari optimum lokal</text>
+            <text x="484" y="96" fill="#ffe08a" font-size="11" font-weight="800">Jaga keragaman &amp; hindari optimum lokal</text>
           </svg>
         </div>
         <div class="slide-grid three tight" data-reveal>
           <article class="slide-panel">
             <h3>Pertukaran informasi</h3>
-            <p>Pada titik tengah (<code>maxIter/2 = 50</code>), <code>gbest</code> dari IPSO langsung menjadi <strong>serigala Alpha (α)</strong> awal. Struktur vektor task→VM tidak berubah.</p>
+            <p>Di titik tengah (<code>iter = 50</code>), <code>gbest</code> dari IPSO langsung menjadi <strong>serigala Alpha (α)</strong>. Encoding vektor task→VM tetap sama sehingga fitness konsisten.</p>
           </article>
           <article class="slide-panel">
-            <h3>Inisialisasi serigala lain</h3>
-            <p>Paper menyebut serigala selain α dibentuk dengan memberi <strong>variasi kecil (perturbasi)</strong> di sekitar solusi terbaik &amp; acak IPSO agar variasi tetap terjaga.</p>
+            <h3>Populasi serigala awal</h3>
+            <p>Serigala selain α dibentuk dengan memberi <strong>variasi kecil (perturbasi)</strong> di sekitar solusi terbaik &amp; acak IPSO agar diversitas tidak hilang.</p>
           </article>
           <article class="slide-panel">
             <h3>Kriteria berhenti</h3>
-            <p>Diverifikasi dari Fig. 6 &amp; Algorithm 1: berhenti tepat pada <code>maxIter = 100</code> (50 IPSO + 50 GWO), tanpa syarat <em>early stopping</em> tambahan.</p>
+            <p>Diverifikasi dari Fig. 6 &amp; Algorithm 1: berhenti tepat pada <code>maxIter = 100</code> (50 IPSO + 50 GWO), tanpa <em>early stopping</em> tambahan.</p>
           </article>
         </div>
       </div>
-      <span class="slide-number">11 / 20</span>
+      <span class="slide-number">09 / 15</span>
     </section>
 
-    <!-- 12 · Flowchart Eksekusi -->
-    <section class="slide" data-theme="dark">
+    <!-- 10 · Flowchart & Pseudocode -->
+    <section class="slide" data-theme="dark" data-tone="cosmos">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">11 · Flowchart Eksekusi</p>
+          <p class="eyebrow">09 · Flowchart &amp; Pseudocode</p>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Alur kerja lengkap IPSO-GWO (Fig. 6 paper)</h2>
-        <div class="viz-stage" data-reveal>
-          <svg viewBox="0 0 820 320" role="img" aria-label="Flowchart sekuensial IPSO-GWO mengikuti Fig. 6 Awad dkk. 2026">
-            <defs>
-              <marker id="arrowTip" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                <path d="M 0 1 L 10 5 L 0 9 z" fill="#8bb0ff"/>
-              </marker>
-            </defs>
-            <!-- Left column: IPSO -->
-            <rect x="64" y="16" width="236" height="36" rx="18" fill="#ffc04d"/>
-            <text x="182" y="39" text-anchor="middle" fill="#1e1300" font-size="13" font-weight="900">1. Inisialisasi 25 Partikel Acak</text>
-
-            <rect x="44" y="72" width="276" height="128" rx="18" fill="rgba(110,148,255,0.14)" stroke="#6e94ff" stroke-width="2" stroke-dasharray="6 5"/>
-            <text x="182" y="96" text-anchor="middle" fill="#8bb0ff" font-size="12" font-weight="900">FASE 1 · IPSO</text>
-            <rect x="64" y="106" width="236" height="24" rx="8" fill="#1c2e54"/>
-            <text x="182" y="122" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="700">Hitung fitness F(p), update pbest &amp; gbest</text>
-            <rect x="64" y="136" width="236" height="24" rx="8" fill="#1c2e54"/>
-            <text x="182" y="152" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="700">Update velocity (Eq. 9) &amp; posisi (Eq. 10)</text>
-            <rect x="64" y="166" width="236" height="24" rx="8" fill="#1c2e54"/>
-            <text x="182" y="182" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="700">Turunkan bobot inersia w linear (Eq. 11)</text>
-
-            <!-- Decision 1 -->
-            <polygon points="182,220 282,254 182,288 82,254" fill="#152340" stroke="#3ee2e8" stroke-width="2.5"/>
-            <text x="182" y="250" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="800">Iterasi ==</text>
-            <text x="182" y="265" text-anchor="middle" fill="#3ee2e8" font-size="11" font-weight="900">maxIter / 2 ?</text>
-
-            <!-- Loop back IPSO (No) -->
-            <path d="M 82 254 L 20 254 L 20 134 L 44 134" fill="none" stroke="#8bb0ff" stroke-width="2.2" marker-end="url(#arrowTip)"/>
-            <text x="48" y="246" fill="#ff9fb3" font-size="11" font-weight="900">Belum</text>
-
-            <!-- Handoff Yes -> Right column -->
-            <path d="M 282 254 L 382 254 L 382 40 L 496 40" fill="none" stroke="#3ee2e8" stroke-width="2.8" marker-end="url(#arrowTip)"/>
-            <text x="304" y="246" fill="#3ee2e8" font-size="11" font-weight="900">Ya (50)</text>
-            <rect x="330" y="120" width="106" height="32" rx="10" fill="#ffc04d"/>
-            <text x="383" y="140" text-anchor="middle" fill="#1c1200" font-size="11" font-weight="900">gbest → α</text>
-
-            <!-- Right column: GWO -->
-            <rect x="498" y="20" width="260" height="38" rx="18" fill="#0e8a9c"/>
-            <text x="628" y="44" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="900">2. Inisialisasi Kawanan GWO</text>
-
-            <rect x="490" y="76" width="276" height="124" rx="18" fill="rgba(62,226,232,0.12)" stroke="#3ee2e8" stroke-width="2" stroke-dasharray="6 5"/>
-            <text x="628" y="99" text-anchor="middle" fill="#3ee2e8" font-size="12" font-weight="900">FASE 2 · GWO</text>
-            <rect x="510" y="108" width="236" height="24" rx="8" fill="#1c2e54"/>
-            <text x="628" y="124" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="700">Tentukan pemimpin α, β, δ dari fitness</text>
-            <rect x="510" y="138" width="236" height="24" rx="8" fill="#1c2e54"/>
-            <text x="628" y="154" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="700">Update parameter a, A, dan C</text>
-            <rect x="510" y="168" width="236" height="24" rx="8" fill="#1c2e54"/>
-            <text x="628" y="184" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="700">Update posisi serigala (Eqs. 12–17)</text>
-
-            <!-- Decision 2 -->
-            <polygon points="628,214 720,242 628,270 536,242" fill="#152340" stroke="#ffc04d" stroke-width="2.5"/>
-            <text x="628" y="246" text-anchor="middle" fill="#f0f6ff" font-size="11" font-weight="900">Iterasi == 100?</text>
-
-            <!-- Loop back GWO (No) -->
-            <path d="M 720 242 L 796 242 L 796 134 L 766 134" fill="none" stroke="#8bb0ff" stroke-width="2.2" marker-end="url(#arrowTip)"/>
-            <text x="752" y="234" fill="#ff9fb3" font-size="11" font-weight="900">Belum</text>
-
-            <!-- Final output -->
-            <line x1="182" y1="52" x2="182" y2="72" stroke="#8bb0ff" stroke-width="2.2" marker-end="url(#arrowTip)"/>
-            <line x1="182" y1="200" x2="182" y2="218" stroke="#8bb0ff" stroke-width="2.2" marker-end="url(#arrowTip)"/>
-            <line x1="628" y1="58" x2="628" y2="76" stroke="#8bb0ff" stroke-width="2.2" marker-end="url(#arrowTip)"/>
-            <line x1="628" y1="200" x2="628" y2="212" stroke="#8bb0ff" stroke-width="2.2" marker-end="url(#arrowTip)"/>
-            <line x1="628" y1="270" x2="628" y2="286" stroke="#3ee2e8" stroke-width="2.5" marker-end="url(#arrowTip)"/>
-            <rect x="504" y="286" width="248" height="28" rx="14" fill="#6e94ff"/>
-            <text x="628" y="304" text-anchor="middle" fill="#ffffff" font-size="11.5" font-weight="900">Output: Jadwal Terbaik (α-wolf)</text>
-          </svg>
-        </div>
-      </div>
-      <span class="slide-number">12 / 20</span>
-    </section>
-
-    <!-- 13 · Pseudocode (Algorithm 1) -->
-    <section class="slide" data-theme="light">
-      <div class="slide-inner">
-        <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">12 · Pseudocode</p>
-          <span class="source-badge paper">Dari paper</span>
-        </div>
-        <h2 class="slide-title">Pseudocode IPSO-GWO (parafrase Algorithm 1)</h2>
-        <div class="slide-grid tight" data-reveal>
-          <pre><code>INPUT: Workflow WF (M task), VMs, popSize=25, maxIter=100
+        <h2 class="slide-title">Urutan eksekusi (Fig. 6 &amp; Algorithm 1)</h2>
+        <div class="slide-grid visual-split">
+          <div class="viz-stage" data-reveal>
+            <svg viewBox="0 0 470 330" role="img" aria-label="Flowchart ringkas IPSO-GWO mengikuti Fig. 6 paper">
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#8ab0ff"/>
+                </marker>
+              </defs>
+              <!-- Start -->
+              <rect x="24" y="12" width="182" height="32" rx="16" fill="#ffc43d"/>
+              <text x="115" y="32" text-anchor="middle" fill="#1e1200" font-size="11" font-weight="900">1. Inisialisasi 25 Partikel</text>
+              <!-- IPSO Block -->
+              <rect x="16" y="60" width="198" height="122" rx="16" fill="rgba(94,139,255,0.16)" stroke="#5e8bff" stroke-width="2" stroke-dasharray="5 5"/>
+              <text x="115" y="80" text-anchor="middle" fill="#8ab0ff" font-size="11" font-weight="900">FASE 1 · IPSO</text>
+              <rect x="28" y="90" width="174" height="22" rx="7" fill="#182a4f"/>
+              <text x="115" y="105" text-anchor="middle" fill="#f3f7ff" font-size="9.5" font-weight="700">Hitung F(p), update pbest/gbest</text>
+              <rect x="28" y="118" width="174" height="22" rx="7" fill="#182a4f"/>
+              <text x="115" y="133" text-anchor="middle" fill="#f3f7ff" font-size="9.5" font-weight="700">Update V (Eq.9) &amp; X (Eq.10)</text>
+              <rect x="28" y="146" width="174" height="22" rx="7" fill="#182a4f"/>
+              <text x="115" y="161" text-anchor="middle" fill="#f3f7ff" font-size="9.5" font-weight="700">Turunkan w linear (Eq.11)</text>
+              <!-- Decision 1 -->
+              <polygon points="115,200 192,232 115,264 38,232" fill="#122140" stroke="#2de8e8" stroke-width="2"/>
+              <text x="115" y="236" text-anchor="middle" fill="#2de8e8" font-size="10" font-weight="900">Iter == 50?</text>
+              <path d="M 38 232 L 6 232 L 6 122 L 16 122" fill="none" stroke="#8ab0ff" stroke-width="2" marker-end="url(#arr)"/>
+              <!-- Handoff -->
+              <path d="M 192 232 L 236 232 L 236 28 L 266 28" fill="none" stroke="#2de8e8" stroke-width="2.4" marker-end="url(#arr)"/>
+              <rect x="206" y="116" width="60" height="24" rx="12" fill="#ffc43d"/>
+              <text x="236" y="132" text-anchor="middle" fill="#1c1100" font-size="9.5" font-weight="900">gbest→α</text>
+              <!-- GWO Block -->
+              <rect x="268" y="12" width="182" height="32" rx="16" fill="#0d8c9e"/>
+              <text x="359" y="32" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="900">2. Inisialisasi Kawanan GWO</text>
+              <rect x="260" y="60" width="198" height="122" rx="16" fill="rgba(45,232,232,0.12)" stroke="#2de8e8" stroke-width="2" stroke-dasharray="5 5"/>
+              <text x="359" y="80" text-anchor="middle" fill="#2de8e8" font-size="11" font-weight="900">FASE 2 · GWO</text>
+              <rect x="272" y="90" width="174" height="22" rx="7" fill="#182a4f"/>
+              <text x="359" y="105" text-anchor="middle" fill="#f3f7ff" font-size="9.5" font-weight="700">Peringkat α, β, δ dari F(p)</text>
+              <rect x="272" y="118" width="174" height="22" rx="7" fill="#182a4f"/>
+              <text x="359" y="133" text-anchor="middle" fill="#f3f7ff" font-size="9.5" font-weight="700">Update a, A, dan C</text>
+              <rect x="272" y="146" width="174" height="22" rx="7" fill="#182a4f"/>
+              <text x="359" y="161" text-anchor="middle" fill="#f3f7ff" font-size="9.5" font-weight="700">Update posisi (Eqs.12–17)</text>
+              <!-- Decision 2 -->
+              <polygon points="359,198 430,228 359,258 288,228" fill="#122140" stroke="#ffc43d" stroke-width="2"/>
+              <text x="359" y="232" text-anchor="middle" fill="#ffe08a" font-size="10" font-weight="900">Iter == 100?</text>
+              <path d="M 430 228 L 464 228 L 464 122 L 458 122" fill="none" stroke="#8ab0ff" stroke-width="2" marker-end="url(#arr)"/>
+              <!-- Connectors -->
+              <line x1="115" y1="44" x2="115" y2="59" stroke="#8ab0ff" stroke-width="2" marker-end="url(#arr)"/>
+              <line x1="115" y1="182" x2="115" y2="198" stroke="#8ab0ff" stroke-width="2" marker-end="url(#arr)"/>
+              <line x1="359" y1="44" x2="359" y2="59" stroke="#8ab0ff" stroke-width="2" marker-end="url(#arr)"/>
+              <line x1="359" y1="182" x2="359" y2="196" stroke="#8ab0ff" stroke-width="2" marker-end="url(#arr)"/>
+              <line x1="359" y1="258" x2="359" y2="282" stroke="#3cf0a5" stroke-width="2.4" marker-end="url(#arr)"/>
+              <rect x="268" y="284" width="182" height="32" rx="16" fill="#3cf0a5"/>
+              <text x="359" y="304" text-anchor="middle" fill="#062118" font-size="11" font-weight="900">Output: Jadwal α Terbaik</text>
+            </svg>
+          </div>
+          <div data-reveal>
+            <pre><code>INPUT: Workflow WF (M task), VMs, popSize=25, maxIter=100
 OUTPUT: Jadwal terbaik (pemetaan task → VM)
 
-1. Inisialisasi populasi IPSO secara acak (task → VM)
-2. Atur w_begin=0.8, w_end=0.3, c1=2, c2=2, maxIter=100
-3. UNTUK iterasi t = 1 sampai maxIter/2 (50):
-     Hitung inersia w(t) secara linear (Eq. 11)
-     UNTUK setiap partikel p:
-       a. Hitung fitness F(p) = w1·MS + w2·TE + w3·TC (Eq. 8)
-       b. Perbarui kecepatan V(t+1) (Eq. 9)
-       c. Perbarui posisi X(t+1) (Eq. 10)
-       d. Perbarui pbest dan gbest</code></pre>
-          <pre><code>4. Inisialisasi populasi GWO:
-     alpha ← gbest hasil fase IPSO
-     serigala lain ← variasi kecil (perturbasi) dari solusi IPSO
-5. UNTUK iterasi t = (maxIter/2)+1 sampai maxIter (51..100):
-     a. Perbarui posisi serigala (encircling &amp; hunting, Eqs. 12–17)
-     b. Evaluasi ulang fitness F(p) tiap serigala
-     c. Perbarui peringkat α, β, dan δ berdasarkan fitness
-6. KEMBALIKAN posisi α-wolf sebagai jadwal optimal akhir</code></pre>
-        </div>
-        <!-- TODO: verifikasi dengan paper — paper tidak merinci rumus besar perturbasi inisialisasi wolf selain alpha, aturan pembulatan posisi kontinu ke indeks VM diskret, dan apakah indeks t pada Eq. (16) a(t) dimulai ulang dari 1 pada fase GWO. -->
-        <details class="learn-more" data-reveal>
-          <summary>Detail implementasi yang tidak dirinci paper (catatan jujur)</summary>
-          <div class="learn-more-body">
-            <p>Saat membaca penuh Algorithm 1 &amp; Bagian <em>Proposed Method</em>, ada tiga detail teknis yang tidak dituliskan rumusnya secara eksplisit di paper (perlu ditetapkan sendiri saat coding simulasi): (1) rumus besar perturbasi untuk membentuk serigala selain α saat transisi, (2) metode pemetaan posisi kontinu \(X(t+1)\) ke ID VM bilangan bulat \([1, \text{VMs}]\) (umumnya pembulatan &amp; <em>clamping</em>), serta (3) apakah variabel \(t\) pada \(a(t)=2-2t/I_{\max}\) dihitung ulang dari 0 untuk 50 iterasi GWO atau meneruskan iterasi 51–100.</p>
+1. Inisialisasi 25 partikel acak; set w=0.8→0.3, c1=c2=2
+2. UNTUK t = 1 sampai 50 (maxIter/2):
+     Hitung w(t) linear (Eq. 11)
+     UNTUK tiap partikel:
+       Evaluasi F(p) (Eq. 8); update V (Eq. 9) &amp; X (Eq. 10)
+       Update pbest dan gbest
+3. Inisialisasi GWO: alpha ← gbest; wolf lain ← perturbasi
+4. UNTUK t = 51 sampai 100:
+     Update posisi serigala (encircling &amp; hunting, Eqs. 12–17)
+     Evaluasi ulang F(p); perbarui α, β, δ
+5. KEMBALIKAN α-wolf sebagai jadwal akhir</code></pre>
+            <!-- TODO: verifikasi dengan paper — paper tidak merinci rumus besar perturbasi inisialisasi wolf selain alpha, aturan pembulatan posisi kontinu ke ID VM diskret, dan apakah t pada Eq. (16) a(t) di-reset pada fase GWO. -->
+            <details class="learn-more">
+              <summary>Catatan jujur: 3 detail yang tidak dirinci di paper</summary>
+              <div class="learn-more-body">
+                <p>Paper tidak menuliskan rumus eksplisit untuk (1) besar perturbasi saat membentuk serigala selain α, (2) aturan pembulatan/clamping posisi kontinu ke ID VM diskret \([1,\text{VMs}]\), dan (3) apakah variabel \(t\) pada \(a(t)=2-2t/I_{\max}\) di-reset di iterasi 51 atau meneruskan 51..100.</p>
+              </div>
+            </details>
           </div>
-        </details>
+        </div>
       </div>
-      <span class="slide-number">13 / 20</span>
+      <span class="slide-number">10 / 15</span>
     </section>
 
-    <!-- 14 · Contoh Hitung Manual (Langkah 1: Encoding & Fitness) -->
-    <section class="slide" data-theme="dark">
+    <!-- 11 · Contoh Hitung Manual (1/2) -->
+    <section class="slide" data-theme="dark" data-tone="abyss">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">13 · Hitung Manual (Bagian 1)</p>
+          <p class="eyebrow">10 · Hitung Manual (1/2)</p>
           <span class="source-badge demo">Ilustrasi kami</span>
         </div>
-        <h2 class="slide-title">Simulasi tangan: 5 task pada 3 node</h2>
-        <div class="manual-banner" data-reveal>ILUSTRASI BUATAN SENDIRI — angka mainan untuk latihan konsep, bukan data eksperimen paper.</div>
+        <h2 class="slide-title">Contoh 5 task pada 3 node: encoding &amp; fitness</h2>
+        <div class="manual-banner" data-reveal>ILUSTRASI BUATAN SENDIRI — angka mainan untuk latihan konsep, bukan data paper.</div>
         <div class="slide-grid visual-split">
           <div class="table-wrap" data-reveal>
             <table>
@@ -803,109 +679,75 @@ OUTPUT: Jadwal terbaik (pemetaan task → VM)
             </table>
           </div>
           <article class="slide-panel" data-reveal>
-            <h3>Misal partikel awal: \(X^{(0)} = (3, 3, 1, 2, 3)\)</h3>
+            <h3>Partikel awal: \(X^{(0)} = (3, 3, 1, 2, 3)\)</h3>
             <ul>
               <li><strong>Edge (N1)</strong>: T3 = <strong>9 dtk</strong> → \(E=6.3\text{ J}\), biaya $0.0</li>
               <li><strong>Fog (N2)</strong>: T4 = <strong>2 dtk</strong> → \(E=1.6\text{ J}\), biaya $0.6</li>
-              <li><strong>Cloud (N3)</strong>: T1+T2+T5 = 2+2+3 = <strong>7 dtk</strong> → \(E=11.2\text{ J}\), biaya $4.9</li>
+              <li><strong>Cloud (N3)</strong>: T1+T2+T5 = <strong>7 dtk</strong> → \(E=11.2\text{ J}\), biaya $4.9</li>
             </ul>
             <div class="formula" style="margin-top:10px;font-size:0.9rem">
               $$MS = \max(9,2,7)=9,\quad TE=19.1,\quad TC=5.5$$
               $$F(X^{(0)}) = 0.2(9) + 0.2(19.1) + 0.2(5.5) = \mathbf{6.72}$$
             </div>
-            <p style="margin-top:8px;font-size:0.78rem">*(Energi idle &amp; biaya transfer disederhanakan = 0 agar fokus ke alur hitung fitness.)</p>
+            <p style="margin-top:7px;font-size:0.76rem">*(Energi idle &amp; biaya transfer disederhanakan = 0 agar fokus ke cara kerja fitness.)</p>
           </article>
         </div>
       </div>
-      <span class="slide-number">14 / 20</span>
+      <span class="slide-number">11 / 15</span>
     </section>
 
-    <!-- 15 · Contoh Hitung Manual (Langkah 2: 1 Iterasi Update) -->
-    <section class="slide" data-theme="light">
+    <!-- 12 · Contoh Hitung Manual (2/2) -->
+    <section class="slide" data-theme="dark" data-tone="nebula">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">14 · Hitung Manual (Bagian 2)</p>
+          <p class="eyebrow">11 · Hitung Manual (2/2)</p>
           <span class="source-badge demo">Ilustrasi kami</span>
         </div>
         <h2 class="slide-title">Satu iterasi update posisi partikel IPSO</h2>
         <div class="manual-banner" data-reveal>ILUSTRASI BUATAN SENDIRI — bukan data paper. Melanjutkan partikel \(X^{(0)}=(3,3,1,2,3)\).</div>
         <div class="slide-grid tight" data-reveal>
           <article class="slide-panel">
-            <h3>1. Hitung bobot &amp; kecepatan baru (\(t=10\))</h3>
-            <p>Diketahui \(V^{(0)}=(0,0,0,0,0)\), \(pbest=X^{(0)}\), \(gbest=(1,2,3,1,2)\), \(c_1=c_2=2\), \(r_1=0.5, r_2=0.4\):</p>
-            <div class="formula" style="font-size:0.88rem;margin:8px 0">
+            <h3>1. Hitung inersia &amp; kecepatan baru (\(t=10\))</h3>
+            <p>Misal \(V^{(0)}=(0,0,0,0,0)\), \(pbest=X^{(0)}\), \(gbest=(1,2,3,1,2)\), \(c_1=c_2=2\), \(r_1=0.5, r_2=0.4\):</p>
+            <div class="formula" style="font-size:0.86rem;margin:8px 0">
               $$w(10) = 0.3 + (0.8-0.3)\frac{100-10}{100} = \mathbf{0.75}$$
               $$V^{(1)} = 0 + 0 + (2\times 0.4)\big((1,2,3,1,2)-(3,3,1,2,3)\big)$$
               $$V^{(1)} = (-1.6,\;-0.8,\;+1.6,\;-0.8,\;-0.8)$$
             </div>
           </article>
           <article class="slide-panel">
-            <h3>2. Update posisi &amp; evaluasi ulang</h3>
+            <h3>2. Update posisi &amp; evaluasi fitness baru</h3>
             <p>Posisi kontinu: \(X^{(1)}_{\text{kont}} = X^{(0)} + V^{(1)} = (1.4,\;2.2,\;2.6,\;1.2,\;2.2)\).</p>
-            <p>Bulatkan ke ID node terdekat \([1,3]\) → <strong>\(X^{(1)} = (1, 2, 3, 1, 2)\)</strong>.</p>
+            <p>Bulatkan &amp; clamp ke \([1,3]\) → <strong>\(X^{(1)} = (1, 2, 3, 1, 2)\)</strong>.</p>
             <ul>
               <li>Beban baru: Edge \(4+3=7\), Fog \(3+5=8\), Cloud \(4\)</li>
-              <li>\(MS=\mathbf{8}\) (turun), \(TE=\mathbf{17.7}\) (turun), \(TC=\mathbf{5.2}\) (turun)</li>
-              <li>Fitness baru: \(F(X^{(1)}) = \mathbf{6.18}\) (membaik dari 6.72!)</li>
+              <li>\(MS=\mathbf{8}\), \(TE=\mathbf{17.7}\), \(TC=\mathbf{5.2}\) (semuanya turun!)</li>
+              <li>Fitness baru: \(F(X^{(1)}) = \mathbf{6.18}\) (membaik dari 6.72)</li>
             </ul>
           </article>
         </div>
-        <p class="slide-subtitle" style="margin-top:12px" data-reveal>Catatan: solusi terbaik mainan ini masih bisa diperbaiki lagi ke \((1,3,2,1,3)\) dengan \(F=6.00\) — di sinilah iterasi lanjutan &amp; fase GWO berperan.</p>
+        <p class="slide-subtitle" style="margin-top:12px" data-reveal>Solusi terbaik kasus mainan ini masih bisa diperbaiki lagi ke \((1,3,2,1,3)\) dengan \(F=6.00\) — di sinilah iterasi berikutnya &amp; fase GWO memoles hasil.</p>
       </div>
-      <span class="slide-number">15 / 20</span>
+      <span class="slide-number">12 / 15</span>
     </section>
 
-    <!-- 16 · Setup Eksperimen Paper -->
-    <section class="slide" data-theme="dark">
+    <!-- 13 · Setup & Hasil Eksperimen Paper -->
+    <section class="slide" data-theme="dark" data-tone="cosmos" data-results-slide="true">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">15 · Setup Eksperimen</p>
+          <p class="eyebrow">12 · Setup &amp; Hasil Eksperimen</p>
           <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">5 workflow ilmiah, hingga 1.000 task</h2>
-        <div class="slide-grid three tight" data-reveal>
-          <article class="slide-panel">
-            <h3>Simulator &amp; Perangkat</h3>
-            <p><strong>FogWorkflowSim</strong> (Java / Eclipse) pada Windows 10 64-bit, Intel Core i7-M 640 @ 2.80 GHz, 6 GB RAM.</p>
-          </article>
-          <article class="slide-panel">
-            <h3>Skala &amp; Pengulangan</h3>
-            <p>5 workflow Pegasus diuji pada <strong>100, 500, dan 1.000 task</strong>. Setiap skenario diulang <strong>100 kali</strong> lalu diuji signifikansinya dengan <strong>ANOVA</strong>.</p>
-          </article>
-          <article class="slide-panel">
-            <h3>4 Algoritma Baseline</h3>
-            <p><strong>PSO</strong> (\(w=1\)), <strong>IPSO</strong> (\(w:0.8\to 0.3\)), <strong>GWO</strong> (\(a:2\to 0\)), dan <strong>GSA</strong> (\(G_0=1, \alpha_{\text{GSA}}=20\)). Semuanya memakai <code>popSize = 25</code> &amp; <code>100</code> iterasi.</p>
-          </article>
+        <h2 class="slide-title">Hasil rata-rata &amp; uji ANOVA per workflow</h2>
+        <div class="meta-pills" data-reveal>
+          <span class="meta-pill"><strong>Simulator:</strong> FogWorkflowSim (Java)</span>
+          <span class="meta-pill"><strong>5 Workflow:</strong> Montage, CyberShake, Epigenomics, LIGO, SIPHT</span>
+          <span class="meta-pill"><strong>Skala:</strong> 100 / 500 / 1.000 task · 100× run</span>
+          <span class="meta-pill"><strong>Baseline:</strong> PSO, IPSO, GWO, GSA (popSize = 25)</span>
         </div>
-        <div class="table-wrap" style="margin-top:14px" data-reveal>
-          <table>
-            <thead>
-              <tr><th>Workflow (Pegasus)</th><th>Bidang Sains</th><th>Karakteristik Singkat</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><strong>Montage</strong></td><td>Astronomi (NASA/IPAC)</td><td>Menyatukan ribuan citra langit FITS menjadi mosaik; komunikasi tinggi.</td></tr>
-              <tr><td><strong>CyberShake</strong></td><td>Seismologi / Gempa</td><td>Simulasi bahaya gempa (PSHA); intensif data &amp; I/O.</td></tr>
-              <tr><td><strong>Epigenomics</strong></td><td>Bioinformatika</td><td>Olah data sekuensing DNA (pemetaan, pembersihan noise, alignment).</td></tr>
-              <tr><td><strong>LIGO Inspiral</strong></td><td>Astrofisika</td><td>Deteksi gelombang gravitasi dari koalesensi sistem biner.</td></tr>
-              <tr><td><strong>SIPHT</strong></td><td>Mikrobiologi</td><td>Pencarian otomatis gen penyandi sRNA pada genom bakteri.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <span class="slide-number">16 / 20</span>
-    </section>
-
-    <!-- 17 · Hasil Paper (Animated Bars + Roll-up Counters) -->
-    <section class="slide" data-theme="light" data-results-slide="true">
-      <div class="slide-inner">
-        <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">16 · Temuan Eksperimen</p>
-          <span class="source-badge paper">Dari paper</span>
-        </div>
-        <h2 class="slide-title">Hasil rata-rata &amp; kenyataan per workflow</h2>
         <div class="slide-grid visual-split">
           <div class="slide-panel" data-reveal>
-            <h3>Rata-rata pengurangan (Abstrak Paper)</h3>
+            <h3>Pengurangan rata-rata (Abstrak Paper)</h3>
             <div class="bar-group">
               <div class="bar-row">
                 <div class="bar-head">
@@ -929,32 +771,32 @@ OUTPUT: Jadwal terbaik (pemetaan task → VM)
                 <div class="bar-track"><div class="bar-fill warm" data-scale="0.42"></div></div>
               </div>
             </div>
-            <p style="margin-top:12px;font-size:0.82rem">Kesimpulan paper juga mencatat penurunan puncak hingga <strong>~50% makespan</strong> (LIGO/SIPHT vs GSA) dan <strong>~70%+ energi</strong> (Epigenomics: 76.85% vs GWO, 79.56% vs GSA).</p>
+            <p style="margin-top:11px;font-size:0.80rem">Puncak penurunan tercatat hingga <strong>~50% makespan</strong> (LIGO/SIPHT vs GSA) &amp; <strong>~79.6% energi</strong> (Epigenomics vs GSA).</p>
           </div>
           <div class="table-wrap" data-reveal>
             <table>
               <thead>
-                <tr><th>Workflow</th><th>Pemenang ANOVA (Tabel 4–8)</th></tr>
+                <tr><th>Workflow</th><th>Temuan ANOVA (Tabel 4–8 paper)</th></tr>
               </thead>
               <tbody>
                 <tr><td><strong>Epigenomics</strong></td><td><strong>IPSO-GWO unggul signifikan</strong> di 3 metrik (100–1000 task, \(p &lt; 0.01\)).</td></tr>
-                <tr><td><strong>Montage</strong></td><td>IPSO-GWO rata-rata terbaik semua metrik; <strong>signifikan di Energi</strong> (\(p &lt; 0.001\)).</td></tr>
-                <tr><td><strong>LIGO</strong></td><td>IPSO-GWO unggul signifikan di Makespan &amp; Energi; <strong>GSA lebih murah</strong> di Cost.</td></tr>
-                <tr><td><strong>SIPHT</strong></td><td>IPSO-GWO unggul signifikan di Makespan &amp; Energi; <strong>GSA lebih murah</strong> di 500–1000 task.</td></tr>
-                <tr><td><strong>CyberShake</strong></td><td><strong>GWO</strong> lebih hemat Energi (sig. di 500 &amp; 1000 task); IPSO-GWO rata-rata Cost terendah (tidak sig.).</td></tr>
+                <tr><td><strong>Montage</strong></td><td>Rata-rata terbaik semua metrik; <strong>signifikan di Energi</strong> (\(p &lt; 0.001\)).</td></tr>
+                <tr><td><strong>LIGO</strong></td><td>Unggul signifikan di Makespan &amp; Energi; <strong>GSA lebih murah</strong> di Cost.</td></tr>
+                <tr><td><strong>SIPHT</strong></td><td>Unggul signifikan di Makespan &amp; Energi; <strong>GSA lebih murah</strong> (500–1000 task).</td></tr>
+                <tr><td><strong>CyberShake</strong></td><td><strong>GWO</strong> lebih hemat Energi (sig. 500 &amp; 1000 task); IPSO-GWO rata-rata Cost terendah (tidak sig.).</td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <span class="slide-number">17 / 20</span>
+      <span class="slide-number">13 / 15</span>
     </section>
 
-    <!-- 18 · Kelebihan, Keterbatasan, & Kapan Dipakai -->
-    <section class="slide" data-theme="dark">
+    <!-- 14 · Kelebihan, Keterbatasan & Kapan Dipakai -->
+    <section class="slide" data-theme="dark" data-tone="abyss">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">17 · Evaluasi Kritis</p>
+          <p class="eyebrow">13 · Evaluasi Kritis</p>
           <span class="source-badge paper">Dari paper</span>
           <span class="source-badge theory">Teori standar</span>
         </div>
@@ -963,109 +805,85 @@ OUTPUT: Jadwal terbaik (pemetaan task → VM)
           <article class="slide-panel">
             <h3>Kelebihan Utama</h3>
             <ul>
-              <li>Kompleksitas tetap \(\mathcal{O}(\text{maxIter}\cdot\text{popSize}\cdot M\cdot\text{VMs})\), menghindari beban kuadrat \(\text{popSize}^2\) milik GSA.</li>
-              <li>Sangat kuat di <strong>energi &amp; makespan</strong> hingga 1.000 task.</li>
-              <li>Vektor sederhana, mudah dipasang di orkestrator.</li>
+              <li>Kompleksitas \(\mathcal{O}(\text{maxIter}\cdot\text{popSize}\cdot M\cdot\text{VMs})\) — bebas beban kuadrat \(\text{popSize}^2\) milik GSA.</li>
+              <li>Sangat kuat di <strong>energi &amp; makespan</strong> hingga skala 1.000 task.</li>
+              <li>Struktur vektor ringan, mudah diintegrasikan ke orkestrator.</li>
             </ul>
           </article>
           <article class="slide-panel">
             <h3>Keterbatasan (Hal. 25 Paper)</h3>
             <ul>
-              <li>Sensitif terhadap setelan parameter (\(w\), \(c_1, c_2\), rasio 50:50).</li>
-              <li>Tidak menjamin optimum global; tidak memakai heuristik khas struktur workflow.</li>
-              <li>Biaya bisa kalah dari GSA di beban tinggi (trade-off kecepatan vs tarif Cloud).</li>
-              <li>Belum dibanding dengan hybrid baru (HFSGA, SSKHOA, AGWO) &amp; tanpa DVFS/load balancing.</li>
+              <li>Sensitif terhadap penalaan parameter (\(w\), \(c_1, c_2\), rasio 50:50).</li>
+              <li>Tidak menjamin optimum global &amp; tidak memakai heuristik khusus DAG.</li>
+              <li>Biaya bisa kalah dari GSA saat beban tinggi (trade-off kecepatan vs tarif Cloud).</li>
+              <li>Belum dibanding dengan hybrid baru (HFSGA/SSKHOA/AGWO); tanpa DVFS &amp; load balancing eksplisit.</li>
             </ul>
           </article>
           <article class="slide-panel">
             <h3>Kapan Cocok Dipakai?</h3>
             <ul>
-              <li><strong>Cocok:</strong> Sistem 3-tier IoT–Fog–Cloud, workflow besar (≥100–1000 task), prioritas <em>green computing</em> &amp; waktu cepat.</li>
-              <li><strong>Kurang cocok:</strong> Anggaran sewa Cloud sangat ketat atau wajib pemerataan beban VM (untuk itu, lihat <em>EMMCA</em> di halaman Perbandingan).</li>
+              <li><strong>Cocok:</strong> Arsitektur 3-tier IoT–Fog–Cloud, workflow besar (100–1.000 task), prioritas hemat listrik &amp; waktu cepat.</li>
+              <li><strong>Kurang cocok:</strong> Anggaran Cloud ketat atau fokus utama pemerataan beban VM (bandingkan dengan <em>EMMCA</em>).</li>
             </ul>
           </article>
         </div>
       </div>
-      <span class="slide-number">18 / 20</span>
+      <span class="slide-number">14 / 15</span>
     </section>
 
-    <!-- 19 · Glosarium Istilah -->
-    <section class="slide" data-theme="light">
+    <!-- 15 · Glosarium & Referensi -->
+    <section class="slide" data-theme="dark" data-tone="nebula">
       <div class="slide-inner">
         <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">18 · Glosarium</p>
+          <p class="eyebrow">14 · Glosarium &amp; Referensi</p>
           <span class="source-badge theory">Teori standar</span>
+          <span class="source-badge paper">Dari paper</span>
         </div>
-        <h2 class="slide-title">Kamus cepat istilah di materi ini</h2>
+        <h2 class="slide-title">Kamus cepat istilah &amp; daftar pustaka</h2>
         <dl class="glossary-grid" data-reveal>
           <div class="glossary-item">
             <dt>Workflow DAG</dt>
-            <dd>Graf berarah tanpa siklus; node = task, panah = urutan ketergantungan &amp; aliran data antar task.</dd>
+            <dd>Graf berarah tanpa siklus; node = task, panah = urutan ketergantungan &amp; data.</dd>
           </div>
           <div class="glossary-item">
             <dt>Makespan (MS)</dt>
-            <dd>Total waktu yang dibutuhkan sejak task pertama mulai sampai seluruh task di workflow rampung.</dd>
+            <dd>Total waktu dari task pertama mulai hingga seluruh workflow rampung.</dd>
           </div>
           <div class="glossary-item">
             <dt>Offloading</dt>
-            <dd>Memindahkan eksekusi task dari perangkat Edge terbatas ke node Fog atau Cloud yang lebih kuat.</dd>
-          </div>
-          <div class="glossary-item">
-            <dt>Fungsi Fitness</dt>
-            <dd>Skor gabungan untuk menilai kualitas satu jadwal. Di sini: \(w_1 MS + w_2 TE + w_3 TC\) (makin kecil makin baik).</dd>
+            <dd>Memindahkan task dari Edge terbatas ke node Fog/Cloud yang lebih bertenaga.</dd>
           </div>
           <div class="glossary-item">
             <dt>Inertia Weight (\(w\))</dt>
-            <dd>Pengendali seberapa besar partikel mempertahankan arah gerak lamanya (tinggi = jelajah luas, rendah = poles lokal).</dd>
-          </div>
-          <div class="glossary-item">
-            <dt>Eksplorasi vs. Eksploitasi</dt>
-            <dd>Eksplorasi = mencari area solusi baru yang luas; Eksploitasi = menyempurnakan area terbaik yang sudah ditemukan.</dd>
+            <dd>Pengendali daya tahan arah gerak partikel (besar = jelajah luas, kecil = poles lokal).</dd>
           </div>
           <div class="glossary-item">
             <dt>Konvergensi Prematur</dt>
-            <dd>Kondisi saat seluruh populasi terlalu cepat berkumpul di solusi "lumayan" (optimum lokal) sebelum menemukan yang terbaik.</dd>
+            <dd>Populasi terlalu cepat menyatu di solusi "lumayan" (optimum lokal) sebelum optimal.</dd>
           </div>
           <div class="glossary-item">
-            <dt>ANOVA (Analysis of Variance)</dt>
-            <dd>Uji statistik untuk memastikan perbedaan rata-rata performa antar algoritma benar-benar nyata, bukan kebetulan acak.</dd>
+            <dt>ANOVA</dt>
+            <dd>Uji statistik untuk memastikan beda rata-rata antar algoritma benar-benar nyata.</dd>
           </div>
         </dl>
-      </div>
-      <span class="slide-number">19 / 20</span>
-    </section>
-
-    <!-- 20 · Ringkasan & Referensi -->
-    <section class="slide" data-theme="dark">
-      <div class="slide-inner">
-        <div class="slide-kicker-row" data-reveal>
-          <p class="eyebrow">19 · Penutup &amp; Referensi</p>
-          <span class="source-badge paper">Dari paper</span>
-        </div>
-        <h2 class="slide-title">Intisari IPSO + GWO &amp; daftar pustaka</h2>
-        <p class="slide-subtitle" data-reveal><strong>Dalam satu paragraf:</strong> IPSO-GWO memecah pencarian 100 iterasi menjadi dua babak — 50 iterasi pertama memakai IPSO berbobot inersia menurun (\(0.8 \to 0.3\)) untuk cepat mengarah ke area bagus, lalu mewariskan <code>gbest</code> sebagai serigala Alpha di 50 iterasi GWO agar pencarian tetap beragam dan lolos dari optimum lokal.</p>
         <ul class="ref-list" data-reveal>
           <li>
             <strong>[Paper Utama]</strong> Awad, S., Gamal, M., El Salam, K. A., &amp; Abdel-Kader, R. F. (2026). <em>Efficient workflow scheduling in fog-cloud collaboration using a hybrid IPSO-GWO algorithm.</em> Scientific Reports, 16:4359.
-            <a href="https://www.nature.com/articles/s41598-025-34462-w" target="_blank" rel="noopener">Nature (DOI 10.1038/s41598-025-34462-w) ↗</a> ·
+            <a href="https://www.nature.com/articles/s41598-025-34462-w" target="_blank" rel="noopener">Nature (DOI) ↗</a> ·
             <a href="https://pubmed.ncbi.nlm.nih.gov/41617810/" target="_blank" rel="noopener">PubMed ↗</a>
           </li>
           <li>
-            <strong>[Simulator]</strong> Liu, X., et al. (2019). <em>FogWorkflowSim: An automated simulation toolkit for workflow performance evaluation in fog computing.</em> IEEE/ACM ASE 2019.
-            <a href="https://doi.org/10.1109/ASE.2019.00115" target="_blank" rel="noopener">DOI 10.1109/ASE.2019.00115 ↗</a>
+            <strong>[Simulator &amp; Dasar Teori]</strong> Liu dkk. (2019) <a href="https://doi.org/10.1109/ASE.2019.00115" target="_blank" rel="noopener">FogWorkflowSim ↗</a> · Mirjalili dkk. (2014) <em>Grey Wolf Optimizer</em> (paper merujuk Heidari dkk. ref. 54) · Kennedy &amp; Eberhart (1995) <em>PSO</em>.
           </li>
           <li>
-            <strong>[Dasar Teori GWO &amp; PSO]</strong> Mirjalili, S., Mirjalili, S. M., &amp; Lewis, A. (2014). <em>Grey Wolf Optimizer</em>, Adv. Eng. Softw. 69, 46–61 (catatan: paper Awad merujuk Heidari dkk. pada ref. 54); Kennedy, J., &amp; Eberhart, R. (1995). <em>Particle Swarm Optimization</em>, IEEE ICNN.
-          </li>
-          <li>
-            <strong>[Lanjut Eksplorasi Situs Ini]</strong>
-            <a href="./simulasi.html">Coba Simulasi IPSO-GWO →</a> ·
-            <a href="../minmin-cs/index.html">Baca Materi EMMCA →</a> ·
-            <a href="../perbandingan/index.html">Lihat Perbandingan &amp; Kasus Nyata →</a>
+            <strong>[Lanjut Eksplorasi]</strong>
+            <a href="./simulasi.html">Simulasi IPSO-GWO →</a> ·
+            <a href="../minmin-cs/index.html">Materi EMMCA →</a> ·
+            <a href="../perbandingan/index.html">Perbandingan &amp; Kasus Nyata →</a>
           </li>
         </ul>
       </div>
-      <span class="slide-number">20 / 20</span>
+      <span class="slide-number">15 / 15</span>
     </section>
 
   </main>
@@ -1073,7 +891,7 @@ OUTPUT: Jadwal terbaik (pemetaan task → VM)
   <div class="slide-controls" aria-label="Kontrol slide">
     <button type="button" data-slide-prev aria-label="Slide sebelumnya">←</button>
     <div class="slide-dots" data-slide-dots></div>
-    <span class="slide-counter" data-slide-counter>01 / 20</span>
+    <span class="slide-counter" data-slide-counter>01 / 15</span>
     <button type="button" data-slide-next aria-label="Slide berikutnya">→</button>
   </div>
 
