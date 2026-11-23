@@ -1,0 +1,47 @@
+/* Tema visual khusus bagian Perbandingan (perpaduan biru IPSO-GWO dan oranye EMMCA) */
+:root {
+  --accent: #2f55d4;
+  --accent-secondary: #d06a18;
+  --accent-text: #2447c2;
+  --accent-soft: rgba(47, 85, 212, 0.10);
+  --accent-glow: rgba(208, 106, 24, 0.26);
+  --ambient-primary: rgba(47, 85, 212, 0.32);
+  --ambient-secondary: rgba(208, 106, 24, 0.30);
+  --ambient-tertiary: rgba(14, 138, 156, 0.26);
+}
+
+.slide-progress {
+  background: linear-gradient(90deg, #2f55d4, #d06a18);
+}
+
+.slide::before {
+  border-color: #2f55d4;
+}
+
+.slide::after {
+  border-color: #d06a18;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #6e94ff;
+    --accent-secondary: #f08a38;
+    --accent-text: #85a8ff;
+    --accent-soft: rgba(110, 148, 255, 0.14);
+  }
+  /* Pastikan daftar & paragraf ber-style inline #465570 tetap kontras di slide gelap tanpa mengubah konten HTML */
+  .slide-panel ul[style*="465570"],
+  .slide-panel p[style*="465570"],
+  .slide-panel div[style*="465570"] {
+    color: var(--text-muted) !important;
+  }
+  .slide-title span[style*="5a6a85"] {
+    color: var(--text-muted) !important;
+  }
+  .slide-panel a[style*="3157d5"] {
+    color: #93b4ff !important;
+  }
+  .slide-panel a[style*="c25e00"] {
+    color: #ffba75 !important;
+  }
+}

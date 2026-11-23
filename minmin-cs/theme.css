@@ -1,0 +1,38 @@
+/* Tema visual khusus bagian Min-Min + Cuckoo Search / EMMCA (aksen oranye + biru) */
+:root {
+  --accent: #d06a18;
+  --accent-secondary: #2f55d4;
+  --accent-text: #b8560c;
+  --accent-soft: rgba(208, 106, 24, 0.11);
+  --accent-glow: rgba(208, 106, 24, 0.26);
+  --ambient-primary: rgba(208, 106, 24, 0.34);
+  --ambient-secondary: rgba(47, 85, 212, 0.28);
+  --ambient-tertiary: rgba(22, 125, 145, 0.28);
+}
+
+.slide-progress {
+  background: linear-gradient(90deg, #d06a18, #2f55d4);
+}
+
+.orbit-core {
+  background: #d06a18;
+  box-shadow: 0 16px 38px rgba(208, 106, 24, 0.28);
+}
+
+.slide-controls .slide-dot.is-active {
+  background: #d06a18;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #f08a38;
+    --accent-secondary: #6e94ff;
+    --accent-text: #ffae66;
+    --accent-soft: rgba(240, 138, 56, 0.14);
+    --accent-glow: rgba(240, 138, 56, 0.28);
+  }
+  .slide-deck.sim-page {
+    --accent: #d06a18;
+    --accent-text: #2447c2;
+  }
+}
